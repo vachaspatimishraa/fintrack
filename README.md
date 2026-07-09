@@ -72,7 +72,6 @@ Generate reports in
 
 - PDF
 - Excel
-- CSV
 
 Reports include
 
@@ -114,6 +113,7 @@ Currently supported
 
 - ₹ Indian Rupee
 - $ US Dollar
+- Many More 
 
 Currency updates throughout the application.
 
@@ -367,12 +367,6 @@ git push origin feature/your-feature
 ```
 
 5. Open a Pull Request
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
 
 ---
 
