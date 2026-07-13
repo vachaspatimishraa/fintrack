@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/constants/routes.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../../providers/initialization_provider.dart';
+import '../../../settings/providers/settings_provider.dart';
+import '../../../settings/providers/security_provider.dart';
 
 class SplashController {
   final Ref _ref;
@@ -28,9 +30,16 @@ class SplashController {
         retryCount++;
       }
 
+      // Read settings and check if app lock is enabled
+      final settings = await _ref.read(settingsRepositoryProvider).loadSettings();
+      final isAuthenticated = status == AuthStatus.authenticated || status == AuthStatus.guest;
+      if (settings.appLockEnabled && isAuthenticated) {
+        _ref.read(lockProvider.notifier).lock();
+      }
+
       // 4. Perform automatic navigation
       if (context.mounted) {
-        if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
+        if (isAuthenticated) {
           context.go(AppRoutes.home);
         } else {
           context.go(AppRoutes.login);

@@ -5,18 +5,23 @@ class ThemeService {
   static ThemeData getTheme(SettingsEntity settings, ColorScheme colorScheme) {
     final bool isDark = colorScheme.brightness == Brightness.dark;
     
-    // Handle AMOLED mode
-    final Color backgroundColor = (isDark && settings.amoledMode) 
-        ? Colors.black 
-        : colorScheme.surface;
+    // Handle AMOLED mode and consistent surfaces
     final Color surfaceColor = (isDark && settings.amoledMode) 
         ? Colors.black 
         : colorScheme.surface;
 
+    ColorScheme activeColorScheme = colorScheme.copyWith(
+      surface: surfaceColor,
+      surfaceContainer: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainer,
+      surfaceContainerHigh: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerHigh,
+      surfaceContainerHighest: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerHighest,
+      surfaceContainerLow: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerLow,
+      surfaceContainerLowest: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerLowest,
+    );
+
     // Apply High Contrast adjustments
-    ColorScheme activeColorScheme = colorScheme;
     if (settings.highContrast) {
-      activeColorScheme = colorScheme.copyWith(
+      activeColorScheme = activeColorScheme.copyWith(
         outline: isDark ? Colors.white : Colors.black,
         outlineVariant: isDark ? Colors.white70 : Colors.black87,
       );
@@ -27,7 +32,7 @@ class ThemeService {
       colorScheme: activeColorScheme.copyWith(
         surface: surfaceColor,
       ),
-      scaffoldBackgroundColor: backgroundColor,
+      scaffoldBackgroundColor: surfaceColor,
       appBarTheme: AppBarTheme(
         backgroundColor: surfaceColor,
         surfaceTintColor: Colors.transparent,

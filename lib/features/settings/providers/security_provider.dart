@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/services/session_manager.dart';
 import '../domain/services/biometric_service.dart';
 import '../domain/services/secure_storage_service.dart';
+import '../../auth/providers/auth_provider.dart';
 
 final sessionManagerProvider = Provider<SessionManager>((ref) {
   final storage = ref.watch(secureStorageServiceProvider);
@@ -59,5 +60,11 @@ class LockNotifier extends StateNotifier<LockState> {
 }
 
 final lockProvider = StateNotifierProvider<LockNotifier, LockState>((ref) {
-  return LockNotifier(ref);
+  final notifier = LockNotifier(ref);
+  ref.listen<AuthState>(authProvider, (previous, next) {
+    if (next.status == AuthStatus.unauthenticated) {
+      notifier.unlock();
+    }
+  });
+  return notifier;
 });

@@ -23,7 +23,8 @@ import '../../../transactions/presentation/widgets/undo_delete_snackbar.dart';
 import '../widgets/app_navigation_drawer.dart';
 import '../../../../core/utils/translations.dart';
 import '../../../settings/providers/settings_provider.dart';
-import '../../../settings/providers/settings_provider.dart';
+import '../../../accounts/presentation/controllers/account_controller.dart';
+import '../../../../core/database/isar/collections/account_model.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -48,12 +49,9 @@ class DashboardTab extends ConsumerWidget {
       appBar: accountsAsync.maybeWhen(
         data: (accounts) => accounts.isEmpty
             ? null
-            : PreferredSize(
-                preferredSize: const Size.fromHeight(kToolbarHeight),
-                child: HomeAppBar(
-                  homeState: homeState,
-                  homeController: homeController,
-                ),
+            : HomeAppBar(
+                homeState: homeState,
+                homeController: homeController,
               ),
         orElse: () => null,
       ),
@@ -83,6 +81,11 @@ class DashboardTab extends ConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                _AccountSwitcherWidget(
+                                  currentAccount: homeState.dashboard?.currentAccount,
+                                  accounts: accounts,
+                                ),
+                                const SizedBox(height: 16),
                                 const DateSection(),
                                 const SizedBox(height: 12),
                                 if (homeState.isLoading)
@@ -140,7 +143,7 @@ class DashboardTab extends ConsumerWidget {
 }
 
 // Custom Premium AppBar
-class HomeAppBar extends ConsumerWidget {
+class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final HomeState homeState;
   final HomeController homeController;
 
@@ -149,6 +152,9 @@ class HomeAppBar extends ConsumerWidget {
     required this.homeState,
     required this.homeController,
   });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -211,7 +217,7 @@ class HomeAppBar extends ConsumerWidget {
               const SizedBox(height: 8),
               Text(
                 '${context.translate('export_report_for')} ${dashboard.currentAccount?.name}',
-                style: TextStyle(color: Colors.grey.shade600),
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
               const SizedBox(height: 24),
               Row(
@@ -309,17 +315,18 @@ class OfflineBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
-      color: Colors.orange.shade800,
+      color: colorScheme.error,
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.wifi_off_outlined, color: Colors.white, size: 16),
+          Icon(Icons.wifi_off_outlined, color: colorScheme.onError, size: 16),
           const SizedBox(width: 8),
           Text(
             context.translate('offline_mode_banner'),
-            style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+            style: TextStyle(color: colorScheme.onError, fontSize: 13, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -351,7 +358,11 @@ class DateSection extends ConsumerWidget {
               children: [
                 Text(
                   context.translate('overview'),
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 Text(
                   start != null && end != null
@@ -367,7 +378,7 @@ class DateSection extends ConsumerWidget {
                 final picked = await showDateRangePicker(
                   context: context,
                   firstDate: DateTime(2020),
-                  lastDate: DateTime(2030),
+                  lastDate: DateTime(2100),
                   initialDateRange: currentRange,
                 );
                 if (picked != null) {
@@ -390,10 +401,13 @@ class DateSection extends ConsumerWidget {
                 child: ActionChip(
                   label: Text(context.translate(periodKey)),
                   onPressed: () => homeController.setFilterPeriod(periodKey),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                   surfaceTintColor: Colors.transparent,
-                  side: BorderSide(color: Colors.grey.shade300),
-                  labelStyle: const TextStyle(fontSize: 12),
+                  side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 ),
               );
@@ -486,18 +500,19 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final cardContent = Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
       decoration: BoxDecoration(
-        color: isActive ? color.withOpacity(0.08) : Colors.white,
+        color: isActive ? color.withOpacity(0.15) : theme.colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isActive ? color : Colors.grey.shade200,
+          color: isActive ? color : theme.colorScheme.outlineVariant,
           width: isActive ? 2.0 : 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: theme.colorScheme.shadow.withOpacity((theme.brightness == Brightness.dark) ? 0.2 : 0.02),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -536,7 +551,7 @@ class CardWidget extends StatelessWidget {
             '$count ${context.translate('txs')}',
             style: TextStyle(
               fontSize: 11,
-              color: Colors.grey.shade600,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
         ],
@@ -600,152 +615,120 @@ class TransactionTile extends ConsumerWidget {
     final isIncome = transaction.type == 'income';
     final repo = ref.read(transactionRepositoryProvider);
 
-    return Dismissible(
-      key: ValueKey(transaction.uuid),
-      direction: DismissDirection.endToStart,
-      background: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20.0),
-        color: AppColors.expense,
-        child: const Icon(Icons.delete, color: Colors.white),
-      ),
-      onDismissed: (direction) async {
-        await repo.deleteTransaction(transaction.uuid);
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            UndoDeleteSnackBar(
-              context: context,
-              onUndo: () async {
-                try {
-                  await repo.restoreTransaction(transaction.uuid);
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Unable to restore transaction: $e')),
-                    );
-                  }
-                }
-              },
+    final colorScheme = Theme.of(context).colorScheme;
+    final primaryColor = isIncome ? colorScheme.primary : colorScheme.error;
+
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      color: colorScheme.surfaceContainer,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TransactionDetailsScreen(transactionUuid: transaction.uuid),
             ),
           );
-        }
-      },
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 250),
-        child: Card(
-          margin: const EdgeInsets.symmetric(vertical: 4.0),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TransactionDetailsScreen(transactionUuid: transaction.uuid),
+        },
+        onLongPress: () => _showDeleteConfirmation(context, ref),
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Row(
+            children: [
+              // Leading Category Icon
+              CircleAvatar(
+                backgroundColor: primaryColor.withOpacity(0.1),
+                child: Icon(
+                  AppCategories.getIcon(transaction.category),
+                  color: primaryColor,
                 ),
-              );
-            },
-            onLongPress: () => _showDeleteConfirmation(context, ref),
-            borderRadius: BorderRadius.circular(12),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-              child: Row(
-                children: [
-                  // Leading Category Icon
-                  CircleAvatar(
-                    backgroundColor: isIncome
-                        ? AppColors.income.withValues(alpha: 0.1)
-                        : AppColors.expense.withValues(alpha: 0.1),
+              ),
+              const SizedBox(width: 12),
+
+              // Middle Section: Title, Category, Date & Time
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      transaction.title.isNotEmpty
+                          ? transaction.title
+                          : (transaction.description.isNotEmpty
+                              ? transaction.description
+                              : 'UPI'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      transaction.category,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${AppFormatter.formatDate(transaction.date)} • ${AppFormatter.formatTime(transaction.date)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+
+              // Optional Attachment Indicator
+              if (transaction.receiptUrl != null ||
+                  transaction.receiptLocalPath != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Tooltip(
+                    message: '1 ${context.translate('attachment')}',
                     child: Icon(
-                      AppCategories.getIcon(transaction.category),
-                      color: isIncome ? AppColors.income : AppColors.expense,
+                      Icons.attach_file,
+                      size: 18,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                ),
 
-                  // Middle Section: Title, Category, Date & Time
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          transaction.title.isNotEmpty
-                              ? transaction.title
-                              : (transaction.description.isNotEmpty
-                                  ? transaction.description
-                                  : 'UPI'),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          transaction.category,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${AppFormatter.formatDate(transaction.date)} • ${AppFormatter.formatTime(transaction.date)}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+              // Amount Section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${isIncome ? '+' : '-'}${AppFormatter.formatCurrency(transaction.amount)}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: primaryColor,
                     ),
                   ),
-
-                  // Optional Attachment Indicator
-                  if (transaction.receiptUrl != null ||
-                      transaction.receiptLocalPath != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Tooltip(
-                        message: '1 ${context.translate('attachment')}',
-                        child: Icon(
-                          Icons.attach_file,
-                          size: 18,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ),
-
-                  // Amount Section
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '${isIncome ? '+' : '-'}${AppFormatter.formatCurrency(transaction.amount)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: isIncome ? AppColors.income : AppColors.expense,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      // Sync indicator at the bottom right of the amount
-                      Icon(
-                        transaction.isSynced ? Icons.cloud_done : Icons.cloud_queue,
-                        size: 14,
-                        color: transaction.isSynced ? Colors.green : Colors.blue,
-                      ),
-                    ],
+                  const SizedBox(height: 4),
+                  // Sync indicator at the bottom right of the amount
+                  Icon(
+                    transaction.isSynced ? Icons.cloud_done : Icons.cloud_queue,
+                    size: 14,
+                    color: transaction.isSynced ? Colors.green : colorScheme.primary,
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -814,7 +797,10 @@ class EmptyTransactionView extends StatelessWidget {
             Text(
               context.translate('empty_transactions_sub'),
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 13,
+              ),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
@@ -840,6 +826,7 @@ class LoadingSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Row(
@@ -849,7 +836,7 @@ class LoadingSkeleton extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 4.0),
                 height: 80,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: theme.colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
@@ -862,7 +849,7 @@ class LoadingSkeleton extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 4.0),
             height: 60,
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
+              color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(12),
             ),
           );
@@ -944,7 +931,7 @@ class BottomActionButtons extends ConsumerWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.income,
-                  foregroundColor: Colors.white,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -989,7 +976,7 @@ class BottomActionButtons extends ConsumerWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.expense,
-                  foregroundColor: Colors.white,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -1098,6 +1085,210 @@ class DeleteTransactionDialog extends StatelessWidget {
           child: Text(context.translate('delete')),
         ),
       ],
+    );
+  }
+}
+
+class _AccountSwitcherWidget extends ConsumerWidget {
+  final AccountModel? currentAccount;
+  final List<AccountModel> accounts;
+
+  const _AccountSwitcherWidget({
+    required this.currentAccount,
+    required this.accounts,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final accountName = currentAccount?.name ?? 'Select Account';
+
+    return Material(
+      color: theme.colorScheme.secondaryContainer,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => _openAccountSwitcher(context, ref, accounts, currentAccount),
+        child: Container(
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.account_balance_wallet_outlined,
+                color: theme.colorScheme.onSecondaryContainer,
+                size: 20,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  accountName,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onSecondaryContainer,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Icon(
+                Icons.arrow_drop_down,
+                color: theme.colorScheme.onSecondaryContainer,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openAccountSwitcher(BuildContext context, WidgetRef ref, List<AccountModel> accounts, AccountModel? currentAccount) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return _AccountSwitcherBottomSheet(
+          accounts: accounts,
+          currentAccount: currentAccount,
+        );
+      },
+    );
+  }
+}
+
+class _AccountSwitcherBottomSheet extends ConsumerWidget {
+  final List<AccountModel> accounts;
+  final AccountModel? currentAccount;
+
+  const _AccountSwitcherBottomSheet({
+    required this.accounts,
+    required this.currentAccount,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final accountController = ref.read(accountControllerProvider);
+
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              context.translate('accounts'),
+              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            const Divider(),
+            if (accounts.length <= 1) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Only one account available.',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+                        );
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text('Add New Account'),
+                    ),
+                  ],
+                ),
+              ),
+            ] else ...[
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 300),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: accounts.length,
+                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final account = accounts[index];
+                    final isSelected = account.uuid == currentAccount?.uuid;
+                    final color = Color(account.colorValue);
+
+                    return ListTile(
+                      leading: Icon(
+                        isSelected ? Icons.check_circle : Icons.circle,
+                        color: isSelected ? theme.colorScheme.primary : color,
+                        size: 20,
+                      ),
+                      title: Text(
+                        account.name,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      trailing: Text(
+                        AppFormatter.formatCurrency(account.balance),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                        ),
+                      ),
+                      selected: isSelected,
+                      onTap: () async {
+                        await accountController.selectAccount(account.uuid);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+            const Divider(),
+            const SizedBox(height: 8),
+            // + Add Account Button
+            TextButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+                );
+              },
+              icon: const Icon(Icons.add),
+              label: Text(
+                context.translate('create_account'),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            // Manage Accounts Button
+            TextButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AccountListScreen()),
+                );
+              },
+              icon: const Icon(Icons.manage_accounts_outlined),
+              label: const Text(
+                'Manage Accounts',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

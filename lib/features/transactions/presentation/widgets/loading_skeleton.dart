@@ -30,6 +30,7 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       children: List.generate(4, (index) {
         return AnimatedBuilder(
@@ -40,6 +41,7 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
               child: Card(
                 margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                color: colorScheme.surfaceContainerHighest,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -48,7 +50,7 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
+                          color: colorScheme.surfaceContainerLow,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -60,13 +62,13 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
                             Container(
                               width: 120,
                               height: 12,
-                              color: Colors.grey.shade300,
+                              color: colorScheme.surfaceContainerLow,
                             ),
                             const SizedBox(height: 8),
                             Container(
                               width: 80,
                               height: 10,
-                              color: Colors.grey.shade200,
+                              color: colorScheme.surfaceContainer,
                             ),
                           ],
                         ),
@@ -74,7 +76,7 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
                       Container(
                         width: 60,
                         height: 14,
-                        color: Colors.grey.shade300,
+                        color: colorScheme.surfaceContainerLow,
                       ),
                     ],
                   ),

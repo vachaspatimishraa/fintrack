@@ -24,30 +24,31 @@ ThemeData get darkTheme {
       ),
     ),
     cardTheme: CardThemeData(
-      color: AppColors.darkSurface,
+      color: const Color(0xFF1E1E1E), // colorScheme.surfaceContainer fallback
       elevation: 0,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade800, width: 1),
+        side: const BorderSide(color: Color(0xFF44474E), width: 1), // colorScheme.outlineVariant fallback
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.darkSurface,
+      fillColor: const Color(0xFF1E1E1E), // colorScheme.surfaceContainerHighest fallback
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade800),
+        borderSide: const BorderSide(color: Color(0xFF44474E)), // colorScheme.outline
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade800),
+        borderSide: const BorderSide(color: Color(0xFF44474E)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
       ),
+      hintStyle: const TextStyle(color: Color(0xFFC4C6D0)), // colorScheme.onSurfaceVariant
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

@@ -13,15 +13,16 @@ class StickyDateHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final theme = Theme.of(context);
     return Container(
-      color: Colors.grey.shade100,
+      color: theme.colorScheme.surfaceContainer,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       alignment: Alignment.centerLeft,
       child: Text(
         title,
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+        style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.grey.shade800,
+              color: theme.colorScheme.onSurface,
             ),
       ),
     );

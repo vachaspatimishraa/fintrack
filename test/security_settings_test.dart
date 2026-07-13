@@ -35,5 +35,20 @@ void main() {
       final manager = SessionManager(fakeStorage);
       expect(await manager.shouldLock('immediately'), isFalse);
     });
+
+    test('shouldLockSync should return true after timeout', () async {
+      final fakeStorage = FakeSecureStorageService();
+      final manager = SessionManager(fakeStorage);
+      await manager.updateActivity();
+      
+      expect(manager.shouldLockSync('immediately'), isTrue);
+      expect(manager.shouldLockSync('never'), isFalse);
+    });
+
+    test('shouldLockSync should return true on null last activity (fail-secure)', () {
+      final fakeStorage = FakeSecureStorageService();
+      final manager = SessionManager(fakeStorage);
+      expect(manager.shouldLockSync('immediately'), isTrue);
+    });
   });
 }

@@ -38,7 +38,10 @@ class EmptyTransactionView extends StatelessWidget {
             Text(
               subtitle ?? context.translate('empty_transactions_sub'),
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 13,
+              ),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(

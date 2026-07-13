@@ -45,15 +45,28 @@ class _TransactionSearchBarState extends ConsumerState<TransactionSearchBar> {
       }
     });
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return TextField(
       controller: _controller,
       onChanged: _onSearchChanged,
       decoration: InputDecoration(
         hintText: 'Search title, notes...',
-        prefixIcon: const Icon(Icons.search),
+        hintStyle: TextStyle(color: colorScheme.onSurfaceVariant),
+        prefixIcon: Icon(Icons.search, color: colorScheme.onSurfaceVariant),
+        filled: true,
+        fillColor: colorScheme.surfaceContainerHighest,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.outline),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.outlineVariant),
+        ),
         suffixIcon: _controller.text.isNotEmpty
             ? IconButton(
-                icon: const Icon(Icons.clear),
+                icon: Icon(Icons.clear, color: colorScheme.onSurfaceVariant),
                 onPressed: () {
                   _controller.clear();
                   ref.read(transactionListProvider.notifier).updateQuery('');

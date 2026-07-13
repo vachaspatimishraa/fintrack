@@ -41,6 +41,19 @@ class SessionManager {
     return duration >= timeout;
   }
 
+  bool shouldLockSync(String timeoutPreference) {
+    if (_lastActivity == null) {
+      // Default to locking if no activity is tracked yet (safe default)
+      return true;
+    }
+
+    final duration = DateTime.now().difference(_lastActivity!);
+    final timeout = _getDurationFromPreference(timeoutPreference);
+
+    if (timeout == null) return false;
+    return duration >= timeout;
+  }
+
   Duration? _getDurationFromPreference(String preference) {
     switch (preference) {
       case 'immediately':

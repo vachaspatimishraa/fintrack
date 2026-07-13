@@ -229,6 +229,8 @@ class _AddEditTransactionScreenState
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -249,52 +251,61 @@ class _AddEditTransactionScreenState
   void _showPaymentMethodPicker() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                context.translate('select_payment_method'),
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const Divider(),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _paymentMethods.length,
-                itemBuilder: (context, index) {
-                  final pm = _paymentMethods[index];
-                  final isSelected = _paymentMethod == pm;
-                  final translationKey = _paymentMethodsMap[pm] ?? pm;
-                  return ListTile(
-                    title: Text(
-                      context.translate(translationKey),
-                      style: TextStyle(
-                        fontWeight: isSelected
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                      ),
-                    ),
-                    trailing: isSelected
-                        ? const Icon(Icons.check, color: Colors.green)
-                        : null,
-                    onTap: () {
-                      setState(() {
-                        _paymentMethod = pm;
-                      });
-                      _saveLastPaymentMethod(pm);
-                      Navigator.pop(context);
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.8,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  context.translate('select_payment_method'),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const Divider(),
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _paymentMethods.length,
+                    itemBuilder: (context, index) {
+                      final pm = _paymentMethods[index];
+                      final isSelected = _paymentMethod == pm;
+                      final translationKey = _paymentMethodsMap[pm] ?? pm;
+                      return ListTile(
+                        title: Text(
+                          context.translate(translationKey),
+                          style: TextStyle(
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
+                        trailing: isSelected
+                            ? const Icon(Icons.check, color: Colors.green)
+                            : null,
+                        onTap: () {
+                          setState(() {
+                            _paymentMethod = pm;
+                          });
+                          _saveLastPaymentMethod(pm);
+                          Navigator.pop(context);
+                        },
+                      );
                     },
-                  );
-                },
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

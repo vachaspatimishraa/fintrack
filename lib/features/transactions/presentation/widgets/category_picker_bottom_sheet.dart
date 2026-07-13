@@ -255,105 +255,113 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
 
   Widget _buildCreateCustomView() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  setState(() {
-                    _isCreatingCustom = false;
-                  });
+      padding: EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        top: 16.0,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    setState(() {
+                      _isCreatingCustom = false;
+                    });
+                  },
+                ),
+                Text(
+                  'Create Custom Category',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _customNameController,
+              maxLength: 40,
+              textCapitalization: TextCapitalization.sentences,
+              decoration: const InputDecoration(
+                labelText: 'Category Name',
+                hintText: 'e.g. Subscriptions',
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text('Select Icon', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _iconOptions.length,
+                itemBuilder: (context, index) {
+                  final item = _iconOptions[index];
+                  final isSelected = _customIcon == item['name'];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ChoiceChip(
+                      label: Icon(item['icon'] as IconData, size: 20),
+                      selected: isSelected,
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            _customIcon = item['name'] as String;
+                          });
+                        }
+                      },
+                    ),
+                  );
                 },
               ),
-              Text(
-                'Create Custom Category',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _customNameController,
-            maxLength: 40,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: const InputDecoration(
-              labelText: 'Category Name',
-              hintText: 'e.g. Subscriptions',
             ),
-          ),
-          const SizedBox(height: 16),
-          const Text('Select Icon', style: TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _iconOptions.length,
-              itemBuilder: (context, index) {
-                final item = _iconOptions[index];
-                final isSelected = _customIcon == item['name'];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: ChoiceChip(
-                    label: Icon(item['icon'] as IconData, size: 20),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      if (selected) {
+            const SizedBox(height: 16),
+            const Text('Select Color', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _colorOptions.length,
+                itemBuilder: (context, index) {
+                  final hex = _colorOptions[index];
+                  final color = Color(int.parse(hex.replaceAll('#', '0xFF')));
+                  final isSelected = _customColor == hex;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: InkWell(
+                      onTap: () {
                         setState(() {
-                          _customIcon = item['name'] as String;
+                          _customColor = hex;
                         });
-                      }
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 16),
-          const Text('Select Color', style: TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _colorOptions.length,
-              itemBuilder: (context, index) {
-                final hex = _colorOptions[index];
-                final color = Color(int.parse(hex.replaceAll('#', '0xFF')));
-                final isSelected = _customColor == hex;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        _customColor = hex;
-                      });
-                    },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                        border: isSelected ? Border(bottom: BorderSide(color: Colors.black, width: 3)) : null,
+                      },
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: isSelected ? Border(bottom: BorderSide(color: Colors.black, width: 3)) : null,
+                        ),
+                        child: isSelected ? const Icon(Icons.check, color: Colors.white) : null,
                       ),
-                      child: isSelected ? const Icon(Icons.check, color: Colors.white) : null,
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-          const Spacer(),
-          FilledButton(
-            onPressed: _saveCustomCategory,
-            child: const Text('Save Category'),
-          ),
-        ],
+            const SizedBox(height: 32),
+            FilledButton(
+              onPressed: _saveCustomCategory,
+              child: const Text('Save Category'),
+            ),
+          ],
+        ),
       ),
     );
   }

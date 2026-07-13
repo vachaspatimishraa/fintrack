@@ -113,12 +113,20 @@ class QuickFilterChips extends ConsumerWidget {
     required bool isSelected,
     required ValueChanged<bool> onSelected,
   }) {
+    final theme = Theme.of(context);
     return FilterChip(
       label: Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
       selected: isSelected,
       onSelected: onSelected,
-      selectedColor: Theme.of(context).colorScheme.primaryContainer,
-      checkmarkColor: Theme.of(context).colorScheme.primary,
+      selectedColor: theme.colorScheme.primaryContainer,
+      checkmarkColor: theme.colorScheme.primary,
+      backgroundColor: theme.colorScheme.surfaceContainerHighest,
+      labelStyle: TextStyle(
+        color: isSelected ? theme.colorScheme.onPrimaryContainer : theme.colorScheme.onSurface,
+      ),
+      side: BorderSide(
+        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
+      ),
     );
   }
 

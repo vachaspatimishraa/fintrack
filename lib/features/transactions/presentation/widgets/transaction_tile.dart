@@ -20,16 +20,18 @@ class TransactionTile extends ConsumerWidget {
     final isSelected = selectionState.selectedUuids.contains(transaction.uuid);
     final isSelectionMode = selectionState.isSelectionMode;
     final isIncome = transaction.type == 'income';
-    final primaryColor = isIncome ? AppColors.income : AppColors.expense;
+    final colorScheme = Theme.of(context).colorScheme;
+    final primaryColor = isIncome ? colorScheme.primary : colorScheme.error;
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 4.0),
       elevation: isSelected ? 4 : 1,
+      color: colorScheme.surfaceContainer,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: isSelected
-            ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)
-            : BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+            ? BorderSide(color: colorScheme.primary, width: 2)
+            : BorderSide(color: colorScheme.outlineVariant),
       ),
       child: InkWell(
         onTap: () {
@@ -160,9 +162,9 @@ class ReceiptIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Tooltip(
+    return Tooltip(
       message: 'Receipt Attached',
-      child: Icon(Icons.attach_file, size: 14, color: Colors.grey),
+      child: Icon(Icons.attach_file, size: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
     );
   }
 }
@@ -174,13 +176,14 @@ class SyncIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Tooltip(
       message: isSynced ? 'Synced to Cloud' : 'Pending Sync',
       child: Container(
         width: 8,
         height: 8,
         decoration: BoxDecoration(
-          color: isSynced ? Colors.green : Colors.orange,
+          color: isSynced ? Colors.green : colorScheme.primary,
           shape: BoxShape.circle,
         ),
       ),
