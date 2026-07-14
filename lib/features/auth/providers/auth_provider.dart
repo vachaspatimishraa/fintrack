@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../data/repositories/auth_repository.dart';
@@ -6,8 +7,9 @@ import '../../../../core/services/sync_service.dart';
 import '../../../../core/services/session_service.dart';
 import '../../splash/providers/initialization_provider.dart';
 import '../../sync/providers/sync_provider.dart';
+import '../../settings/providers/settings_provider.dart';
 
-enum AuthStatus { unknown, loading, guest, authenticated, unauthenticated, error }
+enum AuthStatus { guest, authenticated, loading, error }
 
 class AuthState {
   final AuthStatus status;
@@ -21,7 +23,7 @@ class AuthState {
   });
 
   const AuthState.unknown()
-      : status = AuthStatus.unknown,
+      : status = AuthStatus.loading,
         user = null,
         errorMessage = null;
 
@@ -40,7 +42,7 @@ class AuthState {
         errorMessage = null;
 
   const AuthState.unauthenticated({this.errorMessage})
-      : status = AuthStatus.unauthenticated,
+      : status = AuthStatus.error,
         user = null;
 
   const AuthState.error(this.errorMessage)
@@ -52,15 +54,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository _repository;
   final SyncService _syncService;
   final SessionService _sessionService;
+  final Ref _ref;
 
   AuthNotifier({
     required AuthRepository repository,
     required SyncService syncService,
     required SessionService sessionService,
+    required Ref ref,
   })  : _repository = repository,
         _syncService = syncService,
         _sessionService = sessionService,
-        super(const AuthState.unknown()) {
+        _ref = ref,
+        super(const AuthState.loading()) {
     _init();
   }
 
@@ -68,6 +73,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       : _repository = null as dynamic,
         _syncService = null as dynamic,
         _sessionService = null as dynamic,
+        _ref = null as dynamic,
         super(const AuthState.loading());
 
   Future<void> _init() async {
@@ -79,7 +85,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final user = _repository.currentUser;
       final isGuest = _sessionService.isGuestModeEnabled();
 
-      if (user != null) {
+      if (user != null && Supabase.instance.client.auth.currentUser != null) {
         state = AuthState.authenticated(user);
         await _sessionService.setLastLoginNow();
         _syncService.triggerSync();
@@ -92,11 +98,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // 2. Listen to authentication state changes
       _repository.authStateChanges.listen((data) async {
         final session = data.session;
-        if (session != null) {
+        if (session != null && Supabase.instance.client.auth.currentUser != null) {
           state = AuthState.authenticated(session.user);
           await _sessionService.setLastLoginNow();
           await _sessionService.setGuestMode(false);
-          await _syncService.migrateGuestData();
           _syncService.triggerSync();
         } else {
           final currentGuest = _sessionService.isGuestModeEnabled();
@@ -109,6 +114,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
       });
     } catch (e) {
       state = AuthState.error(e.toString());
+    }
+  }
+
+  Future<bool> hasGuestData() => _syncService.hasGuestData();
+
+  Future<void> migrateGuestData() async {
+    try {
+      await _syncService.migrateGuestData();
+    } catch (e) {
+      debugPrint('Guest data migration error: $e');
     }
   }
 
@@ -134,8 +149,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> signOut() async {
     state = const AuthState.loading();
     try {
-      await _sessionService.clearSession();
       await _repository.signOut();
+      await _sessionService.clearSession();
+      
+      //Disable Guest Mode on signOut
+      await _sessionService.setGuestMode(false);
+      
+      //Disable cloud sync
+      final settingsRepo = _ref.read(settingsRepositoryProvider);
+      final currentSettings = await settingsRepo.loadSettings();
+      await settingsRepo.updateSettings(currentSettings.copyWith(syncEnabled: false));
+      
       state = const AuthState.unauthenticated();
     } catch (e) {
       state = AuthState.error(e.toString());
@@ -172,5 +196,8 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
     repository: repository,
     syncService: syncService,
     sessionService: sessionService,
+    ref: ref,
   );
 });
+
+final migrationPromptShownProvider = StateProvider<bool>((ref) => false);

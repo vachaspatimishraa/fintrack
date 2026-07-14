@@ -218,7 +218,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
 
             return const Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
             );
           }
@@ -468,7 +468,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
         error: (err, _) => Center(child: Text('${context.translate('error_loading_details')}: $err')),
       ),
     );

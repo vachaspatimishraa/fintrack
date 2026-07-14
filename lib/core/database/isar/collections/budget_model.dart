@@ -30,7 +30,7 @@ class BudgetModel {
   double amount = 0.0;
 
   /// ISO currency code.
-  String currency = 'USD';
+  String currency = 'INR';
   
   /// Start date of the budgeting period.
   @Index()
@@ -130,8 +130,8 @@ class BudgetModel {
       ..budgetType = json['budget_type'] as String? ?? 'overall'
       ..amount = (json['amount'] as num?)?.toDouble() ?? 0.0
       ..currency = json['currency'] as String? ?? 'INR'
-      ..startDate = DateTime.parse(json['start_date'] as String)
-      ..endDate = DateTime.parse(json['end_date'] as String)
+      ..startDate = json['start_date'] != null ? DateTime.parse(json['start_date'] as String) : DateTime.now()
+      ..endDate = json['end_date'] != null ? DateTime.parse(json['end_date'] as String) : DateTime.now()
       ..categoryId = json['category_id'] as String?
       ..accountId = json['account_id'] as String?
       ..spentAmount = (json['spent_amount'] as num?)?.toDouble() ?? 0.0
@@ -141,12 +141,12 @@ class BudgetModel {
       ..alertThreshold = (json['alert_threshold'] as num?)?.toDouble() ?? 80.0
       ..rolloverEnabled = json['rollover_enabled'] as bool? ?? false
       ..carryForward = (json['carry_forward'] as num?)?.toDouble() ?? 0.0
-      ..createdAt = DateTime.parse(json['created_at'] as String)
-      ..updatedAt = DateTime.parse(json['updated_at'] as String)
+      ..createdAt = json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : DateTime.now()
+      ..updatedAt = json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : DateTime.now()
       ..deletedAt = json['deleted_at'] != null ? DateTime.parse(json['deleted_at'] as String) : null
       ..isDeleted = json['is_deleted'] as bool? ?? false
       ..syncStatus = json['sync_status'] as String? ?? 'synced'
-      ..version = json['version'] as int? ?? 1;
+      ..version = (json['version'] as num?)?.toInt() ?? 1;
   }
 }
 

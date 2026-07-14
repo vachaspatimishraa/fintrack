@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../config/env.dart';
 
 class AuthService {
   final SupabaseClient _supabase;
@@ -14,7 +15,10 @@ class AuthService {
   Future<void> _ensureGoogleSignInInitialized() async {
     if (!_googleSignInInitialized) {
       try {
-        await GoogleSignIn.instance.initialize();
+        await GoogleSignIn.instance.initialize(
+          clientId: Env.googleIosClientId.isEmpty ? null : Env.googleIosClientId,
+          serverClientId: Env.googleWebClientId.isEmpty ? null : Env.googleWebClientId,
+        );
         _googleSignInInitialized = true;
       } catch (e) {
         // Already initialized or platform error

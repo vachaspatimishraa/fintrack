@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AccountRemoteDataSource {
@@ -6,18 +7,42 @@ class AccountRemoteDataSource {
   AccountRemoteDataSource(this._supabase);
 
   Future<List<Map<String, dynamic>>> fetchAccounts(String userId) async {
-    final response = await _supabase
-        .from('accounts')
-        .select()
-        .eq('user_id', userId);
-    return List<Map<String, dynamic>>.from(response);
+    try {
+      final response = await _supabase
+          .from('accounts')
+          .select()
+          .eq('user_id', userId);
+      return List<Map<String, dynamic>>.from(response as List? ?? []);
+    } catch (e, stack) {
+      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stack);
+      debugPrint("=============================================");
+      rethrow;
+    }
   }
 
   Future<void> upsertAccount(Map<String, dynamic> jsonPayload) async {
-    await _supabase.from('accounts').upsert(jsonPayload);
+    try {
+      await _supabase.from('accounts').upsert(jsonPayload);
+    } catch (e, stack) {
+      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stack);
+      debugPrint("=============================================");
+      rethrow;
+    }
   }
 
   Future<void> deleteAccount(String uuid) async {
-    await _supabase.from('accounts').delete().eq('id', uuid);
+    try {
+      await _supabase.from('accounts').delete().eq('id', uuid);
+    } catch (e, stack) {
+      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stack);
+      debugPrint("=============================================");
+      rethrow;
+    }
   }
 }

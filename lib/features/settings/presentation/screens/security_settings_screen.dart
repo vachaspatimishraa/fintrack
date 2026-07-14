@@ -4,7 +4,6 @@ import '../../../../core/utils/translations.dart';
 import '../controllers/settings_controller.dart';
 import '../../providers/settings_provider.dart';
 import '../../domain/entities/settings_entity.dart';
-import '../../domain/services/biometric_service.dart';
 
 class SecuritySettingsScreen extends ConsumerStatefulWidget {
   const SecuritySettingsScreen({super.key});
@@ -14,19 +13,6 @@ class SecuritySettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SecuritySettingsScreenState extends ConsumerState<SecuritySettingsScreen> {
-  final _biometricService = BiometricService();
-  bool _biometricAvailable = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkBiometric();
-  }
-
-  Future<void> _checkBiometric() async {
-    final available = await _biometricService.isBiometricAvailable();
-    if (mounted) setState(() => _biometricAvailable = available);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +63,7 @@ class _SecuritySettingsScreenState extends ConsumerState<SecuritySettingsScreen>
           ),
           child: Column(
             children: [
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 title: Text(
                   context.translate('app_lock'),
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -113,26 +99,6 @@ class _SecuritySettingsScreenState extends ConsumerState<SecuritySettingsScreen>
                 child: settings.appLockEnabled
                     ? Column(
                         children: [
-                          const Divider(height: 1, indent: 64),
-                          SwitchListTile(
-                            title: Text(context.translate('biometric_unlock')),
-                            subtitle: Text(_biometricAvailable
-                                ? context.translate('biometric_desc')
-                                : context.translate('not_available')),
-                            secondary: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                Icons.fingerprint,
-                                color: settings.biometricEnabled 
-                                    ? Theme.of(context).colorScheme.primary 
-                                    : Theme.of(context).colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                            value: settings.biometricEnabled,
-                            onChanged: _biometricAvailable
-                                ? (val) => ref.read(settingsControllerProvider).toggleBiometricEnabled(val)
-                                : null,
-                          ),
                           const Divider(height: 1, indent: 64),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(64, 16, 16, 16),

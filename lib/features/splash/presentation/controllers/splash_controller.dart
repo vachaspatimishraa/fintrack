@@ -24,7 +24,7 @@ class SplashController {
       // 3. Wait for the authentication status to resolve with a timeout (5 seconds max)
       int retryCount = 0;
       AuthStatus status = _ref.read(authProvider).status;
-      while ((status == AuthStatus.unknown || status == AuthStatus.loading) && retryCount < 100) {
+      while (status == AuthStatus.loading && retryCount < 100) {
         await Future.delayed(const Duration(milliseconds: 50));
         status = _ref.read(authProvider).status;
         retryCount++;

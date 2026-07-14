@@ -21,11 +21,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         return null;
       }
 
-      if (status == AuthStatus.unknown || status == AuthStatus.loading) {
+      if (status == AuthStatus.loading) {
         return AppRoutes.splash;
       }
 
-      if (status == AuthStatus.unauthenticated || status == AuthStatus.error) {
+      if (status == AuthStatus.error) {
         return isLoggingIn ? null : AppRoutes.login;
       }
 

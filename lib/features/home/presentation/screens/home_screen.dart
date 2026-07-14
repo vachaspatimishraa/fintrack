@@ -44,6 +44,33 @@ class DashboardTab extends ConsumerWidget {
     final homeController = ref.read(homeControllerProvider);
     final accountsAsync = ref.watch(accountsStreamProvider);
 
+    ref.listen<AuthState>(authProvider, (previous, next) async {
+      if (next.status == AuthStatus.authenticated && previous?.status != AuthStatus.authenticated) {
+        final hasGuestData = await ref.read(authProvider.notifier).hasGuestData();
+        final promptShown = ref.read(migrationPromptShownProvider);
+        if (hasGuestData && !promptShown) {
+          ref.read(migrationPromptShownProvider.notifier).state = true;
+          if (context.mounted) {
+            _showMigrationDialog(context, ref);
+          }
+        }
+      }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final authState = ref.read(authProvider);
+      if (authState.status == AuthStatus.authenticated) {
+        final hasGuestData = await ref.read(authProvider.notifier).hasGuestData();
+        final promptShown = ref.read(migrationPromptShownProvider);
+        if (hasGuestData && !promptShown) {
+          ref.read(migrationPromptShownProvider.notifier).state = true;
+          if (context.mounted) {
+            _showMigrationDialog(context, ref);
+          }
+        }
+      }
+    });
+
     return Scaffold(
       drawer: const AppNavigationDrawer(),
       appBar: accountsAsync.maybeWhen(
@@ -69,7 +96,7 @@ class DashboardTab extends ConsumerWidget {
 
                 // 3. Main Dashboard content (Scrollable transaction list + Static summary cards)
                 Expanded(
-                  child: RefreshIndicator(
+                  child: RefreshIndicator.adaptive(
                     onRefresh: () => homeController.refreshDashboard(),
                     child: CustomScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -134,7 +161,7 @@ class DashboardTab extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           error: (err, stack) => Center(child: Text('Error: $err')),
         ),
       ),
@@ -1291,4 +1318,34 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
       ),
     );
   }
+}
+
+void _showMigrationDialog(BuildContext context, WidgetRef ref) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Sync Existing Data?'),
+        content: const Text(
+          'You already have local transactions. Would you like to upload them to your cloud account?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Skip'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await ref.read(authProvider.notifier).migrateGuestData();
+            },
+            child: const Text('Sync'),
+          ),
+        ],
+      );
+    },
+  );
 }

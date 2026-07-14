@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/network/connectivity_service.dart';
 import '../../../../core/services/sync_service.dart';
+import '../../../../core/utils/sync_preferences.dart';
 import '../../splash/providers/initialization_provider.dart';
 
 final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
@@ -9,6 +10,11 @@ final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
     // Keep it alive, but if disposed, clean up
   });
   return service;
+});
+
+final connectivityStreamProvider = StreamProvider<bool>((ref) {
+  final service = ref.watch(connectivityServiceProvider);
+  return service.onConnectivityChanged;
 });
 
 final syncServiceProvider = Provider<SyncService>((ref) {
@@ -55,18 +61,28 @@ class SyncState {
 
 class SyncNotifier extends StateNotifier<SyncState> {
   final SyncService _syncService;
+  final Ref _ref;
 
-  SyncNotifier(this._syncService) : super(SyncState(isSyncing: false, pendingCount: 0)) {
+  SyncNotifier(this._syncService, this._ref) : super(SyncState(isSyncing: false, pendingCount: 0)) {
     _init();
   }
 
-  void _init() {
+  void _init() async {
+    // Load initial sync timestamp
+    final initialLastSync = await SyncPreferences.getLastSync();
+    state = state.copyWith(lastSyncTime: initialLastSync);
+
     // Watch pending counts or listen to the sync service status
     _syncService.onPendingCountChanged.listen((count) {
       state = state.copyWith(pendingCount: count);
     });
-    _syncService.onSyncStatusChanged.listen((isSyncing) {
+    _syncService.onSyncStatusChanged.listen((isSyncing) async {
       state = state.copyWith(isSyncing: isSyncing);
+      if (!isSyncing) {
+        final lastSync = await SyncPreferences.getLastSync();
+        state = state.copyWith(lastSyncTime: lastSync);
+        _ref.invalidate(lastSyncProvider);
+      }
     });
   }
 
@@ -74,7 +90,9 @@ class SyncNotifier extends StateNotifier<SyncState> {
     state = state.copyWith(isSyncing: true, errorMessage: null);
     try {
       await _syncService.triggerSync();
-      state = state.copyWith(isSyncing: false, lastSyncTime: DateTime.now());
+      final lastSync = await SyncPreferences.getLastSync();
+      state = state.copyWith(isSyncing: false, lastSyncTime: lastSync);
+      _ref.invalidate(lastSyncProvider);
     } catch (e) {
       state = state.copyWith(isSyncing: false, errorMessage: e.toString());
     }
@@ -83,5 +101,9 @@ class SyncNotifier extends StateNotifier<SyncState> {
 
 final syncStatusProvider = StateNotifierProvider<SyncNotifier, SyncState>((ref) {
   final syncService = ref.watch(syncServiceProvider);
-  return SyncNotifier(syncService);
+  return SyncNotifier(syncService, ref);
+});
+
+final lastSyncProvider = FutureProvider<DateTime?>((ref) async {
+  return SyncPreferences.getLastSync();
 });

@@ -65,7 +65,7 @@ class SettingsModel {
     themeMode = 'system';
     dynamicColor = true;
     amoledMode = false;
-    currency = 'USD';
+    currency = 'INR';
     language = 'en';
     masterNotificationsEnabled = true;
     budgetAlertsEnabled = true;

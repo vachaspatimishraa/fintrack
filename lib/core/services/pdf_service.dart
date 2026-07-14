@@ -68,14 +68,14 @@ class PdfService {
           ),
           pw.SizedBox(height: 25),
           pw.TableHelper.fromTextArray(
-            headers: ['Date', 'Category', 'Description', 'Type', 'Amount'],
+            headers: ['Date', 'Category', 'Title', 'Type', 'Amount'],
             data: transactions.map((tx) {
               return [
                 AppFormatter.formatDate(tx.date),
                 tx.category,
-                tx.description,
+                tx.title,
                 tx.type.toUpperCase(),
-                AppFormatter.formatCurrency(tx.amount),
+                _formatAmountOnly(tx.amount),
               ];
             }).toList(),
             headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.white),
@@ -94,6 +94,11 @@ class PdfService {
     await Share.shareXFiles([XFile(file.path)], text: 'My FinTrack Financial Report');
   }
 
+  static String _formatAmountOnly(double amount) {
+    final formatted = AppFormatter.formatCurrency(amount);
+    return formatted.replaceAll(RegExp(r'[^\d.,-]'), '').trim();
+  }
+
   static pw.Widget _buildSummaryCard(String label, double amount, PdfColor color) {
     return pw.Container(
       padding: const pw.EdgeInsets.all(12),
@@ -105,7 +110,7 @@ class PdfService {
         children: [
           pw.Text(label, style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey600)),
           pw.SizedBox(height: 4),
-          pw.Text(AppFormatter.formatCurrency(amount),
+          pw.Text(_formatAmountOnly(amount),
               style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold, color: color)),
         ],
       ),

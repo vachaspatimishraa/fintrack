@@ -658,7 +658,7 @@ class _AddEditTransactionScreenState
               ),
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           error: (err, _) =>
               Center(child: Text('${context.translate('error')}: $err')),
         ),
@@ -692,8 +692,7 @@ class _AddEditTransactionScreenState
                     ? const SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
+                        child: CircularProgressIndicator.adaptive(
                           strokeWidth: 2,
                         ),
                       )

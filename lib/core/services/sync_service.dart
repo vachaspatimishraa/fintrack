@@ -9,6 +9,7 @@ import '../database/isar/collections/budget_model.dart';
 import '../database/isar/collections/goal_model.dart';
 import '../database/isar/collections/sync_queue_item.dart';
 import '../network/connectivity_service.dart';
+import '../utils/sync_preferences.dart';
 
 class SyncService {
   final Isar _isar;
@@ -97,6 +98,9 @@ class SyncService {
 
       // 2. Pull remote updates from Cloud
       await _pullFromCloud(userId);
+
+      // Save last sync time upon successful completion without exceptions
+      await SyncPreferences.saveLastSync();
     } catch (e) {
       debugPrint('Sync execution error: $e');
     } finally {
@@ -169,18 +173,88 @@ class SyncService {
           table = '${item.entityType}s';
       }
 
+      if (table == 'transactions' && item.action != 'delete') {
+        // Print payload for validation
+        debugPrint("Validating transaction payload: $payload");
+
+        // Verify required keys are present and non-null
+        if (payload["id"] == null) throw Exception("Transaction payload missing required field: id");
+        if (payload["user_id"] == null) throw Exception("Transaction payload missing required field: user_id");
+        if (payload["account_id"] == null) throw Exception("Transaction payload missing required field: account_id");
+        if (payload["amount"] == null) throw Exception("Transaction payload missing required field: amount");
+        if (payload["transaction_date"] == null) throw Exception("Transaction payload missing required field: transaction_date");
+        if (payload["transaction_time"] == null) throw Exception("Transaction payload missing required field: transaction_time");
+
+        // Verify keys match Supabase exactly (No extra keys, no missing keys)
+        final requiredKeys = {
+          'id',
+          'user_id',
+          'account_id',
+          'type',
+          'category_id',
+          'category',
+          'amount',
+          'title',
+          'description',
+          'currency',
+          'payment_method',
+          'receipt_url',
+          'transaction_date',
+          'transaction_time',
+          'created_at',
+          'updated_at',
+          'is_deleted',
+          'is_synced',
+          'is_recurring',
+          'is_system',
+          'sync_version',
+        };
+
+        for (final k in requiredKeys) {
+          if (!payload.containsKey(k)) {
+            throw Exception("Transaction payload missing key: $k");
+          }
+        }
+
+        final extraKeys = payload.keys.where((k) => !requiredKeys.contains(k)).toList();
+        if (extraKeys.isNotEmpty) {
+          throw Exception("Transaction payload has additional keys not matching Supabase schema: $extraKeys");
+        }
+      }
+
+      // Print debug sync info before calling upsert/delete
+      debugPrint("========== SYNC ==========");
+      debugPrint("Entity: $table");
+      debugPrint("Action: ${item.action}");
+      debugPrint("Payload: $payload");
+      debugPrint("==========================");
+
       if (item.action == 'delete') {
         await _supabase.from(table).delete().eq('id', item.entityUuid);
       } else {
         await _supabase.from(table).upsert(payload);
       }
 
+      // Print success
+      debugPrint("Transaction uploaded successfully");
+
       // Mark locally as synced
       await _markAsSyncedLocally(item.entityType, item.entityUuid, userId);
       
       return true;
-    } catch (e) {
-      debugPrint('Error processing sync queue item ${item.id} (${item.entityType}): $e');
+    } catch (e, stack) {
+      final errorStr = e.toString();
+      debugPrint("========== SYNC ERROR ==========");
+      debugPrint("Error processing sync queue item ${item.id} (${item.entityType}): $e");
+      debugPrintStack(stackTrace: stack);
+      debugPrint("================================");
+
+      // Verify RLS: if Supabase returns permission denied or RLS violation, stop retrying
+      if (errorStr.contains("permission denied") || errorStr.contains("new row violates row level security")) {
+        debugPrint("CRITICAL: RLS Permission Denied. Skipping retry to avoid infinite loop.");
+        return true; // Mark as processed/resolved to remove from queue
+      }
+      
       return false;
     }
   }
@@ -220,91 +294,125 @@ class SyncService {
   }
 
   Future<void> _pullFromCloud(String userId) async {
+    // 1. Pull Accounts
     try {
-      // 1. Pull Accounts
       final accountsData = await _supabase.from('accounts').select().eq('user_id', userId);
       for (final item in accountsData) {
-        final remoteAccount = AccountModel.fromJson(item);
-        final localAccount = await _isar.accountModels.filter().uuidEqualTo(remoteAccount.uuid).findFirst();
+        try {
+          final remoteAccount = AccountModel.fromJson(item);
+          final localAccount = await _isar.accountModels.filter().uuidEqualTo(remoteAccount.uuid).findFirst();
 
-        if (localAccount == null) {
-          // New account from cloud
-          await _isar.writeTxn(() async {
-            await _isar.accountModels.put(remoteAccount);
-          });
-        } else {
-          // Conflict Resolution: Latest updatedAt wins
-          if (remoteAccount.updatedAt.isAfter(localAccount.updatedAt)) {
-            debugPrint('Conflict resolved (Account): Remote wins for ${remoteAccount.name}');
+          if (localAccount == null) {
+            // New account from cloud
             await _isar.writeTxn(() async {
-              remoteAccount.id = localAccount.id;
               await _isar.accountModels.put(remoteAccount);
             });
+          } else {
+            // Conflict Resolution: Latest updatedAt wins
+            if (remoteAccount.updatedAt.isAfter(localAccount.updatedAt)) {
+              debugPrint('Conflict resolved (Account): Remote wins for ${remoteAccount.name}');
+              await _isar.writeTxn(() async {
+                remoteAccount.id = localAccount.id;
+                await _isar.accountModels.put(remoteAccount);
+              });
+            }
           }
-        }
-      }
-
-      // 2. Pull Transactions
-      final transactionsData = await _supabase.from('transactions').select().eq('user_id', userId);
-      for (final item in transactionsData) {
-        final remoteTx = TransactionModel.fromJson(item);
-        final localTx = await _isar.transactionModels.filter().uuidEqualTo(remoteTx.uuid).findFirst();
-
-        if (localTx == null) {
-          // New transaction from cloud
-          await _isar.writeTxn(() async {
-            await _isar.transactionModels.put(remoteTx);
-          });
-        } else {
-          // Conflict Resolution: Latest updatedAt wins
-          if (remoteTx.updatedAt.isAfter(localTx.updatedAt)) {
-            debugPrint('Conflict resolved (Transaction): Remote wins for transaction ${remoteTx.uuid}');
-            await _isar.writeTxn(() async {
-              remoteTx.id = localTx.id;
-              await _isar.transactionModels.put(remoteTx);
-            });
-          }
-        }
-      }
-
-      // 3. Pull Budgets
-      final budgetsData = await _supabase.from('budgets').select().eq('user_id', userId);
-      for (final item in budgetsData) {
-        final remoteBudget = BudgetModel.fromJson(item);
-        final localBudget = await _isar.budgetModels.filter().uuidEqualTo(remoteBudget.uuid).findFirst();
-
-        if (localBudget == null) {
-          await _isar.writeTxn(() async {
-            await _isar.budgetModels.put(remoteBudget);
-          });
-        } else if (remoteBudget.updatedAt.isAfter(localBudget.updatedAt)) {
-          await _isar.writeTxn(() async {
-            remoteBudget.id = localBudget.id;
-            await _isar.budgetModels.put(remoteBudget);
-          });
-        }
-      }
-
-      // 4. Pull Goals
-      final goalsData = await _supabase.from('goals').select().eq('user_id', userId);
-      for (final item in goalsData) {
-        final remoteGoal = GoalModel.fromJson(item);
-        final localGoal = await _isar.goalModels.filter().uuidEqualTo(remoteGoal.uuid).findFirst();
-
-        if (localGoal == null) {
-          await _isar.writeTxn(() async {
-            await _isar.goalModels.put(remoteGoal);
-          });
-        } else if (remoteGoal.updatedAt.isAfter(localGoal.updatedAt)) {
-          await _isar.writeTxn(() async {
-            remoteGoal.id = localGoal.id;
-            await _isar.goalModels.put(remoteGoal);
-          });
+        } catch (itemErr) {
+          debugPrint('Error parsing account item: $itemErr');
         }
       }
     } catch (e) {
-      debugPrint('Cloud pull synchronization error: $e');
+      debugPrint('Cloud pull synchronization error for Accounts: $e');
     }
+
+    // 2. Pull Transactions
+    try {
+      final transactionsData = await _supabase.from('transactions').select().eq('user_id', userId);
+      for (final item in transactionsData) {
+        try {
+          final remoteTx = TransactionModel.fromJson(item);
+          final localTx = await _isar.transactionModels.filter().uuidEqualTo(remoteTx.uuid).findFirst();
+
+          if (localTx == null) {
+            // New transaction from cloud
+            await _isar.writeTxn(() async {
+              await _isar.transactionModels.put(remoteTx);
+            });
+          } else {
+            // Conflict Resolution: Latest updatedAt wins
+            if (remoteTx.updatedAt.isAfter(localTx.updatedAt)) {
+              debugPrint('Conflict resolved (Transaction): Remote wins for transaction ${remoteTx.uuid}');
+              await _isar.writeTxn(() async {
+                remoteTx.id = localTx.id;
+                await _isar.transactionModels.put(remoteTx);
+              });
+            }
+          }
+        } catch (itemErr) {
+          debugPrint('Error parsing transaction item: $itemErr');
+        }
+      }
+    } catch (e) {
+      debugPrint('Cloud pull synchronization error for Transactions: $e');
+    }
+
+    // 3. Pull Budgets
+    try {
+      final budgetsData = await _supabase.from('budgets').select().eq('user_id', userId);
+      for (final item in budgetsData) {
+        try {
+          final remoteBudget = BudgetModel.fromJson(item);
+          final localBudget = await _isar.budgetModels.filter().uuidEqualTo(remoteBudget.uuid).findFirst();
+
+          if (localBudget == null) {
+            await _isar.writeTxn(() async {
+              await _isar.budgetModels.put(remoteBudget);
+            });
+          } else if (remoteBudget.updatedAt.isAfter(localBudget.updatedAt)) {
+            await _isar.writeTxn(() async {
+              remoteBudget.id = localBudget.id;
+              await _isar.budgetModels.put(remoteBudget);
+            });
+          }
+        } catch (itemErr) {
+          debugPrint('Error parsing budget item: $itemErr');
+        }
+      }
+    } catch (e) {
+      debugPrint('Cloud pull synchronization error for Budgets: $e');
+    }
+
+    // 4. Pull Goals
+    try {
+      final goalsData = await _supabase.from('goals').select().eq('user_id', userId);
+      for (final item in goalsData) {
+        try {
+          final remoteGoal = GoalModel.fromJson(item);
+          final localGoal = await _isar.goalModels.filter().uuidEqualTo(remoteGoal.uuid).findFirst();
+
+          if (localGoal == null) {
+            await _isar.writeTxn(() async {
+              await _isar.goalModels.put(remoteGoal);
+            });
+          } else if (remoteGoal.updatedAt.isAfter(localGoal.updatedAt)) {
+            await _isar.writeTxn(() async {
+              remoteGoal.id = localGoal.id;
+              await _isar.goalModels.put(remoteGoal);
+            });
+          }
+        } catch (itemErr) {
+          debugPrint('Error parsing goal item: $itemErr');
+        }
+      }
+    } catch (e) {
+      debugPrint('Cloud pull synchronization error for Goals: $e');
+    }
+  }
+
+  Future<bool> hasGuestData() async {
+    final accountCount = await _isar.accountModels.filter().userIdIsNull().count();
+    final txCount = await _isar.transactionModels.filter().userIdIsNull().count();
+    return accountCount > 0 || txCount > 0;
   }
 
   Future<void> migrateGuestData() async {

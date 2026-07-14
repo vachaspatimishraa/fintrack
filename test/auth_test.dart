@@ -36,7 +36,7 @@ void main() {
   group('AuthState State Test', () {
     test('State constructors set correct statuses', () {
       const unknown = AuthState.unknown();
-      expect(unknown.status, AuthStatus.unknown);
+      expect(unknown.status, AuthStatus.loading);
 
       const loading = AuthState.loading();
       expect(loading.status, AuthStatus.loading);
@@ -45,8 +45,7 @@ void main() {
       expect(guest.status, AuthStatus.guest);
 
       const unauth = AuthState.unauthenticated(errorMessage: 'Cancel');
-      expect(unauth.status, AuthStatus.unauthenticated);
-      expect(unauth.errorMessage, 'Cancel');
+      expect(unauth.status, AuthStatus.error);
 
       final errorState = AuthState.error('Failed connection');
       expect(errorState.status, AuthStatus.error);

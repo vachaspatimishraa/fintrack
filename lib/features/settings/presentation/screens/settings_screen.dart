@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/translations.dart';
-import '../../../auth/providers/auth_provider.dart';
+import '../../../../core/utils/formatter.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../sync/providers/sync_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../domain/entities/settings_entity.dart';
 import '../../../../shared/widgets/offline_banner.dart';
@@ -28,109 +30,207 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(context.translate('settings')),
       ),
-      body: settingsAsync.when(
-        data: (settings) => ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
-            const SizedBox(height: 8),
-            Center(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    height: 48,
-                    width: 48,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    context.translate('app_title'),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: settingsAsync.when(
+          data: (settings) => ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              const SizedBox(height: 8),
+              Center(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: 48,
+                      width: 48,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
+                    const SizedBox(height: 8),
+                    Text(
+                      context.translate('app_title'),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
-            ),
-            OfflineBanner(message: context.translate('settings_managed_locally')),
-            const SizedBox(height: 16),
-            _buildProfileCard(context, user),
-            const SizedBox(height: 24),
-            _buildSectionTitle(context, context.translate('appearance')),
-            _buildAppearanceCard(context, ref, settings),
-            const SizedBox(height: 16),
-            _buildSectionTitle(context, context.translate('currency_localization')),
-            _buildLocalizationCard(context, ref, settings),
-            const SizedBox(height: 16),
-            _buildSectionTitle(context, context.translate('notifications')),
-            _buildNotificationCard(context, ref, settings),
-            const SizedBox(height: 16),
-            _buildSectionTitle(context, context.translate('privacy_security')),
-            _buildSecurityCard(context, ref, settings),
-            const SizedBox(height: 16),
-            _buildSectionTitle(context, context.translate('backup_synchronization')),
-            _buildBackupSyncCard(context, ref, settings),
-            const SizedBox(height: 16),
-            _buildSectionTitle(context, context.translate('accessibility')),
-            _buildAccessibilityCard(context, ref, settings),
-            const SizedBox(height: 16),
-            _buildSectionTitle(context, context.translate('about')),
-            _buildAboutCard(context),
-            const SizedBox(height: 16),
-            if (settings.developerModeEnabled) ...[
-              _buildSectionTitle(context, context.translate('developer')),
-              _buildDeveloperCard(context),
+              OfflineBanner(message: context.translate('settings_managed_locally')),
               const SizedBox(height: 16),
+              _buildProfileCard(context, ref, user, authState.status),
+              const SizedBox(height: 24),
+              _buildSectionTitle(context, context.translate('appearance')),
+              _buildAppearanceCard(context, ref, settings),
+              const SizedBox(height: 16),
+              _buildSectionTitle(context, context.translate('currency_localization')),
+              _buildLocalizationCard(context, ref, settings),
+              const SizedBox(height: 16),
+              _buildSectionTitle(context, context.translate('notifications')),
+              _buildNotificationCard(context, ref, settings),
+              const SizedBox(height: 16),
+              _buildSectionTitle(context, context.translate('privacy_security')),
+              _buildSecurityCard(context, ref, settings),
+              const SizedBox(height: 16),
+              _buildSectionTitle(context, context.translate('backup_synchronization')),
+              _buildBackupSyncCard(context, ref, settings),
+              const SizedBox(height: 16),
+              _buildSectionTitle(context, context.translate('accessibility')),
+              _buildAccessibilityCard(context, ref, settings),
+              const SizedBox(height: 16),
+              _buildSectionTitle(context, context.translate('about')),
+              _buildAboutCard(context),
+              const SizedBox(height: 16),
+              if (settings.developerModeEnabled) ...[
+                _buildSectionTitle(context, context.translate('developer')),
+                _buildDeveloperCard(context),
+                const SizedBox(height: 16),
+              ],
+              _buildLogoutButton(context, ref),
+              const SizedBox(height: 48),
             ],
-            _buildLogoutButton(context, ref),
-            const SizedBox(height: 48),
-          ],
+          ),
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          error: (err, _) => Center(child: Text('${context.translate('error')}: $err')),
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('${context.translate('error')}: $err')),
       ),
     );
   }
 
-  Widget _buildProfileCard(BuildContext context, dynamic user) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              child: user?.email != null
-                  ? Text(user!.email![0].toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer))
-                  : const Icon(Icons.person, size: 36),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildProfileCard(BuildContext context, WidgetRef ref, dynamic user, AuthStatus status) {
+    final theme = Theme.of(context);
+    final isGuest = status == AuthStatus.guest || status == AuthStatus.error;
+
+    if (isGuest) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Text(
-                    user?.email != null ? context.translate('logged_in_user') : context.translate('guest_mode'),
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                    child: const Icon(Icons.person_outline, size: 36, color: Colors.grey),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    user?.email ?? context.translate('guest_mode_desc'),
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 13),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Guest User',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Your data is stored locally.',
+                          style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 13),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => ref.read(authControllerProvider).loginWithGoogle(),
+                  icon: const Icon(Icons.login),
+                  label: const Text('Sign in with Google'),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      final email = user?.email ?? '';
+      final name = user?.userMetadata?['display_name'] ?? user?.userMetadata?['full_name'] ?? user?.userMetadata?['name'] ?? 'User';
+      final avatarUrl = user?.userMetadata?['avatar_url'] ?? user?.userMetadata?['picture'];
+
+      final syncState = ref.watch(syncStatusProvider);
+      final isConnected = ref.watch(connectivityStreamProvider).value ?? true;
+
+      String syncStatusText = 'Synced';
+      Color syncColor = Colors.green;
+      if (!isConnected) {
+        syncStatusText = 'Offline';
+        syncColor = Colors.red;
+      } else if (syncState.isSyncing) {
+        syncStatusText = 'Syncing...';
+        syncColor = Colors.amber;
+      }
+
+      final lastSyncStr = syncState.lastSyncTime != null 
+          ? AppFormatter.formatFriendlyDateTime(syncState.lastSyncTime!) 
+          : 'Never';
+
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+                backgroundColor: theme.colorScheme.primaryContainer,
+                child: avatarUrl == null
+                    ? const Icon(Icons.person, size: 36)
+                    : null,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      email,
+                      style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 13),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: syncColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '$syncStatusText • Cloud Sync Enabled',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Last Sync: $lastSyncStr',
+                      style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 11),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   Widget _buildSectionTitle(BuildContext context, String title) {
@@ -295,15 +395,56 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   Widget _buildLogoutButton(BuildContext context, WidgetRef ref) {
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
+    return FilledButton.icon(
+      style: FilledButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.errorContainer,
         foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
         minimumSize: const Size(double.infinity, 50),
       ),
-      onPressed: () => ref.read(authProvider.notifier).signOut(),
+      onPressed: () => _showLogoutConfirmation(context, ref),
       icon: const Icon(Icons.logout),
       label: Text(context.translate('logout')),
+    );
+  }
+
+  void _showLogoutConfirmation(BuildContext context, WidgetRef ref) {
+    final authState = ref.read(authProvider);
+    final isGuest = authState.status == AuthStatus.guest || authState.status == AuthStatus.error;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(isGuest ? 'Exit Guest Mode?' : 'Logout?'),
+          content: Text(
+            isGuest
+                ? 'Your local data will remain on this device.'
+                : 'Your local data will remain on this device. Cloud synchronization will stop.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.onError,
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+                await ref.read(authProvider.notifier).signOut();
+                if (context.mounted) {
+                  Navigator.pop(context); // Close settings screen
+                }
+              },
+              child: Text(isGuest ? 'Exit' : 'Logout'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

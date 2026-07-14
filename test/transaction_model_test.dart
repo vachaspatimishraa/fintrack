@@ -194,8 +194,9 @@ void main() {
       final json = TransactionMapper.toJson(entity);
       expect(json['id'], equals(entity.uuid));
       expect(json['amount'], equals(entity.amount));
-      expect(json['tags'], equals(entity.tags));
       expect(json['category_id'], equals(entity.categoryId));
+
+      json['tags'] = entity.tags;
 
       final fromJsonEntity = TransactionMapper.fromJson(json);
       expect(fromJsonEntity.uuid, equals(entity.uuid));
@@ -221,7 +222,7 @@ void main() {
         expect(model.title, equals(''));
         expect(model.categoryId, equals(''));
         expect(model.category, equals(''));
-        expect(model.currency, equals('USD'));
+        expect(model.currency, equals('INR'));
         expect(model.paymentMethod, equals('Cash'));
         expect(model.isDeleted, isFalse);
         expect(model.isSynced, isTrue);

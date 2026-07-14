@@ -22,7 +22,7 @@ class TransactionModel {
   double amount = 0.0;
   String title = '';
   String description = '';
-  String currency = 'USD';
+  String currency = 'INR';
   String paymentMethod = 'Cash';
   
   String? receiptUrl;
@@ -57,7 +57,8 @@ class TransactionModel {
       'is_synced': isSynced,
       'is_recurring': isRecurring,
       'is_system': isSystem,
-      'date': date.toIso8601String(),
+      'transaction_date': "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+      'transaction_time': "${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}",
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'user_id': userId,
@@ -66,26 +67,37 @@ class TransactionModel {
   }
 
   static TransactionModel fromJson(Map<String, dynamic> json) {
+    DateTime dateVal = DateTime.now();
+    try {
+      if (json['transaction_date'] != null) {
+        final dateStr = json['transaction_date'] as String;
+        final timeStr = (json['transaction_time'] as String?) ?? '00:00:00';
+        dateVal = DateTime.parse('${dateStr}T$timeStr');
+      } else if (json['date'] != null) {
+        dateVal = DateTime.parse(json['date'] as String);
+      }
+    } catch (_) {}
+
     return TransactionModel()
-      ..uuid = json['id'] as String
-      ..accountId = json['account_id'] as String
-      ..type = json['type'] as String
+      ..uuid = json['id'] as String? ?? ''
+      ..accountId = json['account_id'] as String? ?? ''
+      ..type = json['type'] as String? ?? 'expense'
       ..categoryId = json['category_id'] as String? ?? json['category'] as String? ?? ''
       ..category = json['category'] as String? ?? json['category_id'] as String? ?? ''
       ..amount = (json['amount'] as num?)?.toDouble() ?? 0.0
       ..title = json['title'] as String? ?? json['description'] as String? ?? ''
       ..description = json['description'] as String? ?? ''
-      ..currency = json['currency'] as String? ?? 'USD'
+      ..currency = json['currency'] as String? ?? 'INR'
       ..paymentMethod = json['payment_method'] as String? ?? 'Cash'
       ..receiptUrl = json['receipt_url'] as String?
       ..isDeleted = json['is_deleted'] as bool? ?? false
       ..isSynced = json['is_synced'] as bool? ?? true
       ..isRecurring = json['is_recurring'] as bool? ?? false
       ..isSystem = json['is_system'] as bool? ?? false
-      ..date = DateTime.parse(json['date'] as String)
-      ..createdAt = DateTime.parse(json['created_at'] as String)
-      ..updatedAt = DateTime.parse(json['updated_at'] as String)
+      ..date = dateVal
+      ..createdAt = json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : DateTime.now()
+      ..updatedAt = json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : DateTime.now()
       ..userId = json['user_id'] as String?
-      ..syncVersion = json['sync_version'] as int? ?? 1;
+      ..syncVersion = (json['sync_version'] as num?)?.toInt() ?? 1;
   }
 }

@@ -175,6 +175,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
       await _isar.transactionModels.put(model);
     });
 
+    assert(model.accountId.isNotEmpty);
     // Enqueue sync jobs in sync queue
     final account =
         await _isar.accountModels.filter().uuidEqualTo(model.accountId).findFirst();
@@ -224,6 +225,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         await _isar.transactionModels.put(transaction);
       });
 
+      assert(transaction.accountId.isNotEmpty);
       final account =
           await _isar.accountModels.filter().uuidEqualTo(transaction.accountId).findFirst();
       if (account != null) {
@@ -271,6 +273,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         await _isar.transactionModels.put(transaction);
       });
 
+      assert(transaction.accountId.isNotEmpty);
       final account =
           await _isar.accountModels.filter().uuidEqualTo(transaction.accountId).findFirst();
       if (account != null) {

@@ -13,7 +13,7 @@ class ExcelService {
     sheet.appendRow([
       xl.TextCellValue('Date'),
       xl.TextCellValue('Category'),
-      xl.TextCellValue('Description'),
+      xl.TextCellValue('Title'),
       xl.TextCellValue('Type'),
       xl.TextCellValue('Amount'),
     ]);
@@ -22,7 +22,7 @@ class ExcelService {
       sheet.appendRow([
         xl.TextCellValue(AppFormatter.formatDate(tx.date)),
         xl.TextCellValue(tx.category),
-        xl.TextCellValue(tx.description),
+        xl.TextCellValue(tx.title),
         xl.TextCellValue(tx.type.toUpperCase()),
         xl.DoubleCellValue(tx.amount),
       ]);

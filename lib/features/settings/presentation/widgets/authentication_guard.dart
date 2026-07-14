@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/translations.dart';
@@ -17,6 +18,8 @@ class AuthenticationGuard extends ConsumerStatefulWidget {
 }
 
 class _AuthenticationGuardState extends ConsumerState<AuthenticationGuard> with WidgetsBindingObserver {
+  bool _isAppBackground = false;
+
   @override
   void initState() {
     super.initState();
@@ -49,24 +52,13 @@ class _AuthenticationGuardState extends ConsumerState<AuthenticationGuard> with 
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _isAppBackground = state == AppLifecycleState.paused || state == AppLifecycleState.inactive;
+    });
     if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
-      ref.read(sessionManagerProvider).updateActivity();
-      final settings = ref.read(settingsProvider).value;
-      if (settings != null && settings.appLockEnabled && settings.sessionTimeout == 'immediately') {
-        ref.read(lockProvider.notifier).lock();
-      }
+      ref.read(lockProvider.notifier).handleAppPaused();
     } else if (state == AppLifecycleState.resumed) {
-      _checkLock();
-    }
-  }
-
-  void _checkLock() {
-    final settings = ref.read(settingsProvider).value;
-    if (settings != null && settings.appLockEnabled) {
-      final sessionManager = ref.read(sessionManagerProvider);
-      if (sessionManager.shouldLockSync(settings.sessionTimeout)) {
-        ref.read(lockProvider.notifier).lock();
-      }
+      ref.read(lockProvider.notifier).handleAppResumed();
     }
   }
 
@@ -78,8 +70,10 @@ class _AuthenticationGuardState extends ConsumerState<AuthenticationGuard> with 
     final currentAuthState = ref.watch(authProvider);
     final isAuthenticated = currentAuthState.status == AuthStatus.authenticated || currentAuthState.status == AuthStatus.guest;
 
-    if (lockState.isLocked && isAuthenticated) {
-      return _LockOverlay(
+    Widget currentWidget = widget.child;
+
+    if (lockState.appLockEnabled && !lockState.isUnlocked && isAuthenticated) {
+      currentWidget = _LockOverlay(
         error: lockState.error,
         onAuthenticate: () => ref.read(lockProvider.notifier).authenticate(
           context.translate('authenticate_reason'),
@@ -87,7 +81,31 @@ class _AuthenticationGuardState extends ConsumerState<AuthenticationGuard> with 
       );
     }
 
-    return widget.child;
+    if (_isAppBackground) {
+      return Stack(
+        textDirection: TextDirection.ltr,
+        children: [
+          currentWidget,
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                color: Theme.of(context).colorScheme.surface.withOpacity(0.85),
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    height: 96,
+                    width: 96,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return currentWidget;
   }
 }
 

@@ -53,7 +53,7 @@ class SettingsEntity {
     this.themeMode = 'system',
     this.dynamicColor = true,
     this.amoledMode = false,
-    this.currency = 'USD',
+    this.currency = 'INR',
     this.language = 'en',
     this.masterNotificationsEnabled = true,
     this.budgetAlertsEnabled = true,

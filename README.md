@@ -2,270 +2,145 @@
 
 <div align="center">
 
-<img src="assets/images/logo.png" alt="FinTrack Logo" width="120"/>
+<img src="assets/images/logo.png" alt="FinTrack Logo" width="140"/>
 
-### Smart Personal Finance Manager
+### Smart Personal Finance Manager built with Flutter
 
-Track income, expenses, budgets, accounts, and reports with a beautiful, fast, and privacy-focused Flutter application.
+Track expenses • Manage accounts • Backup securely • Beautiful Material 3 UI
 
-![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
-![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart)
-![Riverpod](https://img.shields.io/badge/Riverpod-State%20Management-40C4FF)
-![Isar](https://img.shields.io/badge/Isar-Database-00C853)
-![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E)
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.x-blue?logo=dart)](https://dart.dev)
+[![Supabase](https://img.shields.io/badge/Backend-Supabase-3FCF8E?logo=supabase)](https://supabase.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+---
+
+## 📥 Download
+
+<a href="https://github.com/vachaspatimshraa/fintrack/releases/latest/download/app-release.apk">
+    <img src="https://img.shields.io/badge/⬇️%20Download%20APK-Latest%20Release-success?style=for-the-badge" />
+</a>
+
+> **Replace the above GitHub Release URL with your Play Store link after publishing.**
+
+---
 
 </div>
 
----
-
-# 📖 Overview
-
-FinTrack is a modern Flutter-based personal finance application designed to help users manage their money efficiently. It provides a clean Material 3 interface, offline-first architecture, secure local storage, cloud synchronization, detailed reports, and customizable settings.
-
-The application follows **Clean Architecture**, **MVVM**, and **Riverpod** for maintainable and scalable development.
-
----
-
 # ✨ Features
 
-## 💳 Account Management
+### 💳 Account Management
 
 - Create unlimited accounts
-- Optional opening balance
-- Multiple account types
-- Automatic balance calculation
-- Account-wise transaction history
+- Cash, Bank, Wallet, Card support
+- Edit & Archive accounts
+- Automatic balance tracking
 
 ---
 
-## 💸 Transactions
+### 💸 Transaction Management
 
 - Income & Expense tracking
-- Attach receipt images
-- Transaction notes
-- Duplicate transactions
-- Edit/Delete transactions
-- Undo delete
+- Categories
 - Payment methods
-- Category management
-- Search transactions
-- Filter by date
-- Filter by account
-- Filter by category
+- Notes & descriptions
+- Receipt attachment support
+- Search & Filters
 
 ---
 
-## 📊 Dashboard
+### ☁️ Cloud Backup
+
+- Google Sign In
+- Secure Supabase Authentication
+- Automatic Account Backup
+- Automatic Transaction Backup
+- Sync across multiple devices
+- Offline-first architecture
+
+---
+
+### 📊 Dashboard
 
 - Total Balance
-- Total Income
-- Total Expenses
+- Income Summary
+- Expense Summary
 - Recent Transactions
-- Account Overview
-- Quick Actions
+- Monthly Overview
 
 ---
 
-## 📈 Reports
+### 🎨 Material You
 
-Generate reports in
-
-- PDF
-- Excel
-
-Reports include
-
-- Income
-- Expense
-- Category-wise summary
-- Account summary
-- Monthly reports
-- Custom date range
-
----
-
-## 🌙 Appearance
-
-- Light Theme
-- Dark Theme
-- AMOLED Theme
 - Material 3 Design
-- Dynamic Colors
-- Display Density
-- Text Scaling
+- Dynamic Colors (Android 12+)
+- Dark Mode
+- Light Mode
+- Adaptive UI
+- Responsive Layout
 
 ---
 
-## 🌍 Localization
+### 🔐 Security
 
-Supports
-
-- English
-- Hindi
-
-Designed to support additional languages easily.
-
----
-
-## 💱 Currency Support
-
-Currently supported
-
-- ₹ Indian Rupee
-- $ US Dollar
-- Many More 
-
-Currency updates throughout the application.
-
----
-
-## 🔐 Security
-
-- App Lock
-- Device PIN / Pattern / Password
-- Fingerprint Authentication
-- Face Unlock (Supported Devices)
+- Google Authentication
 - Secure Storage
+- User-specific Cloud Data
+- Row Level Security (RLS)
+- Offline Data Protection
 
 ---
 
-## ♿ Accessibility
+# 📱 Screenshots
 
-- High Contrast Mode
-- Reduce Motion
-- Haptic Feedback
-- Text Scaling
-- Touch Target Size
-- Keyboard Navigation
-- Screen Reader Support
+> Add screenshots here
+
+| Dashboard | Accounts | Transactions | Settings |
+|-----------|----------|--------------|----------|
+| ![](screenshots/home.png) | ![](screenshots/accounts.png) | ![](screenshots/transactions.png) | ![](screenshots/settings.png) |
 
 ---
 
-## ☁ Backup & Sync
+# 🚀 Tech Stack
 
-- Local Storage using Isar
-- Cloud Sync using Supabase
-- Manual Backup
-- Restore Backup
+## Frontend
 
----
+- Flutter
+- Dart
+- Riverpod
+- Material 3
 
-## 📱 Platform Support
+## Local Database
 
-- Android ✅
+- Isar Database
 
-Future Support
+## Backend
 
-- iOS
-- Windows
-- macOS
-- Linux
-- Web
+- Supabase
+- PostgreSQL
+- Authentication
+- Row Level Security
 
----
+## State Management
 
-# 🏗 Architecture
+- Riverpod
 
-```
-lib/
-│
-├── core/
-│   ├── constants/
-│   ├── database/
-│   ├── services/
-│   ├── theme/
-│   ├── utils/
-│   └── widgets/
-│
-├── features/
-│   ├── accounts/
-│   ├── transactions/
-│   ├── dashboard/
-│   ├── reports/
-│   ├── settings/
-│   ├── splash/
-│   └── onboarding/
-│
-├── shared/
-│
-└── main.dart
-```
+## Routing
 
----
+- GoRouter
 
-# 🛠 Tech Stack
+## Other Packages
 
-| Technology | Usage |
-|------------|-------|
-| Flutter | UI Framework |
-| Dart | Programming Language |
-| Riverpod | State Management |
-| Isar | Local Database |
-| Supabase | Cloud Backend |
-| Flutter Local Notifications | Notifications |
-| Local Auth | Biometric Authentication |
-| Image Picker | Receipt Images |
-| Share Plus | Share Transactions |
-| PDF | PDF Reports |
-| Excel | Excel Export |
-
----
-
-# 📸 Screens
-
-- Splash
-- Onboarding
-- Dashboard
-- Accounts
-- Transactions
-- Transaction Details
-- Add Transaction
-- Reports
-- Settings
-- Appearance
-- Accessibility
-- Security
-- Language
-- Currency
-- Backup
-
----
-
-# 🚀 Getting Started
-
-## Clone
-
-```bash
-git clone https://github.com/yourusername/fintrack.git
-```
-
-```bash
-cd fintrack
-```
-
----
-
-## Install Packages
-
-```bash
-flutter pub get
-```
-
----
-
-## Generate Isar Files
-
-```bash
-dart run build_runner build --delete-conflicting-outputs
-```
-
----
-
-## Run
-
-```bash
-flutter run
-```
+- Google Sign-In
+- Flutter Secure Storage
+- Shared Preferences
+- Flutter Local Notifications
+- Dynamic Color
+- Image Picker
+- File Picker
+- Excel
+- PDF
+- Share Plus
 
 ---
 
@@ -278,8 +153,8 @@ lib
 │   ├── accounts
 │   ├── transactions
 │   ├── dashboard
-│   ├── reports
 │   ├── settings
+│   ├── authentication
 │   └── splash
 ├── shared
 └── main.dart
@@ -287,74 +162,107 @@ lib
 
 ---
 
-# 🎨 Design Principles
+# ⚡ Getting Started
 
-- Material Design 3
-- Responsive UI
-- Offline First
-- Accessibility Friendly
-- Dark Mode
-- Smooth Animations
-- Production Ready Architecture
-
----
-
-# 🔒 Privacy
-
-- Data stored locally
-- Secure authentication
-- Optional cloud synchronization
-- No unnecessary permissions
-- User-controlled backups
-
----
-
-# 🧪 Testing
-
-Run tests
+## Clone
 
 ```bash
-flutter test
+git clone https://github.com/vachaspatimishraa/FinTrack.git
 ```
 
-Analyze code
-
-```bash
-flutter analyze
 ```
-
-Format code
-
-```bash
-dart format .
+cd FinTrack
 ```
 
 ---
 
-# 📌 Roadmap
+## Install
 
-- Investment Tracking
-- Budget Planner
-- Recurring Transactions
-- Goals & Savings
-- OCR Receipt Scanner
-- AI Spending Insights
-- Bank Synchronization
-- Widgets
-- Wear OS Support
+```bash
+flutter pub get
+```
+
+---
+
+## Configure Environment
+
+Create a `.env` file.
+
+```env
+SUPABASE_URL=YOUR_SUPABASE_URL
+
+SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+
+GOOGLE_WEB_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+
+GOOGLE_IOS_CLIENT_ID=
+```
+
+---
+
+## Run
+
+```bash
+flutter run
+```
+
+---
+
+# 📦 Build APK
+
+```bash
+flutter build apk --release
+```
+
+---
+
+# 🍎 Build iOS
+
+```bash
+flutter build ios
+```
+
+---
+
+# ☁️ Backend
+
+FinTrack uses **Supabase** for:
+
+- Authentication
+- Cloud Sync
+- PostgreSQL Database
+- Row Level Security
+- Multi-device Backup
+
+---
+
+# 🔄 Synchronization
+
+✔ Offline First
+
+✔ Automatic Sync
+
+✔ Multi-device Backup
+
+✔ Secure Authentication
+
+✔ Last Sync Tracking
 
 ---
 
 # 🤝 Contributing
 
+Contributions are welcome!
+
 1. Fork the repository
-2. Create a feature branch
+
+2. Create your feature branch
 
 ```bash
-git checkout -b feature/your-feature
+git checkout -b feature/new-feature
 ```
 
-3. Commit your changes
+3. Commit changes
 
 ```bash
 git commit -m "Add new feature"
@@ -363,10 +271,18 @@ git commit -m "Add new feature"
 4. Push
 
 ```bash
-git push origin feature/your-feature
+git push origin feature/new-feature
 ```
 
 5. Open a Pull Request
+
+---
+
+# ⭐ Support
+
+If you like this project, please consider giving it a ⭐ on GitHub.
+
+It helps the project grow and motivates further development.
 
 ---
 
@@ -374,6 +290,18 @@ git push origin feature/your-feature
 
 **Vachaspati Mishra**
 
-Flutter Developer
+GitHub: https://github.com/vachaspatimishraa
 
-Built with ❤️ using Flutter.
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+
+### Made with ❤️ using Flutter & Supabase
+
+</div>

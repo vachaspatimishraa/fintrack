@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/translations.dart';
 
 class AppTranslations {
   static const Map<String, Map<String, String>> _localizedValues = {

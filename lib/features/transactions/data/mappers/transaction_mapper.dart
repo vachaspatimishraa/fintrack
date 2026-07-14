@@ -25,6 +25,7 @@ class TransactionMapper {
       updatedAt: model.updatedAt,
       userId: model.userId,
       syncVersion: model.syncVersion,
+      tags: model.tags,
     );
   }
 
@@ -50,10 +51,22 @@ class TransactionMapper {
       ..createdAt = entity.createdAt
       ..updatedAt = entity.updatedAt
       ..userId = entity.userId
-      ..syncVersion = entity.syncVersion;
+      ..syncVersion = entity.syncVersion
+      ..tags = entity.tags;
   }
 
   static TransactionEntity fromJson(Map<String, dynamic> json) {
+    DateTime dateVal = DateTime.now();
+    try {
+      if (json['transaction_date'] != null) {
+        final dateStr = json['transaction_date'] as String;
+        final timeStr = (json['transaction_time'] as String?) ?? '00:00:00';
+        dateVal = DateTime.parse('${dateStr}T$timeStr');
+      } else if (json['date'] != null) {
+        dateVal = DateTime.parse(json['date'] as String);
+      }
+    } catch (_) {}
+
     return TransactionEntity(
       uuid: json['id'] as String? ?? json['uuid'] as String? ?? '',
       accountId: json['account_id'] as String? ?? '',
@@ -63,7 +76,7 @@ class TransactionMapper {
       amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
       title: json['title'] as String? ?? json['description'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      currency: json['currency'] as String? ?? 'USD',
+      currency: json['currency'] as String? ?? 'INR',
       paymentMethod: json['payment_method'] as String? ?? 'Cash',
       receiptUrl: json['receipt_url'] as String?,
       receiptLocalPath: json['receipt_local_path'] as String?,
@@ -71,11 +84,12 @@ class TransactionMapper {
       isSynced: json['is_synced'] as bool? ?? true,
       isRecurring: json['is_recurring'] as bool? ?? false,
       isSystem: json['is_system'] as bool? ?? false,
-      date: json['date'] != null ? DateTime.parse(json['date'] as String) : DateTime.now(),
+      date: dateVal,
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : DateTime.now(),
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : DateTime.now(),
       userId: json['user_id'] as String?,
-      syncVersion: json['sync_version'] as int? ?? 1,
+      syncVersion: (json['sync_version'] as num?)?.toInt() ?? 1,
+      tags: (json['tags'] as List?)?.map((e) => e as String).toList() ?? const [],
     );
   }
 
@@ -96,7 +110,8 @@ class TransactionMapper {
       'is_synced': entity.isSynced,
       'is_recurring': entity.isRecurring,
       'is_system': entity.isSystem,
-      'date': entity.date.toIso8601String(),
+      'transaction_date': "${entity.date.year.toString().padLeft(4, '0')}-${entity.date.month.toString().padLeft(2, '0')}-${entity.date.day.toString().padLeft(2, '0')}",
+      'transaction_time': "${entity.date.hour.toString().padLeft(2, '0')}:${entity.date.minute.toString().padLeft(2, '0')}:${entity.date.second.toString().padLeft(2, '0')}",
       'created_at': entity.createdAt.toIso8601String(),
       'updated_at': entity.updatedAt.toIso8601String(),
       'user_id': entity.userId,

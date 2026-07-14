@@ -42,14 +42,14 @@ class AccountModel {
 
   static AccountModel fromJson(Map<String, dynamic> json) {
     return AccountModel()
-      ..uuid = json['id'] as String
-      ..name = json['name'] as String
-      ..type = json['type'] as String
-      ..balance = (json['balance'] as num).toDouble()
-      ..icon = json['icon'] as String
-      ..colorValue = json['color_value'] as int
-      ..createdAt = DateTime.parse(json['created_at'] as String)
-      ..updatedAt = DateTime.parse(json['updated_at'] as String)
+      ..uuid = json['id'] as String? ?? ''
+      ..name = json['name'] as String? ?? ''
+      ..type = json['type'] as String? ?? 'Cash'
+      ..balance = (json['balance'] as num?)?.toDouble() ?? 0.0
+      ..icon = json['icon'] as String? ?? 'wallet'
+      ..colorValue = (json['color_value'] as num?)?.toInt() ?? 0xFF3F51B5
+      ..createdAt = json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : DateTime.now()
+      ..updatedAt = json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : DateTime.now()
       ..userId = json['user_id'] as String?
       ..isArchived = json['is_archived'] as bool? ?? false
       ..isDeleted = json['is_deleted'] as bool? ?? false

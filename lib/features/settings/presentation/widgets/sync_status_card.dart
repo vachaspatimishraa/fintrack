@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../../../../core/utils/formatter.dart';
 
 class SyncStatusCard extends StatelessWidget {
   final bool isSyncing;
@@ -16,7 +16,7 @@ class SyncStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lastSyncStr = lastSyncAt != null 
-        ? DateFormat('MMM d, h:mm a').format(lastSyncAt!) 
+        ? AppFormatter.formatFriendlyDateTime(lastSyncAt!) 
         : 'Never';
 
     return Card(

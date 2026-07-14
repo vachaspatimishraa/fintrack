@@ -70,7 +70,7 @@ class BackupSettingsScreen extends ConsumerWidget {
         const SizedBox(height: 8),
         SyncStatusCard(
           isSyncing: syncState.isSyncing,
-          lastSyncAt: settings.lastSyncAt,
+          lastSyncAt: syncState.lastSyncTime,
           onSyncTap: () => ref.read(backupControllerProvider).triggerCloudSync(),
         ),
       ],

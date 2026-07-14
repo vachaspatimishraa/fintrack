@@ -17,7 +17,7 @@ class GoalModel {
   
   double targetAmount = 0.0;
   double currentAmount = 0.0;
-  String currency = 'USD';
+  String currency = 'INR';
   
   @Index()
   DateTime startDate = DateTime.now();
@@ -76,19 +76,19 @@ class GoalModel {
       ..description = json['description'] as String?
       ..targetAmount = (json['target_amount'] as num?)?.toDouble() ?? 0.0
       ..currentAmount = (json['current_amount'] as num?)?.toDouble() ?? 0.0
-      ..currency = json['currency'] as String? ?? 'USD'
-      ..startDate = DateTime.parse(json['start_date'] as String)
-      ..deadline = DateTime.parse(json['deadline'] as String)
+      ..currency = json['currency'] as String? ?? 'INR'
+      ..startDate = json['start_date'] != null ? DateTime.parse(json['start_date'] as String) : DateTime.now()
+      ..deadline = json['deadline'] != null ? DateTime.parse(json['deadline'] as String) : DateTime.now()
       ..status = json['status'] as String? ?? 'active'
-      ..priority = json['priority'] as int? ?? 3
+      ..priority = (json['priority'] as num?)?.toInt() ?? 3
       ..category = json['category'] as String? ?? ''
       ..color = json['color'] as String?
       ..icon = json['icon'] as String?
-      ..createdAt = DateTime.parse(json['created_at'] as String)
-      ..updatedAt = DateTime.parse(json['updated_at'] as String)
+      ..createdAt = json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : DateTime.now()
+      ..updatedAt = json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : DateTime.now()
       ..isDeleted = json['is_deleted'] as bool? ?? false
       ..syncStatus = json['sync_status'] as String? ?? 'synced'
-      ..version = json['version'] as int? ?? 1;
+      ..version = (json['version'] as num?)?.toInt() ?? 1;
   }
 }
 

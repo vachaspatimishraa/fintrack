@@ -25,7 +25,7 @@ class BudgetApiContract {
 
   /// Field Mappings (JSON keys)
   static const String fId = 'id';
-  static const String fOwnerId = 'owner_id';
+  static const String fOwnerId = 'user_id';
   static const String fTitle = 'title';
   static const String fAmount = 'amount';
   static const String fSpentAmount = 'spent_amount';
