@@ -17,11 +17,9 @@ Track expenses • Manage accounts • Backup securely • Beautiful Material 3 
 
 ## 📥 Download
 
-# 📱 Download APK
-
 <p align="center">
 
-## ⬇️ **[Download Latest APK](https://github.com/vachaspatimishraa/fintrack/raw/main/apk/app-release.apk)**
+## ⬇️ **[Download Latest APK](https://github.com/vachaspatimshraa/fintrack/raw/main/apk/app-release.apk)**
 
 </p>
 
