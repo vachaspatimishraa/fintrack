@@ -21,7 +21,6 @@ Track expenses • Manage accounts • Backup securely • Beautiful Material 3 
     <img src="https://img.shields.io/badge/⬇️%20Download%20APK-Latest%20Release-success?style=for-the-badge" />
 </a>
 
-> **Replace the above GitHub Release URL with your Play Store link after publishing.**
 
 ---
 
