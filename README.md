@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest/download/FinTrack_Universal.apk">
     <img src="https://img.shields.io/badge/Download-APK-success?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
   </a>
 </p>
@@ -46,10 +46,9 @@ FinTrack is a premium personal finance application designed to give you complete
 
 # 📥 Installation
 
-1. **Visit Releases**: Click the **Download APK** button at the top or go to the [Releases](https://github.com/vachaspatimishraa/fintrack/releases) page.
-2. **Download**: Download the latest `.apk` file (usually named `app-release.apk` or `FinTrack.apk`).
-3. **Install**: Open the downloaded file on your Android device.
-4. **Allow Permissions**: If prompted, allow installation from unknown sources.
+1. **Download the APK**: Click the **Download APK** button at the top of this page.
+2. **Install**: Open the downloaded `.apk` file on your Android device.
+3. **Allow Permissions**: If prompted, allow installation from unknown sources.
 
 ---
 

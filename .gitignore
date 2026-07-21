@@ -8,6 +8,7 @@
 .build/
 .buildlog/
 .history
+.env
 .svn/
 .swiftpm/
 migrate_working_dir/
@@ -43,3 +44,30 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+# Flutter
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+
+# Android
+android/.gradle/
+android/local.properties
+key.properties
+*.jks
+*.keystore
+
+# iOS
+ios/Pods/
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Generated
+*.apk
+*.aab
