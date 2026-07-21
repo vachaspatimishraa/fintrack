@@ -44,25 +44,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+# Environment
+.env
+.env.*
+
+# Android signing
+android/local.properties
+key.properties
+*.jks
+*.keystore
+
 # Flutter
 .dart_tool/
 .packages
 .flutter-plugins
 .flutter-plugins-dependencies
 build/
-
-# Android
-android/.gradle/
-android/local.properties
-key.properties
-*.jks
-*.keystore
-
-# iOS
-ios/Pods/
-
-# Environment
-.env
 
 # IDE
 .idea/

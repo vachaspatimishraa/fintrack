@@ -45,15 +45,6 @@ android {
         checkReleaseBuilds = false
         abortOnError = false
     }
-
-    applicationVariants.all {
-        outputs.all {
-            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            if (buildType.name == "release") {
-                output.outputFileName = "FinTrack_Universal.apk"
-            }
-        }
-    }
 }
 
 flutter {

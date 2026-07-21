@@ -6,11 +6,11 @@
 
 <p align="center">
   <font size="6"><b>FinTrack</b></font><br>
-  <i>A modern, elegant, and secure offline-first personal finance manager.</i>
+  <i>A modern, secure, and offline-first personal finance manager.</i>
 </p>
 
 <p align="center">
-  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest/download/FinTrack_Universal.apk">
+  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
     <img src="https://img.shields.io/badge/Download-APK-success?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
   </a>
 </p>
@@ -46,9 +46,10 @@ FinTrack is a premium personal finance application designed to give you complete
 
 # 📥 Installation
 
-1. **Download the APK**: Click the **Download APK** button at the top of this page.
-2. **Install**: Open the downloaded `.apk` file on your Android device.
-3. **Allow Permissions**: If prompted, allow installation from unknown sources.
+1. **Visit Releases**: Click the **Download APK** button at the top or go to the [Releases](https://github.com/vachaspatimishraa/fintrack/releases) page.
+2. **Download**: Download the APK file matching your device architecture (usually **arm64-v8a** for modern phones).
+3. **Install**: Open the downloaded `.apk` file on your Android device.
+4. **Allow Permissions**: If prompted, allow installation from unknown sources.
 
 ---
 
@@ -78,7 +79,6 @@ Isar Database      Supabase
 - **Local Database**: Isar (High performance, NoSQL)
 - **Cloud Backend**: Supabase (Auth, DB, Storage)
 - **Design**: Material 3 (Dynamic Color Support)
-- **Reporting**: PDF & Excel JS services
 
 ---
 
