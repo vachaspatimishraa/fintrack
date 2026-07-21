@@ -1,221 +1,95 @@
 # <p align="center">💰 FinTrack</p>
 
 <p align="center">
-A modern, offline-first personal finance manager built with Flutter.
+  <img src="assets/images/logo.png" width="140" alt="FinTrack Logo">
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter">
-<img src="https://img.shields.io/badge/Dart-3.x-blue?logo=dart">
-<img src="https://img.shields.io/badge/Platform-Android-success">
-<img src="https://img.shields.io/badge/License-MIT-green">
+  <font size="6"><b>FinTrack</b></font><br>
+  <i>A modern, elegant, and secure offline-first personal finance manager.</i>
 </p>
 
 <p align="center">
-<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest/download/app-release.apk">
+  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest/download/app-release.apk">
     <img src="https://img.shields.io/badge/Download-APK-success?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
-</a>
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter">
+  <img src="https://img.shields.io/badge/Dart-3.x-blue?logo=dart">
+  <img src="https://img.shields.io/badge/Platform-Android-success">
+  <img src="https://img.shields.io/badge/License-MIT-green">
 </p>
 
 ---
 
 # 📱 About
 
-FinTrack is a modern personal finance application designed to help users manage their income, expenses, accounts, and financial activities with a beautiful Material 3 interface.
-
-The app is **offline-first**, meaning everything works without an internet connection. Whenever internet becomes available, data is securely synchronized with Supabase.
+FinTrack is a premium personal finance application designed to give you complete control over your money. Built with **privacy and speed** in mind, it operates entirely offline, ensuring your financial data never leaves your device unless you choose to sync it.
 
 ---
 
 # ✨ Features
 
-## 💳 Account Management
-
-- Create unlimited accounts
-- Cash, Bank, Wallet & Card support
-- Archive accounts
-- Delete & restore accounts
-- Account balance tracking
-
----
-
-## 💸 Transaction Management
-
-- Add Income
-- Add Expenses
-- Edit Transactions
-- Delete Transactions
-- Transaction Categories
-- Payment Methods
-- Notes
-- Receipt Support
-- Search Transactions
-- Filter Transactions
+- 📱 **Offline First**: All data is stored locally. No internet? No problem.
+- ☁️ **Cloud Sync**: Securely backup and sync your data across devices using Supabase.
+- 🔐 **App Lock**: Protect your financial records with Biometric (Fingerprint/Face) or Device PIN.
+- 💳 **Multiple Accounts**: Manage separate wallets, bank accounts, and cards in one place.
+- 💸 **Transaction Tracking**: Easy logging of income and expenses with detailed categories.
+- 📊 **Smart Reports**: Visualize your spending patterns with elegant charts.
+- 📄 **Professional Exports**: Generate beautiful PDF and Excel reports for your records.
+- 🎨 **Material 3**: A modern UI that respects your system's dynamic color theme.
+- 🌙 **Dark & AMOLED**: Stunning dark modes to save battery and reduce eye strain.
 
 ---
 
-## ☁ Cloud Sync
+# 📥 Installation
 
-- Google Sign-In
-- Secure Authentication
-- Supabase Cloud Backup
-- Automatic Sync
-- Offline First
-- Conflict Resolution
-- Restore Data on Login
-
----
-
-## 📊 Reports
-
-- Income Summary
-- Expense Summary
-- Balance Tracking
-- Category Breakdown
-- Account Analytics
-
----
-
-## 📤 Export
-
-- Export to Excel
-- Export to PDF
-- Share Reports
-
----
-
-## 🎨 Personalization
-
-- Material 3 Design
-- Dynamic Colors
-- Light Theme
-- Dark Theme
-- Multiple Languages
-- Adjustable Font Size
+1. **Download the APK**: Click the **Download APK** button at the top of this page.
+2. **Install**: Open the downloaded `.apk` file on your Android device.
+3. **Allow Permissions**: If prompted, allow installation from unknown sources (this is required for apps downloaded outside the Play Store).
 
 ---
 
 # 🏗 Architecture
 
+FinTrack uses a robust repository pattern coupled with Riverpod for state management, ensuring a scalable and testable codebase.
+
 ```
-Flutter
-     │
-Riverpod
-     │
-Repository Pattern
-     │
+Flutter (Presentation)
+    │
+Riverpod (State Management)
+    │
+Repositories (Data Layer)
+    │
 ────────────────────────
 │                      │
 Isar Database      Supabase
-(Local)            (Cloud)
+(Local Storage)    (Cloud Backup)
 ```
 
 ---
 
 # 🛠 Tech Stack
 
-- Flutter
-- Dart
-- Riverpod
-- Isar Database
-- Supabase
-- Google Authentication
-- Material 3
-- Dynamic Color
-- Go Router
-- Shared Preferences
+- **Framework**: Flutter (Dart)
+- **State Management**: Riverpod
+- **Local Database**: Isar (High performance, NoSQL)
+- **Cloud Backend**: Supabase (Auth, DB, Storage)
+- **Design**: Material 3 (Dynamic Color Support)
+- **Reporting**: PDF & Excel JS services
 
 ---
 
-# 📂 Project Structure
-
-```
-lib/
-
-├── core/
-├── features/
-├── shared/
-├── app/
-├── main.dart
-```
-
----
-
-# 🚀 Getting Started
-
-Clone the project
-
-```bash
-git clone https://github.com/vachaspatimishraa/fintrack.git
-```
-
-Move into project
-
-```bash
-cd fintrack
-```
-
-Install packages
-
-```bash
-flutter pub get
-```
-
-Create
-
-```
-.env
-```
-
-```
-SUPABASE_URL=YOUR_SUPABASE_URL
-SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
-GOOGLE_WEB_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
-```
-
-Run
-
-```bash
-flutter run
-```
-
----
-
-# 🔐 Backend
-
-Powered by
-
-- Supabase Authentication
-- Supabase Database
-- Row Level Security (RLS)
-- Google OAuth
-
----
-
-# 📦 Releases
-
-### [Download Latest APK](https://github.com/vachaspatimishraa/fintrack/releases/latest/download/app-release.apk)
-
----
-
-# 📄 License
-
-This project is released under the MIT License.
-
----
-
-# 👨‍💻 Developer
+# 🚀 Developer
 
 **Vachaspati Mishra**
 
-GitHub
-
-https://github.com/vachaspatimishraa
+GitHub: [vachaspatimishraa](https://github.com/vachaspatimishraa)
 
 ---
 
 <p align="center">
-
-⭐ If you like this project, consider giving it a star.
-
+  ⭐ If you find this project helpful, please give it a star!
 </p>
