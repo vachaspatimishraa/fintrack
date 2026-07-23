@@ -29,11 +29,5 @@ void main() {
 
       expect(themeData.scaffoldBackgroundColor, isNot(Colors.black));
     });
-
-    test('Font scale should be correct', () {
-      expect(ThemeService.getFontScale('small'), 0.8);
-      expect(ThemeService.getFontScale('default'), 1.0);
-      expect(ThemeService.getFontScale('extra_large'), 1.4);
-    });
   });
 }

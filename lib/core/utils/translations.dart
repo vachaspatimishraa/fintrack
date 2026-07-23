@@ -16,6 +16,8 @@ class AppTranslations {
       'balance': 'Balance',
       'search': 'Search',
       'add_account': 'Add Account',
+      'add_transaction': 'Add Transaction',
+      'edit_transaction': 'Edit Transaction',
       'save_transaction': 'Save Transaction',
       'update_transaction': 'Update Transaction',
       'delete': 'Delete',
@@ -55,13 +57,15 @@ class AppTranslations {
       'account_created_success': 'Account created successfully.',
       'account_updated': 'Account updated.',
       'opening_balance_desc': 'Initial balance for ',
-      'leave_empty_for_zero': 'Leave empty if you don\'t want to add an opening balance.',
+      'leave_empty_for_zero':
+          'Leave empty if you don\'t want to add an opening balance.',
       'enter_valid_amount': 'Enter a valid amount.',
       'enter_account_name': 'Please enter an account name.',
       'max_chars_40': 'Maximum 40 characters allowed.',
       'max_chars_500': 'Maximum 500 characters allowed.',
       'no_accounts_yet': 'No Accounts Yet',
-      'create_first_account_sub': 'Create your first account to start tracking your finances.',
+      'create_first_account_sub':
+          'Create your first account to start tracking your finances.',
       'overview': 'Overview',
       'clear_filters': 'Clear Filters',
       'today': 'Today',
@@ -97,7 +101,8 @@ class AppTranslations {
       'please_select_category': 'Please select a category.',
       'please_select_payment_method': 'Please select a payment method.',
       'restore_draft': 'Restore Draft?',
-      'restore_draft_desc': 'Do you want to restore the unsaved changes from your previous draft?',
+      'restore_draft_desc':
+          'Do you want to restore the unsaved changes from your previous draft?',
       'discard': 'Discard',
       'restore': 'Restore',
       'camera': 'Camera',
@@ -122,7 +127,8 @@ class AppTranslations {
       'add_receipt': 'Add Receipt',
       'view': 'View',
       'error': 'Error',
-      'create_account_before_tx': 'You must create at least one account/wallet before adding transactions.',
+      'create_account_before_tx':
+          'You must create at least one account/wallet before adding transactions.',
       'go_back': 'Go Back',
       'select_payment_method': 'Select Payment Method',
       'synced': 'Synced',
@@ -134,7 +140,8 @@ class AppTranslations {
       'receipt': 'Receipt',
       'remove_receipt': 'Remove Receipt',
       'remove_receipt_title': 'Remove Receipt?',
-      'remove_receipt_desc': 'Are you sure you want to remove the receipt attachment?',
+      'remove_receipt_desc':
+          'Are you sure you want to remove the receipt attachment?',
       'duplicate': 'Duplicate',
       'delete_transaction': 'Delete Transaction',
       'remove': 'Remove',
@@ -174,11 +181,14 @@ class AppTranslations {
       'hide_account_balances': 'Hide Account Balances',
       'hide_account_balances_desc': 'Hide balances on the accounts screen',
       'hide_dashboard_amounts': 'Hide Dashboard Amounts',
-      'hide_dashboard_amounts_desc': 'Conceal financial values on the dashboard',
+      'hide_dashboard_amounts_desc':
+          'Conceal financial values on the dashboard',
       'hide_recent_transactions': 'Hide Recent Transactions',
-      'hide_recent_transactions_desc': 'Mask transaction history in the overview',
+      'hide_recent_transactions_desc':
+          'Mask transaction history in the overview',
       'hide_analytics_values': 'Hide Analytics Values',
-      'hide_analytics_values_desc': 'Remove exact figures from charts and reports',
+      'hide_analytics_values_desc':
+          'Remove exact figures from charts and reports',
       'screenshot_protection': 'Screenshot Protection',
       'screenshot_protection_desc': 'Prevent screenshots and screen recordings',
       'locked_title': 'FinTrack is Locked',
@@ -208,7 +218,8 @@ class AppTranslations {
       'manual_mode': 'Manual Mode',
       'developer': 'Developer',
       'no_transactions_yet': 'No Transactions Yet',
-      'empty_transactions_sub': 'Start tracking your finances by adding your first transaction.',
+      'empty_transactions_sub':
+          'Start tracking your finances by adding your first transaction.',
       'alphabetical': 'Name (A-Z)',
       'newest': 'Newest First',
       'oldest': 'Oldest First',
@@ -226,7 +237,8 @@ class AppTranslations {
       'restore_from_archive': 'Restore from Archive',
       'delete_account': 'Delete Account',
       'delete_account_title': 'Delete Account?',
-      'delete_account_desc': 'Are you sure you want to delete {name}? This will perform a soft-delete and the account will be hidden. Transactions will remain in the database.',
+      'delete_account_desc':
+          'Are you sure you want to delete {name}? This will perform a soft-delete and the account will be hidden. Transactions will remain in the database.',
       'deleted_success': 'deleted successfully.',
       'no_account_selected': 'No Account Selected',
       'open_navigation_drawer': 'Open Navigation Drawer',
@@ -250,7 +262,8 @@ class AppTranslations {
       'done': 'Done',
       'add_another': 'Add Another',
       'transaction_saved': 'Transaction Saved',
-      'saved_locally_sync': 'Transaction saved locally. It will be synced when you are online.',
+      'saved_locally_sync':
+          'Transaction saved locally. It will be synced when you are online.',
       'no_accounts_found': 'No Accounts Found',
       'payment_cash': 'Cash',
       'payment_upi': 'UPI',
@@ -284,7 +297,8 @@ class AppTranslations {
       'share_selected': 'Share Selected',
       'delete_selected': 'Delete Selected',
       'delete_selected_title': 'Delete Transactions',
-      'delete_selected_desc': 'Are you sure you want to delete {count} transactions?',
+      'delete_selected_desc':
+          'Are you sure you want to delete {count} transactions?',
       'sort_options': 'Sort Options',
       'filter_list': 'Filter List',
       'error_loading_transactions': 'Error loading transactions',
@@ -306,6 +320,8 @@ class AppTranslations {
       'balance': 'शेष राशि',
       'search': 'खोजें',
       'add_account': 'खाता जोड़ें',
+      'add_transaction': 'लेन-देन जोड़ें',
+      'edit_transaction': 'लेन-देन संपादित करें',
       'save_transaction': 'लेन-देन सहेजें',
       'update_transaction': 'लेन-देन अपडेट करें',
       'delete': 'हटाएं',
@@ -345,13 +361,15 @@ class AppTranslations {
       'account_created_success': 'खाता सफलतापूर्वक बनाया गया।',
       'account_updated': 'खाता अपडेट किया गया।',
       'opening_balance_desc': 'इसके लिए प्रारंभिक शेष राशि: ',
-      'leave_empty_for_zero': 'यदि आप प्रारंभिक शेष राशि नहीं जोड़ना चाहते हैं तो खाली छोड़ दें।',
+      'leave_empty_for_zero':
+          'यदि आप प्रारंभिक शेष राशि नहीं जोड़ना चाहते हैं तो खाली छोड़ दें।',
       'enter_valid_amount': 'एक वैध राशि दर्ज करें।',
       'enter_account_name': 'कृपया खाते का नाम दर्ज करें।',
       'max_chars_40': 'अधिकतम 40 वर्णों की अनुमति है।',
       'max_chars_500': 'अधिकतम 500 वर्णों की अनुमति है।',
       'no_accounts_yet': 'अभी तक कोई खाता नहीं है',
-      'create_first_account_sub': 'अपने वित्त को ट्रैक करना शुरू करने के लिए अपना पहला खाता बनाएं।',
+      'create_first_account_sub':
+          'अपने वित्त को ट्रैक करना शुरू करने के लिए अपना पहला खाता बनाएं।',
       'overview': 'अवलोकन',
       'clear_filters': 'फ़िल्टर साफ़ करें',
       'today': 'आज',
@@ -386,7 +404,8 @@ class AppTranslations {
       'please_select_category': 'कृपया एक श्रेणी चुनें।',
       'please_select_payment_method': 'कृपया भुगतान विधि चुनें।',
       'restore_draft': 'ड्राफ्ट बहाल करें?',
-      'restore_draft_desc': 'क्या आप अपने पिछले ड्राफ्ट से सहेजे न गए परिवर्तनों को बहाल करना चाहते हैं?',
+      'restore_draft_desc':
+          'क्या आप अपने पिछले ड्राफ्ट से सहेजे न गए परिवर्तनों को बहाल करना चाहते हैं?',
       'discard': 'त्यागें',
       'restore': 'बहाल करें',
       'camera': 'कैमरा',
@@ -411,7 +430,8 @@ class AppTranslations {
       'add_receipt': 'रसीद जोड़ें',
       'view': 'देखें',
       'error': 'त्रुटि',
-      'create_account_before_tx': 'लेन-देन जोड़ने से पहले आपको कम से कम एक खाता/वॉलेट बनाना होगा।',
+      'create_account_before_tx':
+          'लेन-देन जोड़ने से पहले आपको कम से कम एक खाता/वॉलेट बनाना होगा।',
       'go_back': 'वापस जाएं',
       'select_payment_method': 'भुगतान विधि चुनें',
       'synced': 'सिंक किया गया',
@@ -481,7 +501,8 @@ class AppTranslations {
       'normal': 'सामान्य',
       'startup_failed': 'स्टार्टअप आरंभीकरण विफल रहा',
       'retry_startup': 'स्टार्टअप पुनः प्रयास करें',
-      'settings_managed_locally': 'सेटिंग्स स्थानीय रूप से प्रबंधित की जाती हैं।',
+      'settings_managed_locally':
+          'सेटिंग्स स्थानीय रूप से प्रबंधित की जाती हैं।',
       'logged_in_user': 'लॉग इन उपयोगकर्ता',
       'guest_user': 'अतिथि उपयोगकर्ता',
       'guest_mode': 'अतिथि मोड',
@@ -494,7 +515,8 @@ class AppTranslations {
       'manual_mode': 'मैनुअल मोड',
       'developer': 'डेवलपर',
       'no_transactions_yet': 'अभी तक कोई लेन-देन नहीं है',
-      'empty_transactions_sub': 'अपना पहला लेन-देन जोड़कर अपने वित्त को ट्रैक करना शुरू करें।',
+      'empty_transactions_sub':
+          'अपना पहला लेन-देन जोड़कर अपने वित्त को ट्रैक करना शुरू करें।',
       'alphabetical': 'नाम (A-Z)',
       'newest': 'नवीनतम पहले',
       'oldest': 'सबसे पुराना पहले',
@@ -533,7 +555,8 @@ class AppTranslations {
       'done': 'हो गया',
       'add_another': 'एक और जोड़ें',
       'transaction_saved': 'लेन-देन सहेजा गया',
-      'saved_locally_sync': 'लेन-देन स्थानीय रूप से सहेजा गया। आपके ऑनलाइन होने पर यह सिंक हो जाएगा।',
+      'saved_locally_sync':
+          'लेन-देन स्थानीय रूप से सहेजा गया। आपके ऑनलाइन होने पर यह सिंक हो जाएगा।',
       'no_accounts_found': 'कोई खाता नहीं मिला',
       'payment_cash': 'नकद',
       'payment_upi': 'UPI',
@@ -572,7 +595,8 @@ class AppTranslations {
       'filter_list': 'फ़िल्टर सूची',
       'error_loading_transactions': 'लेन-देन लोड करने में त्रुटि',
       'no_matching_transactions': 'कोई मिलान वाला लेन-देन नहीं',
-      'no_matching_transactions_sub': 'अपनी खोज या फ़िल्टर को समायोजित करने का प्रयास करें।',
+      'no_matching_transactions_sub':
+          'अपनी खोज या फ़िल्टर को समायोजित करने का प्रयास करें।',
       'sign_in_with_google': 'गूगल के साथ साइन इन करें',
     },
   };
@@ -580,7 +604,9 @@ class AppTranslations {
   static String translate(BuildContext context, String key) {
     final locale = Localizations.localeOf(context);
     final languageCode = locale.languageCode;
-    return _localizedValues[languageCode]?[key] ?? _localizedValues['en']?[key] ?? key;
+    return _localizedValues[languageCode]?[key] ??
+        _localizedValues['en']?[key] ??
+        key;
   }
 }
 

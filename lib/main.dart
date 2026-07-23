@@ -66,12 +66,7 @@ class FinTrackApp extends ConsumerWidget {
                   supportedLocales: LocalizationService.getSupportedLocales(),
                   builder: (context, child) {
                     return AuthenticationGuard(
-                      child: MediaQuery(
-                        data: MediaQuery.of(context).copyWith(
-                          textScaler: TextScaler.linear(ThemeService.getFontScale(settings.fontScale)),
-                        ),
-                        child: child!,
-                      ),
+                      child: child!,
                     );
                   },
                 );

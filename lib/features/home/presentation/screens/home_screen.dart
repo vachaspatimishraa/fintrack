@@ -3,13 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../accounts/providers/account_provider.dart';
 import '../../../accounts/presentation/screens/account_list_screen.dart';
 import '../../../accounts/presentation/screens/create_account_screen.dart';
-import '../../../accounts/presentation/widgets/account_picker_bottom_sheet.dart';
 import '../../../transactions/providers/transaction_provider.dart';
-import '../../../transactions/presentation/screens/transactions_screen.dart';
 import '../../../transactions/presentation/screens/add_edit_transaction_screen.dart';
-import '../../../settings/presentation/screens/settings_screen.dart';
 import '../../../auth/providers/auth_provider.dart';
-import '../../../auth/presentation/screens/login_screen.dart';
 import '../../domain/models/dashboard_model.dart';
 import '../../domain/models/home_state.dart';
 import '../../providers/home_provider.dart';
@@ -45,8 +41,11 @@ class DashboardTab extends ConsumerWidget {
     final accountsAsync = ref.watch(accountsStreamProvider);
 
     ref.listen<AuthState>(authProvider, (previous, next) async {
-      if (next.status == AuthStatus.authenticated && previous?.status != AuthStatus.authenticated) {
-        final hasGuestData = await ref.read(authProvider.notifier).hasGuestData();
+      if (next.status == AuthStatus.authenticated &&
+          previous?.status != AuthStatus.authenticated) {
+        final hasGuestData = await ref
+            .read(authProvider.notifier)
+            .hasGuestData();
         final promptShown = ref.read(migrationPromptShownProvider);
         if (hasGuestData && !promptShown) {
           ref.read(migrationPromptShownProvider.notifier).state = true;
@@ -60,7 +59,9 @@ class DashboardTab extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final authState = ref.read(authProvider);
       if (authState.status == AuthStatus.authenticated) {
-        final hasGuestData = await ref.read(authProvider.notifier).hasGuestData();
+        final hasGuestData = await ref
+            .read(authProvider.notifier)
+            .hasGuestData();
         final promptShown = ref.read(migrationPromptShownProvider);
         if (hasGuestData && !promptShown) {
           ref.read(migrationPromptShownProvider.notifier).state = true;
@@ -76,10 +77,7 @@ class DashboardTab extends ConsumerWidget {
       appBar: accountsAsync.maybeWhen(
         data: (accounts) => accounts.isEmpty
             ? null
-            : HomeAppBar(
-                homeState: homeState,
-                homeController: homeController,
-              ),
+            : HomeAppBar(homeState: homeState, homeController: homeController),
         orElse: () => null,
       ),
       body: SafeArea(
@@ -104,12 +102,16 @@ class DashboardTab extends ConsumerWidget {
                         // Date section & Overview statistics
                         SliverToBoxAdapter(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 8.0,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 _AccountSwitcherWidget(
-                                  currentAccount: homeState.dashboard?.currentAccount,
+                                  currentAccount:
+                                      homeState.dashboard?.currentAccount,
                                   accounts: accounts,
                                 ),
                                 const SizedBox(height: 16),
@@ -118,22 +120,33 @@ class DashboardTab extends ConsumerWidget {
                                 if (homeState.isLoading)
                                   const LoadingSkeleton()
                                 else if (homeState.error != null)
-                                  ErrorStateView(errorMessage: homeState.error!, onRetry: homeController.refreshDashboard)
+                                  ErrorStateView(
+                                    errorMessage: homeState.error!,
+                                    onRetry: homeController.refreshDashboard,
+                                  )
                                 else
                                   const OverviewCards(),
                                 const SizedBox(height: 16),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       context.translate('transactions'),
-                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                    if (homeState.selectedTypeFilter != null || homeState.selectedDateRange != null)
+                                    if (homeState.selectedTypeFilter != null ||
+                                        homeState.selectedDateRange != null)
                                       TextButton.icon(
                                         onPressed: homeController.clearFilters,
                                         icon: const Icon(Icons.clear, size: 16),
-                                        label: Text(context.translate('clear_filters'), style: const TextStyle(fontSize: 12)),
+                                        label: Text(
+                                          context.translate('clear_filters'),
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
                                       ),
                                   ],
                                 ),
@@ -146,9 +159,12 @@ class DashboardTab extends ConsumerWidget {
                         // Transaction List
                         if (!homeState.isLoading && homeState.error == null)
                           SliverPadding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
                             sliver: TransactionListSection(
-                              transactions: homeState.dashboard?.recentTransactions ?? [],
+                              transactions:
+                                  homeState.dashboard?.recentTransactions ?? [],
                             ),
                           ),
                       ],
@@ -161,7 +177,8 @@ class DashboardTab extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          loading: () =>
+              const Center(child: CircularProgressIndicator.adaptive()),
           error: (err, stack) => Center(child: Text('Error: $err')),
         ),
       ),
@@ -205,7 +222,9 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+              MaterialPageRoute(
+                builder: (context) => const CreateAccountScreen(),
+              ),
             );
           },
           icon: const Icon(Icons.add),
@@ -239,12 +258,17 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
             children: [
               Text(
                 context.translate('export_account_data'),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 '${context.translate('export_report_for')} ${dashboard.currentAccount?.name}',
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 24),
               Row(
@@ -252,7 +276,10 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 children: [
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                     ),
                     onPressed: () async {
                       Navigator.pop(context);
@@ -266,11 +293,16 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                     ),
                     onPressed: () async {
                       Navigator.pop(context);
-                      await homeController.exportExcel(dashboard.recentTransactions);
+                      await homeController.exportExcel(
+                        dashboard.recentTransactions,
+                      );
                     },
                     icon: const Icon(Icons.table_view),
                     label: Text(context.translate('excel')),
@@ -353,7 +385,11 @@ class OfflineBanner extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             context.translate('offline_mode_banner'),
-            style: TextStyle(color: colorScheme.onError, fontSize: 13, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              color: colorScheme.onError,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),
@@ -395,7 +431,10 @@ class DateSection extends ConsumerWidget {
                   start != null && end != null
                       ? '${AppFormatter.formatDate(start)} - ${AppFormatter.formatDate(end)}'
                       : context.translate('current_month'),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -422,20 +461,29 @@ class DateSection extends ConsumerWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: ['today', 'yesterday', 'week', 'month', 'year'].map((periodKey) {
+            children: ['today', 'yesterday', 'week', 'month', 'year'].map((
+              periodKey,
+            ) {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: ActionChip(
                   label: Text(context.translate(periodKey)),
                   onPressed: () => homeController.setFilterPeriod(periodKey),
-                  backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHighest,
                   surfaceTintColor: Colors.transparent,
-                  side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
                   labelStyle: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                 ),
               );
             }).toList(),
@@ -465,11 +513,15 @@ class OverviewCards extends ConsumerWidget {
           child: CardWidget(
             title: context.translate('income'),
             amount: dashboard.income,
-            count: dashboard.recentTransactions.where((tx) => tx.type == 'income').length,
+            count: dashboard.recentTransactions
+                .where((tx) => tx.type == 'income')
+                .length,
             color: AppColors.income,
             isActive: selectedFilter == 'income',
             onTap: () {
-              controller.setTypeFilter(selectedFilter == 'income' ? null : 'income');
+              controller.setTypeFilter(
+                selectedFilter == 'income' ? null : 'income',
+              );
             },
           ),
         ),
@@ -480,11 +532,15 @@ class OverviewCards extends ConsumerWidget {
           child: CardWidget(
             title: context.translate('expense'),
             amount: dashboard.expense,
-            count: dashboard.recentTransactions.where((tx) => tx.type == 'expense').length,
+            count: dashboard.recentTransactions
+                .where((tx) => tx.type == 'expense')
+                .length,
             color: AppColors.expense,
             isActive: selectedFilter == 'expense',
             onTap: () {
-              controller.setTypeFilter(selectedFilter == 'expense' ? null : 'expense');
+              controller.setTypeFilter(
+                selectedFilter == 'expense' ? null : 'expense',
+              );
             },
           ),
         ),
@@ -531,7 +587,9 @@ class CardWidget extends StatelessWidget {
     final cardContent = Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
       decoration: BoxDecoration(
-        color: isActive ? color.withOpacity(0.15) : theme.colorScheme.surfaceContainerHigh,
+        color: isActive
+            ? color.withOpacity(0.15)
+            : theme.colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isActive ? color : theme.colorScheme.outlineVariant,
@@ -539,7 +597,9 @@ class CardWidget extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity((theme.brightness == Brightness.dark) ? 0.2 : 0.02),
+            color: theme.colorScheme.shadow.withOpacity(
+              (theme.brightness == Brightness.dark) ? 0.2 : 0.02,
+            ),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -601,30 +661,19 @@ class CardWidget extends StatelessWidget {
 class TransactionListSection extends ConsumerWidget {
   final List<TransactionEntity> transactions;
 
-  const TransactionListSection({
-    super.key,
-    required this.transactions,
-  });
+  const TransactionListSection({super.key, required this.transactions});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (transactions.isEmpty) {
-      return SliverToBoxAdapter(
-        child: const EmptyTransactionView(),
-      );
+      return SliverToBoxAdapter(child: const EmptyTransactionView());
     }
 
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final tx = transactions[index];
-          return TransactionTile(
-            key: ValueKey(tx.uuid),
-            transaction: tx,
-          );
-        },
-        childCount: transactions.length,
-      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final tx = transactions[index];
+        return TransactionTile(key: ValueKey(tx.uuid), transaction: tx);
+      }, childCount: transactions.length),
     );
   }
 }
@@ -632,10 +681,7 @@ class TransactionListSection extends ConsumerWidget {
 class TransactionTile extends ConsumerWidget {
   final TransactionEntity transaction;
 
-  const TransactionTile({
-    super.key,
-    required this.transaction,
-  });
+  const TransactionTile({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -653,7 +699,8 @@ class TransactionTile extends ConsumerWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => TransactionDetailsScreen(transactionUuid: transaction.uuid),
+              builder: (context) =>
+                  TransactionDetailsScreen(transactionUuid: transaction.uuid),
             ),
           );
         },
@@ -683,8 +730,8 @@ class TransactionTile extends ConsumerWidget {
                       transaction.title.isNotEmpty
                           ? transaction.title
                           : (transaction.description.isNotEmpty
-                              ? transaction.description
-                              : 'UPI'),
+                                ? transaction.description
+                                : 'UPI'),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -751,7 +798,9 @@ class TransactionTile extends ConsumerWidget {
                   Icon(
                     transaction.isSynced ? Icons.cloud_done : Icons.cloud_queue,
                     size: 14,
-                    color: transaction.isSynced ? Colors.green : colorScheme.primary,
+                    color: transaction.isSynced
+                        ? Colors.green
+                        : colorScheme.primary,
                   ),
                 ],
               ),
@@ -781,7 +830,9 @@ class TransactionTile extends ConsumerWidget {
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Unable to restore transaction: $e')),
+                    SnackBar(
+                      content: Text('Unable to restore transaction: $e'),
+                    ),
                   );
                 }
               }
@@ -834,7 +885,9 @@ class EmptyTransactionView extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddEditTransactionScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const AddEditTransactionScreen(),
+                  ),
                 );
               },
               icon: const Icon(Icons.add),
@@ -969,31 +1022,17 @@ class BottomActionButtons extends ConsumerWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddEditTransactionScreen(
-                        transaction: TransactionEntity(
-                          uuid: '',
-                          accountId: (currentAccountUuid ?? ''),
-                          type: 'income',
-                          categoryId: AppCategories.income.first,
-                          category: AppCategories.income.first,
-                          amount: 0.0,
-                          title: '',
-                          description: '',
-                          currency: currency,
-                          paymentMethod: 'Cash',
-                          isDeleted: false,
-                          isSynced: false,
-                          isRecurring: false,
-                          date: DateTime.now(),
-                          createdAt: DateTime.now(),
-                          updatedAt: DateTime.now(),
-                          syncVersion: 1,
-                        ),
+                        initialType: 'income',
+                        initialAccountId: currentAccountUuid,
                       ),
                     ),
                   );
                 },
                 icon: const Icon(Icons.arrow_upward),
-                label: Text(context.translate('cash_in'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                label: Text(
+                  context.translate('cash_in'),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(width: 12),
@@ -1014,31 +1053,17 @@ class BottomActionButtons extends ConsumerWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddEditTransactionScreen(
-                        transaction: TransactionEntity(
-                          uuid: '',
-                          accountId: (currentAccountUuid ?? ''),
-                          type: 'expense',
-                          categoryId: AppCategories.expense.first,
-                          category: AppCategories.expense.first,
-                          amount: 0.0,
-                          title: '',
-                          description: '',
-                          currency: currency,
-                          paymentMethod: 'Cash',
-                          isDeleted: false,
-                          isSynced: false,
-                          isRecurring: false,
-                          date: DateTime.now(),
-                          createdAt: DateTime.now(),
-                          updatedAt: DateTime.now(),
-                          syncVersion: 1,
-                        ),
+                        initialType: 'expense',
+                        initialAccountId: currentAccountUuid,
                       ),
                     ),
                   );
                 },
                 icon: const Icon(Icons.arrow_downward),
-                label: Text(context.translate('cash_out'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                label: Text(
+                  context.translate('cash_out'),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],
@@ -1047,6 +1072,7 @@ class BottomActionButtons extends ConsumerWidget {
     );
   }
 }
+
 class EmptyAccountView extends StatelessWidget {
   const EmptyAccountView({super.key});
 
@@ -1092,6 +1118,7 @@ class EmptyAccountView extends StatelessWidget {
     );
   }
 }
+
 class DeleteTransactionDialog extends StatelessWidget {
   const DeleteTransactionDialog({super.key});
 
@@ -1099,9 +1126,7 @@ class DeleteTransactionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(context.translate('delete_transaction')),
-      content: Text(
-        context.translate('delete_transaction_confirmation'),
-      ),
+      content: Text(context.translate('delete_transaction_confirmation')),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
@@ -1135,7 +1160,8 @@ class _AccountSwitcherWidget extends ConsumerWidget {
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () => _openAccountSwitcher(context, ref, accounts, currentAccount),
+        onTap: () =>
+            _openAccountSwitcher(context, ref, accounts, currentAccount),
         child: Container(
           height: 48,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -1169,7 +1195,12 @@ class _AccountSwitcherWidget extends ConsumerWidget {
     );
   }
 
-  void _openAccountSwitcher(BuildContext context, WidgetRef ref, List<AccountModel> accounts, AccountModel? currentAccount) {
+  void _openAccountSwitcher(
+    BuildContext context,
+    WidgetRef ref,
+    List<AccountModel> accounts,
+    AccountModel? currentAccount,
+  ) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -1200,87 +1231,110 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
     final accountController = ref.read(accountControllerProvider);
 
     return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 24),
             Text(
               context.translate('accounts'),
-              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             const Divider(),
-            if (accounts.length <= 1) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
+            Flexible(
+              child: SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Only one account available.',
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    FilledButton.icon(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
-                        );
-                      },
-                      icon: const Icon(Icons.add),
-                      label: const Text('Add New Account'),
-                    ),
+                    if (accounts.length <= 1)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Only one account available.',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 16),
+                            FilledButton.icon(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CreateAccountScreen(),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.add),
+                              label: const Text('Add New Account'),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: accounts.length,
+                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        itemBuilder: (context, index) {
+                          final account = accounts[index];
+                          final isSelected =
+                              account.uuid == currentAccount?.uuid;
+                          final color = Color(account.colorValue);
+
+                          return ListTile(
+                            leading: Icon(
+                              isSelected ? Icons.check_circle : Icons.circle,
+                              color: isSelected
+                                  ? theme.colorScheme.primary
+                                  : color,
+                              size: 20,
+                            ),
+                            title: Text(
+                              account.name,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: isSelected
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.onSurface,
+                              ),
+                            ),
+                            trailing: Text(
+                              AppFormatter.formatCurrency(account.balance),
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.w600,
+                              ),
+                            ),
+                            selected: isSelected,
+                            onTap: () async {
+                              await accountController.selectAccount(
+                                account.uuid,
+                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),
-            ] else ...[
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 300),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: accounts.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (context, index) {
-                    final account = accounts[index];
-                    final isSelected = account.uuid == currentAccount?.uuid;
-                    final color = Color(account.colorValue);
-
-                    return ListTile(
-                      leading: Icon(
-                        isSelected ? Icons.check_circle : Icons.circle,
-                        color: isSelected ? theme.colorScheme.primary : color,
-                        size: 20,
-                      ),
-                      title: Text(
-                        account.name,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      trailing: Text(
-                        AppFormatter.formatCurrency(account.balance),
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                        ),
-                      ),
-                      selected: isSelected,
-                      onTap: () async {
-                        await accountController.selectAccount(account.uuid);
-                        if (context.mounted) {
-                          Navigator.pop(context);
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
             const Divider(),
             const SizedBox(height: 8),
             // + Add Account Button
@@ -1289,7 +1343,9 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const CreateAccountScreen(),
+                  ),
                 );
               },
               icon: const Icon(Icons.add),
@@ -1304,7 +1360,9 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AccountListScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const AccountListScreen(),
+                  ),
                 );
               },
               icon: const Icon(Icons.manage_accounts_outlined),
@@ -1313,6 +1371,7 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

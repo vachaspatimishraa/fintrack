@@ -5,20 +5,6 @@ class SettingsEntity {
   final String currency;
   final String language;
   
-  // Notification Preferences
-  final bool masterNotificationsEnabled;
-  final bool budgetAlertsEnabled;
-  final bool billRemindersEnabled;
-  final bool recurringTransactionRemindersEnabled;
-  final bool dailySummaryEnabled;
-  final bool weeklySummaryEnabled;
-  final bool monthlySummaryEnabled;
-  final bool quietHoursEnabled;
-  final String quietHoursStart; // "HH:mm"
-  final String quietHoursEnd;   // "HH:mm"
-  final bool notificationSoundEnabled;
-  final bool notificationVibrationEnabled;
-
   // Security & Privacy
   final bool appLockEnabled;
   final bool biometricEnabled;
@@ -29,16 +15,6 @@ class SettingsEntity {
   final bool hideRecentTransactions;
   final bool hideAnalyticsValues;
   final bool screenshotProtectionEnabled;
-  final bool securityNotificationsEnabled;
-
-  // Accessibility
-  final String fontScale; // small, default, large, extra_large
-  final bool highContrast;
-  final bool reduceMotion;
-  final bool screenReaderHints;
-  final String touchTargetSize; // normal, large
-  final bool keyboardNavigationEnabled;
-  final bool hapticFeedbackEnabled;
 
   final bool backupEnabled;
   final bool syncEnabled;
@@ -55,18 +31,6 @@ class SettingsEntity {
     this.amoledMode = false,
     this.currency = 'INR',
     this.language = 'en',
-    this.masterNotificationsEnabled = true,
-    this.budgetAlertsEnabled = true,
-    this.billRemindersEnabled = true,
-    this.recurringTransactionRemindersEnabled = true,
-    this.dailySummaryEnabled = true,
-    this.weeklySummaryEnabled = false,
-    this.monthlySummaryEnabled = true,
-    this.quietHoursEnabled = false,
-    this.quietHoursStart = '22:00',
-    this.quietHoursEnd = '07:00',
-    this.notificationSoundEnabled = true,
-    this.notificationVibrationEnabled = true,
     this.appLockEnabled = false,
     this.biometricEnabled = false,
     this.hasPin = false,
@@ -76,14 +40,6 @@ class SettingsEntity {
     this.hideRecentTransactions = false,
     this.hideAnalyticsValues = false,
     this.screenshotProtectionEnabled = false,
-    this.securityNotificationsEnabled = true,
-    this.fontScale = 'default',
-    this.highContrast = false,
-    this.reduceMotion = false,
-    this.screenReaderHints = false,
-    this.touchTargetSize = 'normal',
-    this.keyboardNavigationEnabled = false,
-    this.hapticFeedbackEnabled = true,
     this.backupEnabled = true,
     this.syncEnabled = true,
     this.displayDensity = 'comfortable',
@@ -100,18 +56,6 @@ class SettingsEntity {
     bool? amoledMode,
     String? currency,
     String? language,
-    bool? masterNotificationsEnabled,
-    bool? budgetAlertsEnabled,
-    bool? billRemindersEnabled,
-    bool? recurringTransactionRemindersEnabled,
-    bool? dailySummaryEnabled,
-    bool? weeklySummaryEnabled,
-    bool? monthlySummaryEnabled,
-    bool? quietHoursEnabled,
-    String? quietHoursStart,
-    String? quietHoursEnd,
-    bool? notificationSoundEnabled,
-    bool? notificationVibrationEnabled,
     bool? appLockEnabled,
     bool? biometricEnabled,
     bool? hasPin,
@@ -121,14 +65,6 @@ class SettingsEntity {
     bool? hideRecentTransactions,
     bool? hideAnalyticsValues,
     bool? screenshotProtectionEnabled,
-    bool? securityNotificationsEnabled,
-    String? fontScale,
-    bool? highContrast,
-    bool? reduceMotion,
-    bool? screenReaderHints,
-    String? touchTargetSize,
-    bool? keyboardNavigationEnabled,
-    bool? hapticFeedbackEnabled,
     bool? backupEnabled,
     bool? syncEnabled,
     String? displayDensity,
@@ -144,18 +80,6 @@ class SettingsEntity {
       amoledMode: amoledMode ?? this.amoledMode,
       currency: currency ?? this.currency,
       language: language ?? this.language,
-      masterNotificationsEnabled: masterNotificationsEnabled ?? this.masterNotificationsEnabled,
-      budgetAlertsEnabled: budgetAlertsEnabled ?? this.budgetAlertsEnabled,
-      billRemindersEnabled: billRemindersEnabled ?? this.billRemindersEnabled,
-      recurringTransactionRemindersEnabled: recurringTransactionRemindersEnabled ?? this.recurringTransactionRemindersEnabled,
-      dailySummaryEnabled: dailySummaryEnabled ?? this.dailySummaryEnabled,
-      weeklySummaryEnabled: weeklySummaryEnabled ?? this.weeklySummaryEnabled,
-      monthlySummaryEnabled: monthlySummaryEnabled ?? this.monthlySummaryEnabled,
-      quietHoursEnabled: quietHoursEnabled ?? this.quietHoursEnabled,
-      quietHoursStart: quietHoursStart ?? this.quietHoursStart,
-      quietHoursEnd: quietHoursEnd ?? this.quietHoursEnd,
-      notificationSoundEnabled: notificationSoundEnabled ?? this.notificationSoundEnabled,
-      notificationVibrationEnabled: notificationVibrationEnabled ?? this.notificationVibrationEnabled,
       appLockEnabled: appLockEnabled ?? this.appLockEnabled,
       biometricEnabled: biometricEnabled ?? this.biometricEnabled,
       hasPin: hasPin ?? this.hasPin,
@@ -165,14 +89,6 @@ class SettingsEntity {
       hideRecentTransactions: hideRecentTransactions ?? this.hideRecentTransactions,
       hideAnalyticsValues: hideAnalyticsValues ?? this.hideAnalyticsValues,
       screenshotProtectionEnabled: screenshotProtectionEnabled ?? this.screenshotProtectionEnabled,
-      securityNotificationsEnabled: securityNotificationsEnabled ?? this.securityNotificationsEnabled,
-      fontScale: fontScale ?? this.fontScale,
-      highContrast: highContrast ?? this.highContrast,
-      reduceMotion: reduceMotion ?? this.reduceMotion,
-      screenReaderHints: screenReaderHints ?? this.screenReaderHints,
-      touchTargetSize: touchTargetSize ?? this.touchTargetSize,
-      keyboardNavigationEnabled: keyboardNavigationEnabled ?? this.keyboardNavigationEnabled,
-      hapticFeedbackEnabled: hapticFeedbackEnabled ?? this.hapticFeedbackEnabled,
       backupEnabled: backupEnabled ?? this.backupEnabled,
       syncEnabled: syncEnabled ?? this.syncEnabled,
       displayDensity: displayDensity ?? this.displayDensity,

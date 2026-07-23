@@ -29,11 +29,15 @@ class ExcelService {
     }
 
     final dir = await getTemporaryDirectory();
-    final file = File('${dir.path}/fintrack_report_${DateTime.now().millisecondsSinceEpoch}.xlsx');
+    final file = File(
+      '${dir.path}/fintrack_report_${DateTime.now().millisecondsSinceEpoch}.xlsx',
+    );
     final bytes = excel.encode();
     if (bytes != null) {
       await file.writeAsBytes(bytes);
-      await Share.shareXFiles([XFile(file.path)], text: 'My FinTrack Excel Report');
+      await Share.shareXFiles([
+        XFile(file.path),
+      ], text: 'My FinTrack Excel Report');
     }
   }
 }

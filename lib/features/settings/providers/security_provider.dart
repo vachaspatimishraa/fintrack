@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/services/session_manager.dart';
 import '../domain/services/biometric_service.dart';

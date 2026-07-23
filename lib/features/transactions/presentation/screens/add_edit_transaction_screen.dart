@@ -20,8 +20,15 @@ import '../../../settings/providers/settings_provider.dart';
 
 class AddEditTransactionScreen extends ConsumerStatefulWidget {
   final TransactionEntity? transaction;
+  final String? initialType;
+  final String? initialAccountId;
 
-  const AddEditTransactionScreen({super.key, this.transaction});
+  const AddEditTransactionScreen({
+    super.key,
+    this.transaction,
+    this.initialType,
+    this.initialAccountId,
+  });
 
   @override
   ConsumerState<AddEditTransactionScreen> createState() =>
@@ -81,7 +88,9 @@ class _AddEditTransactionScreenState
 
   @override
   void dispose() {
-    if (widget.transaction == null && (_titleController.text.isNotEmpty || _amountController.text.isNotEmpty)) {
+    if (widget.transaction == null &&
+        (_titleController.text.isNotEmpty ||
+            _amountController.text.isNotEmpty)) {
       DraftManager.saveDraft({
         'amount': _amountController.text,
         'title': _titleController.text,
@@ -104,21 +113,26 @@ class _AddEditTransactionScreenState
   void initState() {
     super.initState();
     final tx = widget.transaction;
-    _amount = tx?.amount ?? 0.0;
-    _amountStr = tx != null && tx.amount > 0 ? tx.amount.toString() : '';
-    _type = tx?.type ?? 'expense';
-    _category =
-        tx?.category ??
-        (tx?.type == 'income'
+    final isEditing = tx != null && tx.uuid.isNotEmpty;
+
+    _type = isEditing ? tx.type : (widget.initialType ?? 'expense');
+
+    _amount = isEditing ? tx.amount : 0.0;
+    _amountStr = isEditing && tx.amount > 0 ? tx.amount.toString() : '';
+
+    _category = isEditing
+        ? tx.category
+        : (_type == 'income'
             ? AppCategories.income.first
             : AppCategories.expense.first);
-    _accountId = tx?.accountId ?? '';
-    _description = tx?.description ?? '';
-    _titleStr = tx?.title ?? '';
-    _paymentMethod = tx?.paymentMethod ?? 'Cash';
-    _date = tx?.date ?? DateTime.now();
-    _receiptUrl = tx?.receiptUrl;
-    _receiptLocalPath = tx?.receiptLocalPath;
+
+    _accountId = isEditing ? tx.accountId : (widget.initialAccountId ?? '');
+    _description = isEditing ? tx.description : '';
+    _titleStr = isEditing ? tx.title : '';
+    _paymentMethod = isEditing ? tx.paymentMethod : 'Cash';
+    _date = isEditing ? tx.date : DateTime.now();
+    _receiptUrl = isEditing ? tx.receiptUrl : null;
+    _receiptLocalPath = isEditing ? tx.receiptLocalPath : null;
 
     _amountController = TextEditingController(text: _amountStr);
     _titleController = TextEditingController(text: _titleStr);
@@ -316,7 +330,7 @@ class _AddEditTransactionScreenState
   Widget build(BuildContext context) {
     final accountsAsync = ref.watch(accountsStreamProvider);
     final controller = ref.read(transactionControllerProvider);
-    final isEditing = widget.transaction != null;
+    final isEditing = widget.transaction != null && widget.transaction!.uuid.isNotEmpty;
     final primaryThemeColor = _type == 'income'
         ? AppColors.income
         : AppColors.expense;
@@ -332,7 +346,11 @@ class _AddEditTransactionScreenState
         backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: Text(isEditing ? context.translate('edit_transaction') : context.translate('add_transaction')),
+          title: Text(
+            isEditing
+                ? context.translate('edit_transaction')
+                : context.translate('add_transaction'),
+          ),
         ),
         body: accountsAsync.when(
           data: (accounts) {
@@ -352,8 +370,8 @@ class _AddEditTransactionScreenState
                       Text(
                         context.translate('no_accounts_found'),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -375,13 +393,6 @@ class _AddEditTransactionScreenState
               _accountId = accounts.first.uuid;
             }
 
-            final categoriesList = _type == 'income'
-                ? AppCategories.income
-                : AppCategories.expense;
-            if (!categoriesList.contains(_category)) {
-              _category = categoriesList.first;
-            }
-
             return SingleChildScrollView(
               controller: _scrollController,
               padding: const EdgeInsets.all(16.0),
@@ -393,8 +404,9 @@ class _AddEditTransactionScreenState
                   children: [
                     SegmentedButton<String>(
                       style: SegmentedButton.styleFrom(
-                        selectedBackgroundColor: primaryThemeColor
-                            .withValues(alpha: 0.2),
+                        selectedBackgroundColor: primaryThemeColor.withValues(
+                          alpha: 0.2,
+                        ),
                         selectedForegroundColor: primaryThemeColor,
                       ),
                       segments: [
@@ -423,14 +435,11 @@ class _AddEditTransactionScreenState
                     TextFormField(
                       controller: _amountController,
                       focusNode: _amountFocusNode,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp(r'[0-9.]'),
-                        ),
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                         LengthLimitingTextInputFormatter(15),
                       ],
                       style: const TextStyle(
@@ -441,7 +450,14 @@ class _AddEditTransactionScreenState
                         labelText: context.translate('amount'),
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text(currencySymbol, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: primaryThemeColor)),
+                          child: Text(
+                            currencySymbol,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: primaryThemeColor,
+                            ),
+                          ),
                         ),
                         hintText: '0.00',
                       ),
@@ -468,8 +484,7 @@ class _AddEditTransactionScreenState
                           child: Text(acc.name),
                         );
                       }).toList(),
-                      onChanged: (val) =>
-                          setState(() => _accountId = val!),
+                      onChanged: (val) => setState(() => _accountId = val!),
                     ),
                     const SizedBox(height: 16),
                     ListTile(
@@ -485,9 +500,7 @@ class _AddEditTransactionScreenState
                           const SizedBox(width: 8),
                           Text(
                             _category,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -500,10 +513,10 @@ class _AddEditTransactionScreenState
                       contentPadding: EdgeInsets.zero,
                       title: Text(context.translate('payment_method')),
                       subtitle: Text(
-                        context.translate(_paymentMethodsMap[_paymentMethod] ?? _paymentMethod),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                        context.translate(
+                          _paymentMethodsMap[_paymentMethod] ?? _paymentMethod,
                         ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: _showPaymentMethodPicker,
@@ -512,8 +525,7 @@ class _AddEditTransactionScreenState
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _titleController,
-                      textCapitalization:
-                          TextCapitalization.sentences,
+                      textCapitalization: TextCapitalization.sentences,
                       maxLength: 60,
                       decoration: InputDecoration(
                         labelText: context.translate('title'),
@@ -534,8 +546,7 @@ class _AddEditTransactionScreenState
                       controller: _descriptionController,
                       maxLines: 3,
                       maxLength: 500,
-                      textCapitalization:
-                          TextCapitalization.sentences,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: InputDecoration(
                         labelText: context.translate('description_optional'),
                         hintText: context.translate('add_details'),
@@ -544,22 +555,21 @@ class _AddEditTransactionScreenState
                         final key = ValidationService.validateDescription(val);
                         return key != null ? context.translate(key) : null;
                       },
-                      onSaved: (val) =>
-                          _description = val?.trim() ?? '',
+                      onSaved: (val) => _description = val?.trim() ?? '',
                     ),
                     const SizedBox(height: 16),
                     ListTile(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                        ),
                       ),
                       leading: const Icon(Icons.calendar_today),
                       title: Text(context.translate('date')),
                       trailing: Text(
                         '${_date.day}/${_date.month}/${_date.year}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onTap: () async {
                         final selected = await showDatePicker(
@@ -594,43 +604,31 @@ class _AddEditTransactionScreenState
                                 _receiptUrl != null)
                               Container(
                                 height: 150,
-                                margin: const EdgeInsets.only(
-                                  bottom: 12,
-                                ),
+                                margin: const EdgeInsets.only(bottom: 12),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    8,
-                                  ),
+                                  borderRadius: BorderRadius.circular(8),
                                   image: DecorationImage(
                                     image: _selectedImageFile != null
-                                        ? FileImage(
-                                            _selectedImageFile!,
-                                          )
+                                        ? FileImage(_selectedImageFile!)
                                         : (_receiptLocalPath != null
                                               ? FileImage(
-                                                  File(
-                                                    _receiptLocalPath!,
-                                                  ),
+                                                  File(_receiptLocalPath!),
                                                 )
-                                              : NetworkImage(
-                                                      _receiptUrl!,
-                                                    )
+                                              : NetworkImage(_receiptUrl!)
                                                     as ImageProvider),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 TextButton.icon(
                                   onPressed: _showReceiptPicker,
                                   icon: const Icon(Icons.camera_alt),
                                   label: Text(
                                     _selectedImageFile != null ||
-                                            _receiptLocalPath !=
-                                                null ||
+                                            _receiptLocalPath != null ||
                                             _receiptUrl != null
                                         ? context.translate('manage_receipt')
                                         : context.translate('add_receipt'),
@@ -641,9 +639,7 @@ class _AddEditTransactionScreenState
                                     _receiptUrl != null)
                                   TextButton.icon(
                                     onPressed: _showReceiptPreview,
-                                    icon: const Icon(
-                                      Icons.visibility,
-                                    ),
+                                    icon: const Icon(Icons.visibility),
                                     label: Text(context.translate('view')),
                                   ),
                               ],
@@ -658,7 +654,8 @@ class _AddEditTransactionScreenState
               ),
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          loading: () =>
+              const Center(child: CircularProgressIndicator.adaptive()),
           error: (err, _) =>
               Center(child: Text('${context.translate('error')}: $err')),
         ),
@@ -700,7 +697,10 @@ class _AddEditTransactionScreenState
                         isEditing
                             ? context.translate('update_transaction')
                             : context.translate('save_transaction'),
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
               ),
             ),
@@ -795,8 +795,8 @@ class _AddEditTransactionScreenState
                     context,
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                 const SizedBox(height: 24),
-                 Row(
+                const SizedBox(height: 24),
+                Row(
                   children: [
                     Expanded(
                       child: OutlinedButton(
@@ -904,9 +904,7 @@ class _AddEditTransactionScreenState
 
       // Show temporary helper snackbar if saved purely offline
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.translate('saved_locally_sync')),
-        ),
+        SnackBar(content: Text(context.translate('saved_locally_sync'))),
       );
 
       setState(() {

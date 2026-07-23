@@ -1,95 +1,191 @@
-# <p align="center">💰 FinTrack</p>
-
 <p align="center">
-  <img src="assets/images/logo.png" width="140" alt="FinTrack Logo">
+  <img src="assets/images/logo.png" alt="FinTrack Logo" width="150"/>
 </p>
 
+<h1 align="center">FinTrack</h1>
+
 <p align="center">
-  <font size="6"><b>FinTrack</b></font><br>
-  <i>A modern, secure, and offline-first personal finance manager.</i>
+A modern, offline-first personal finance management application built with Flutter.
 </p>
 
 <p align="center">
   <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
-    <img src="https://img.shields.io/badge/Download-APK-success?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
+    <img src="https://img.shields.io/badge/⬇️%20Download-Latest%20APK-2ea44f?style=for-the-badge" alt="Download APK"/>
   </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter">
-  <img src="https://img.shields.io/badge/Dart-3.x-blue?logo=dart">
-  <img src="https://img.shields.io/badge/Platform-Android-success">
-  <img src="https://img.shields.io/badge/License-MIT-green">
+  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+    <img src="https://img.shields.io/github/v/release/vachaspatimishraa/fintrack?style=for-the-badge&label=Latest%20Release" />
+  </a>
+  <img src="https://img.shields.io/badge/Flutter-3.x-blue?style=for-the-badge&logo=flutter" />
+  <img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart" />
+  <img src="https://img.shields.io/badge/Platform-Android-success?style=for-the-badge&logo=android" />
 </p>
 
 ---
 
 # 📱 About
 
-FinTrack is a premium personal finance application designed to give you complete control over your money. Built with **privacy and speed** in mind, it operates entirely offline, ensuring your financial data never leaves your device unless you choose to sync it.
+FinTrack is an offline-first personal finance manager designed to help you track income, expenses, accounts, and financial reports with a beautiful Material 3 interface.
+
+Data is stored locally using **Isar** and can be synchronized securely with **Supabase**.
 
 ---
 
 # ✨ Features
 
-- 📱 **Offline First**: All data is stored locally. No internet? No problem.
-- ☁️ **Cloud Sync**: Securely backup and sync your data across devices using Supabase.
-- 🔐 **App Lock**: Protect your financial records with Biometric (Fingerprint/Face) or Device PIN.
-- 💳 **Multiple Accounts**: Manage separate wallets, bank accounts, and cards in one place.
-- 💸 **Transaction Tracking**: Easy logging of income and expenses with detailed categories.
-- 📊 **Smart Reports**: Visualize your spending patterns with elegant charts.
-- 📄 **Professional Exports**: Generate beautiful PDF and Excel reports for your records.
-- 🎨 **Material 3**: A modern UI that respects your system's dynamic color theme.
-- 🌙 **Dark & AMOLED**: Stunning dark modes to save battery and reduce eye strain.
+- 💰 Income & Expense Tracking
+- 📂 Multiple Accounts
+- 🏷 Custom Categories
+- ☁️ Supabase Cloud Sync
+- 📱 Offline-first Architecture
+- 📊 Financial Reports
+- 📄 PDF Export
+- 📈 Excel Export
+- 🔒 App Lock & Biometrics
+- 🌙 Dark & Light Theme
+- 🌍 English & Hindi Support
+- 🔎 Transaction Search
+- 📅 Monthly & Yearly Reports
+- 🎨 Material 3 UI
+- ⚡ Fast & Responsive
 
 ---
 
-# 📥 Installation
+# 📸 Screenshots
 
-1. **Visit Releases**: Click the **Download APK** button at the top or go to the [Releases](https://github.com/vachaspatimishraa/fintrack/releases) page.
-2. **Download**: Download the APK file matching your device architecture (usually **arm64-v8a** for modern phones).
-3. **Install**: Open the downloaded `.apk` file on your Android device.
-4. **Allow Permissions**: If prompted, allow installation from unknown sources.
+> Add screenshots here.
 
----
-
-# 🏗 Architecture
-
-FinTrack uses a robust repository pattern coupled with Riverpod for state management, ensuring a scalable and testable codebase.
-
-```
-Flutter (Presentation)
-    │
-Riverpod (State Management)
-    │
-Repositories (Data Layer)
-    │
-────────────────────────
-│                      │
-Isar Database      Supabase
-(Local Storage)    (Cloud Backup)
-```
+| Dashboard | Reports | Accounts |
+|-----------|---------|----------|
+| Screenshot | Screenshot | Screenshot |
 
 ---
 
 # 🛠 Tech Stack
 
-- **Framework**: Flutter (Dart)
-- **State Management**: Riverpod
-- **Local Database**: Isar (High performance, NoSQL)
-- **Cloud Backend**: Supabase (Auth, DB, Storage)
-- **Design**: Material 3 (Dynamic Color Support)
+| Technology | Usage |
+|------------|------|
+| Flutter | UI Framework |
+| Dart | Programming Language |
+| Riverpod | State Management |
+| Isar | Local Database |
+| Supabase | Backend & Authentication |
+| GoRouter | Navigation |
+| Google Sign-In | Authentication |
+| PDF | Report Generation |
+| Excel | Spreadsheet Export |
 
 ---
 
-# 🚀 Developer
+# 📦 Installation
 
-**Vachaspati Mishra**
+Clone the repository:
 
-GitHub: [vachaspatimishraa](https://github.com/vachaspatimishraa)
+```bash
+git clone https://github.com/vachaspatimishraa/fintrack.git
+
+cd fintrack
+```
+
+Install dependencies:
+
+```bash
+flutter pub get
+```
+
+Run the application:
+
+```bash
+flutter run
+```
+
+---
+
+# 🚀 Build
+
+APK
+
+```bash
+flutter build apk --release --split-per-abi
+```
+
+App Bundle
+
+```bash
+flutter build appbundle --release
+```
+
+---
+
+# 📂 Project Structure
+
+```
+lib/
+ ├── core/
+ ├── features/
+ ├── shared/
+ ├── l10n/
+ ├── main.dart
+
+assets/
+android/
+ios/
+```
+
+---
+
+# 🏗 Architecture
+
+```
+Presentation
+      │
+ Riverpod
+      │
+ Repository
+      │
+ ┌───────────────┐
+ │               │
+Isar        Supabase
+ │               │
+ └───────────────┘
+```
+
+---
+
+# 📥 Download
+
+Download the latest APK from GitHub Releases:
+
+<p align="center">
+<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+<img src="https://img.shields.io/badge/Download-Latest_APK-success?style=for-the-badge&logo=android"/>
+</a>
+</p>
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Push your branch
+5. Open a Pull Request
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
 
 ---
 
 <p align="center">
-  ⭐ If you find this project helpful, please give it a star!
+
+Made with ❤️ using Flutter
+
 </p>

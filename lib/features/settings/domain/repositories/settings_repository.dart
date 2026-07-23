@@ -14,26 +14,10 @@ abstract class SettingsRepository {
   Future<void> updateThemeMode(String mode);
   Future<void> updateDynamicColor(bool enabled);
   Future<void> updateAmoledMode(bool enabled);
-  Future<void> updateFontScale(String scale);
-  Future<void> updateDisplayDensity(String density);
-  Future<void> updateAnimationEnabled(bool enabled);
 
   // Localization
   Future<void> updateCurrency(String currencyCode);
   Future<void> updateLanguage(String languageCode);
-
-  // Notifications
-  Future<void> updateMasterNotification(bool enabled);
-  Future<void> updateBudgetAlerts(bool enabled);
-  Future<void> updateBillReminders(bool enabled);
-  Future<void> updateRecurringReminders(bool enabled);
-  Future<void> updateSummaryNotifications(bool enabled);
-  Future<void> updateWeeklySummary(bool enabled);
-  Future<void> updateMonthlySummary(bool enabled);
-  Future<void> updateQuietHours(bool enabled);
-  Future<void> updateQuietHoursRange(String start, String end);
-  Future<void> updateNotificationSound(bool enabled);
-  Future<void> updateNotificationVibration(bool enabled);
 
   // Security & Privacy
   Future<void> updateAppLock(bool enabled);
@@ -55,14 +39,6 @@ abstract class SettingsRepository {
   Future<void> synchronize();
   Future<void> toggleSync(bool enabled);
   Future<void> toggleBackup(bool enabled);
-
-  // Accessibility
-  Future<void> updateHighContrast(bool enabled);
-  Future<void> updateReduceMotion(bool enabled);
-  Future<void> updateKeyboardNavigation(bool enabled);
-  Future<void> updateTouchTargetSize(String size);
-  Future<void> updateHapticFeedback(bool enabled);
-  Future<void> updateScreenReaderHints(bool enabled);
 
   // About
   Future<AppInformationEntity> loadAppInformation();

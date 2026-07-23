@@ -4,7 +4,6 @@ import '../../../../core/constants/colors.dart';
 import '../../../../core/utils/translations.dart';
 import '../../providers/initialization_provider.dart';
 import '../controllers/splash_controller.dart';
-import '../../../../core/utils/translations.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});

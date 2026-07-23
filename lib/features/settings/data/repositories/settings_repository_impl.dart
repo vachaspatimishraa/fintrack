@@ -83,24 +83,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
     await updateSettings(current.copyWith(amoledMode: enabled));
   }
 
-  @override
-  Future<void> updateFontScale(String scale) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(fontScale: scale));
-  }
-
-  @override
-  Future<void> updateDisplayDensity(String density) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(displayDensity: density));
-  }
-
-  @override
-  Future<void> updateAnimationEnabled(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(animationEnabled: enabled));
-  }
-
   // Localization
   @override
   Future<void> updateCurrency(String currencyCode) async {
@@ -112,73 +94,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> updateLanguage(String languageCode) async {
     final current = await loadSettings();
     await updateSettings(current.copyWith(language: languageCode));
-  }
-
-  // Notifications
-  @override
-  Future<void> updateMasterNotification(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(masterNotificationsEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateBudgetAlerts(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(budgetAlertsEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateBillReminders(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(billRemindersEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateRecurringReminders(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(recurringTransactionRemindersEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateSummaryNotifications(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(dailySummaryEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateWeeklySummary(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(weeklySummaryEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateMonthlySummary(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(monthlySummaryEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateQuietHours(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(quietHoursEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateQuietHoursRange(String start, String end) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(quietHoursStart: start, quietHoursEnd: end));
-  }
-
-  @override
-  Future<void> updateNotificationSound(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(notificationSoundEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateNotificationVibration(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(notificationVibrationEnabled: enabled));
   }
 
   // Security
@@ -197,9 +112,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<void> updatePin(String pin) async {
-    // Deprecated
-  }
+  Future<void> updatePin(String pin) async {}
 
   @override
   Future<bool> verifyPin(String pin) async {
@@ -207,9 +120,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<void> removePin() async {
-    // Deprecated
-  }
+  Future<void> removePin() async {}
 
   @override
   Future<void> updateSessionTimeout(String timeout) async {
@@ -280,43 +191,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> toggleBackup(bool enabled) async {
     final current = await loadSettings();
     await updateSettings(current.copyWith(backupEnabled: enabled));
-  }
-
-  // Accessibility
-  @override
-  Future<void> updateHighContrast(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(highContrast: enabled));
-  }
-
-  @override
-  Future<void> updateReduceMotion(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(reduceMotion: enabled));
-  }
-
-  @override
-  Future<void> updateKeyboardNavigation(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(keyboardNavigationEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateTouchTargetSize(String size) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(touchTargetSize: size));
-  }
-
-  @override
-  Future<void> updateHapticFeedback(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(hapticFeedbackEnabled: enabled));
-  }
-
-  @override
-  Future<void> updateScreenReaderHints(bool enabled) async {
-    final current = await loadSettings();
-    await updateSettings(current.copyWith(screenReaderHints: enabled));
   }
 
   // About

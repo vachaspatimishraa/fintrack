@@ -10,10 +10,8 @@ import '../../../../shared/widgets/offline_banner.dart';
 
 import 'appearance_screen.dart';
 import 'localization_screen.dart';
-import 'notification_settings_screen.dart';
 import 'security_settings_screen.dart';
 import 'backup_settings_screen.dart';
-import 'accessibility_screen.dart';
 import 'about_screen.dart';
 import 'developer_options_screen.dart';
 
@@ -66,17 +64,11 @@ class SettingsScreen extends ConsumerWidget {
               _buildSectionTitle(context, context.translate('currency_localization')),
               _buildLocalizationCard(context, ref, settings),
               const SizedBox(height: 16),
-              _buildSectionTitle(context, context.translate('notifications')),
-              _buildNotificationCard(context, ref, settings),
-              const SizedBox(height: 16),
               _buildSectionTitle(context, context.translate('privacy_security')),
               _buildSecurityCard(context, ref, settings),
               const SizedBox(height: 16),
               _buildSectionTitle(context, context.translate('backup_synchronization')),
               _buildBackupSyncCard(context, ref, settings),
-              const SizedBox(height: 16),
-              _buildSectionTitle(context, context.translate('accessibility')),
-              _buildAccessibilityCard(context, ref, settings),
               const SizedBox(height: 16),
               _buildSectionTitle(context, context.translate('about')),
               _buildAboutCard(context),
@@ -288,23 +280,6 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildNotificationCard(BuildContext context, WidgetRef ref, SettingsEntity settings) {
-    return Card(
-      child: ListTile(
-        leading: const Icon(Icons.notifications_outlined),
-        title: Text(context.translate('notification_prefs')),
-        subtitle: Text(settings.masterNotificationsEnabled ? context.translate('enabled') : context.translate('disabled')),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const NotificationSettingsScreen()),
-          );
-        },
-      ),
-    );
-  }
-
   Widget _buildSecurityCard(BuildContext context, WidgetRef ref, SettingsEntity settings) {
     return Card(
       child: ListTile(
@@ -333,23 +308,6 @@ class SettingsScreen extends ConsumerWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const BackupSettingsScreen()),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildAccessibilityCard(BuildContext context, WidgetRef ref, SettingsEntity settings) {
-    return Card(
-      child: ListTile(
-        leading: const Icon(Icons.accessibility_new),
-        title: Text(context.translate('accessibility')),
-        subtitle: Text(context.translate('contrast_scaling_interaction')),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AccessibilityScreen()),
           );
         },
       ),
