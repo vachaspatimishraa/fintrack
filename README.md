@@ -1,101 +1,118 @@
-<p align="center">
-  <img src="assets/images/logo.png" alt="FinTrack Logo" width="150"/>
-</p>
+<div align="center">
 
-<h1 align="center">FinTrack</h1>
+<img src="assets/images/logo.png" alt="FinTrack Logo" width="150"/>
 
-<p align="center">
-A modern, offline-first personal finance management application built with Flutter.
-</p>
+# FinTrack
 
-<p align="center">
-  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
-    <img src="https://img.shields.io/badge/⬇️%20Download-Latest%20APK-2ea44f?style=for-the-badge" alt="Download APK"/>
-  </a>
-</p>
+### Smart Personal Finance Manager built with Flutter
+
+Track your income, expenses, wallets, and financial goals with a beautiful, fast, and offline-first experience.
 
 <p align="center">
-  <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
-    <img src="https://img.shields.io/github/v/release/vachaspatimishraa/fintrack?style=for-the-badge&label=Latest%20Release" />
-  </a>
-  <img src="https://img.shields.io/badge/Flutter-3.x-blue?style=for-the-badge&logo=flutter" />
-  <img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart" />
-  <img src="https://img.shields.io/badge/Platform-Android-success?style=for-the-badge&logo=android" />
+
+<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+    <img src="https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white"/>
+</a>
+
+<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+    <img src="https://img.shields.io/badge/Latest-Release-blue?style=for-the-badge&logo=github"/>
+</a>
+
 </p>
 
----
-
-# 📱 About
-
-FinTrack is an offline-first personal finance manager designed to help you track income, expenses, wallets, and financial reports with a beautiful Material 3 interface.
-
-Data is stored locally using **Isar** and can be synchronized securely with **Supabase**.
+</div>
 
 ---
 
 # ✨ Features
 
-- 💰 Income & Expense Tracking
-- 📂 Multiple Wallets
-- 🏷 Custom Categories
+- 💰 Multiple Wallet Management
+- 📊 Beautiful Dashboard
+- 📈 Income & Expense Tracking
+- 📅 Transaction History
+- 📷 Attach Images to Transactions
+- 📄 Export Reports as PDF
+- 🌙 Light & Dark Theme
+- 🌐 English & Hindi Language Support
+- 🔐 Google Sign-In
+- 🔒 App Lock & Biometric Authentication
 - ☁️ Supabase Cloud Sync
-- 📱 Offline-first Architecture
-- 📊 Financial Reports
-- 📄 PDF Export
-- 📈 Excel Export
-- 🔒 App Lock & Biometrics
-- 🌙 Dark & Light Theme
-- 🌍 English & Hindi Support
-- 🔎 Transaction Search
-- 📅 Monthly & Yearly Reports
-- 🎨 Material 3 UI
-- ⚡ Fast & Responsive
+- 📱 Offline First using Isar Database
+- 🔄 Automatic Data Synchronization
+- 📉 Financial Reports
+- 💵 Multi-Currency Support
+- 🔍 Powerful Search & Filters
+- ⚡ Smooth Material 3 UI
 
 ---
 
-# 📸 Screenshots
+# 📱 Screenshots
 
-> Add screenshots here.
+| Dashboard | Wallets | Transactions |
+|-----------|----------|--------------|
+| Add your screenshot | Add your screenshot | Add your screenshot |
 
-| Dashboard | Reports | Wallets |
-|-----------|---------|----------|
-| Screenshot | Screenshot | Screenshot |
+| Reports | Settings | Create Wallet |
+|----------|-----------|---------------|
+| Add your screenshot | Add your screenshot | Add your screenshot |
 
 ---
 
-# 🛠 Tech Stack
+# 🚀 Tech Stack
 
-| Technology | Usage |
-|------------|------|
-| Flutter | UI Framework |
-| Dart | Programming Language |
-| Riverpod | State Management |
-| Isar | Local Database |
-| Supabase | Backend & Authentication |
-| GoRouter | Navigation |
-| Google Sign-In | Authentication |
-| PDF | Report Generation |
-| Excel | Spreadsheet Export |
+- Flutter
+- Dart
+- Riverpod
+- Supabase
+- Isar Database
+- GoRouter
+- Material 3
+- Google Sign-In
+- PDF Package
+- Flutter Local Notifications
+
+---
+
+# 📂 Project Structure
+
+```text
+lib/
+├── core/
+├── features/
+│   ├── auth/
+│   ├── dashboard/
+│   ├── wallets/
+│   ├── transactions/
+│   ├── reports/
+│   ├── settings/
+│   └── onboarding/
+├── shared/
+└── main.dart
+```
 
 ---
 
 # 📦 Installation
 
-Clone the repository:
+Clone the repository
 
 ```bash
 git clone https://github.com/vachaspatimishraa/fintrack.git
+```
 
+Go into the project
+
+```bash
 cd fintrack
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 flutter pub get
 ```
 
-Run the application:
+Run the application
 
 ```bash
 flutter run
@@ -103,15 +120,21 @@ flutter run
 
 ---
 
-# 🚀 Build
+# 🔨 Build Release APK
 
-APK
+Universal APK
+
+```bash
+flutter build apk --release
+```
+
+Split APKs
 
 ```bash
 flutter build apk --release --split-per-abi
 ```
 
-App Bundle
+Play Store Bundle
 
 ```bash
 flutter build appbundle --release
@@ -119,62 +142,37 @@ flutter build appbundle --release
 
 ---
 
-# 📂 Project Structure
+# 📁 Download APK
 
-```
-lib/
- ├── core/
- ├── features/
- ├── shared/
- ├── l10n/
- ├── main.dart
-
-assets/
-android/
-ios/
-```
-
----
-
-# 🏗 Architecture
-
-```
-Presentation
-      │
- Riverpod
-      │
- Repository
-      │
- ┌───────────────┐
- │               │
-Isar        Supabase
- │               │
- └───────────────┘
-```
-
----
-
-# 📥 Download
-
-Download the latest APK from GitHub Releases:
+Download the latest APK from the Releases page.
 
 <p align="center">
+
 <a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
-<img src="https://img.shields.io/badge/Download-Latest_APK-success?style=for-the-badge&logo=android"/>
+<img src="https://img.shields.io/badge/⬇ Download Latest APK-2ea44f?style=for-the-badge"/>
 </a>
+
 </p>
+
+---
+
+# 📌 Roadmap
+
+- Budget Planning
+- Savings Goals
+- Recurring Transactions
+- Category Analytics
+- Backup & Restore
+- CSV Import/Export
+- Home Screen Widgets
 
 ---
 
 # 🤝 Contributing
 
-Contributions are welcome.
+Contributions are welcome!
 
-1. Fork the repository
-2. Create a new branch
-3. Commit your changes
-4. Push your branch
-5. Open a Pull Request
+Feel free to fork the repository, create a new branch, and submit a pull request.
 
 ---
 
@@ -184,8 +182,10 @@ This project is licensed under the MIT License.
 
 ---
 
-<p align="center">
+<div align="center">
+
+### ⭐ If you like this project, don't forget to star the repository!
 
 Made with ❤️ using Flutter
 
-</p>
+</div>

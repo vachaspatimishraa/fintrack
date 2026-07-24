@@ -24,10 +24,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isSplashing = matchedLocation == AppRoutes.splash;
       final isOnboarding = matchedLocation == AppRoutes.onboarding;
 
-      // 1. If we are currently loading, only stay on splash or go to splash if at login
+      // 1. If we are currently loading, stay on splash if already on splash. Otherwise, stay where we are.
       if (status == AuthStatus.loading) {
-        if (isSplashing || isLoggingIn) return AppRoutes.splash;
-        return null; // Stay where we are otherwise
+        if (isSplashing) return AppRoutes.splash;
+        return null; 
       }
 
       // 2. Error status (unauthenticated) -> stay on login, onboarding, or splash. Redirect others to splash.

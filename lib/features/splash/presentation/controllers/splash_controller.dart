@@ -11,10 +11,17 @@ import 'package:fintrack/features/accounts/providers/account_provider.dart';
 
 class SplashController {
   final Ref _ref;
+  static bool _navigationInProgress = false;
 
   SplashController(this._ref);
 
   Future<void> handleAppStartup(BuildContext context) async {
+    if (_navigationInProgress) {
+      debugPrint('Startup navigation already in progress, ignoring duplicate call.');
+      return;
+    }
+    _navigationInProgress = true;
+
     try {
       // 1. Wait for foundation initialization (SharedPreferences, Supabase, Isar)
       final prefs = await _ref.read(appInitializationProvider.future);
@@ -39,16 +46,16 @@ class SplashController {
         _ref.read(lockProvider.notifier).lock();
       }
 
+      // Sync remote accounts if authenticated to retrieve existing user wallets
+      if (status == AuthStatus.authenticated) {
+        try {
+          await _ref.read(accountRepositoryProvider).syncAccounts();
+        } catch (_) {}
+      }
+
       // Determine onboarding status
       final onboardingCompleted = _ref.read(onboardingProvider);
       if (!onboardingCompleted) {
-        // Sync remote accounts if authenticated to retrieve existing user wallets
-        if (status == AuthStatus.authenticated) {
-          try {
-            await _ref.read(accountRepositoryProvider).syncAccounts();
-          } catch (_) {}
-        }
-
         final accounts = await _ref.read(accountRepositoryProvider).getAccounts();
         if (accounts.isNotEmpty) {
           await _ref.read(onboardingProvider.notifier).completeOnboarding();
@@ -87,6 +94,10 @@ class SplashController {
       if (context.mounted) {
         context.go(AppRoutes.login);
       }
+    } finally {
+      Future.delayed(const Duration(seconds: 1), () {
+        _navigationInProgress = false;
+      });
     }
   }
 }
