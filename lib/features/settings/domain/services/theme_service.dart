@@ -41,8 +41,8 @@ class ThemeService {
       ),
       cardTheme: CardThemeData(
         color: surfaceColor,
-        elevation: isDark && settings.amoledMode ? 0 : 1,
-        shadowColor: Colors.black.withOpacity(0.04),
+        elevation: isDark && settings.amoledMode ? 0 : 2,
+        shadowColor: Colors.black.withOpacity(0.03),
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -55,41 +55,43 @@ class ThemeService {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaceColor,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
             width: 1.0,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
             color: activeColorScheme.primary, 
-            width: 1.5,
+            width: 2.0,
           ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: activeColorScheme.primary,
-          foregroundColor: activeColorScheme.onPrimary,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          foregroundColor: Colors.white,
+          elevation: 2,
+          shadowColor: activeColorScheme.primary.withOpacity(0.2),
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 28),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(30),
             side: BorderSide.none,
           ),
           textStyle: const TextStyle(
-            fontWeight: FontWeight.normal,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
       ),

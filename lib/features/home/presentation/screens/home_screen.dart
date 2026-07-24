@@ -1262,7 +1262,7 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
                         child: Column(
                           children: [
                             const Text(
-                              'Only one account available.',
+                              'Only one wallet available.',
                               style: TextStyle(fontWeight: FontWeight.w500),
                               textAlign: TextAlign.center,
                             ),
@@ -1369,7 +1369,7 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
                   ),
                 );
               },
-              icon: const Icon(Icons.manage_accounts_outlined),
+              icon: const Icon(Icons.wallet_outlined),
               label: const Text(
                 'Manage Wallets',
                 style: TextStyle(fontWeight: FontWeight.bold),

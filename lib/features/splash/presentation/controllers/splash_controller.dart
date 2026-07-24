@@ -39,6 +39,22 @@ class SplashController {
         _ref.read(lockProvider.notifier).lock();
       }
 
+      // Determine onboarding status
+      final onboardingCompleted = _ref.read(onboardingProvider);
+      if (!onboardingCompleted) {
+        // Sync remote accounts if authenticated to retrieve existing user wallets
+        if (status == AuthStatus.authenticated) {
+          try {
+            await _ref.read(accountRepositoryProvider).syncAccounts();
+          } catch (_) {}
+        }
+
+        final accounts = await _ref.read(accountRepositoryProvider).getAccounts();
+        if (accounts.isNotEmpty) {
+          await _ref.read(onboardingProvider.notifier).completeOnboarding();
+        }
+      }
+
       // 4. Perform automatic navigation
       if (context.mounted) {
         // 1. Is the user authenticated (or using guest mode)?
@@ -48,16 +64,16 @@ class SplashController {
         }
 
         // 2. Has onboarding been completed?
-        final onboardingCompleted = _ref.read(onboardingProvider);
-        if (!onboardingCompleted) {
+        final isCompleted = _ref.read(onboardingProvider);
+        if (!isCompleted) {
           context.go(AppRoutes.onboarding);
           return;
         }
 
         // 3. Has the user created at least one Wallet?
-        final accounts = await _ref.read(accountRepositoryProvider).getAccounts();
+        final finalAccounts = await _ref.read(accountRepositoryProvider).getAccounts();
         if (!context.mounted) return;
-        if (accounts.isEmpty) {
+        if (finalAccounts.isEmpty) {
           context.go(AppRoutes.createWallet);
           return;
         }

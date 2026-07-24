@@ -273,12 +273,10 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
         openingBalanceDesc: '${context.translate('opening_balance_desc')}$_name',
       );
       if (mounted) {
-        final accounts = ref.read(accountsStreamProvider).value ?? [];
-        if (accounts.length <= 1) {
-          // If this was the first account created (including the one just saved)
-          context.go(AppRoutes.home);
-        } else {
+        if (context.canPop()) {
           context.pop();
+        } else {
+          context.go(AppRoutes.home);
         }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

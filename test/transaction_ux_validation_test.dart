@@ -4,8 +4,8 @@ import 'package:fintrack/features/transactions/domain/utils/validation_service.d
 void main() {
   group('Transaction UX & Form Validation Tests', () {
     test('validateTitle returns exact spec messages', () {
-      expect(ValidationService.validateTitle(''), equals('enter_title'));
-      expect(ValidationService.validateTitle(null), equals('enter_title'));
+      expect(ValidationService.validateTitle(''), isNull);
+      expect(ValidationService.validateTitle(null), isNull);
       expect(ValidationService.validateTitle('Groceries'), isNull);
     });
 

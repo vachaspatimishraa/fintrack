@@ -10,11 +10,11 @@ void main() {
     test('ValidationService validates title length bounds', () {
       expect(
         ValidationService.validateTitle(''),
-        equals('enter_title'),
+        isNull,
       );
       expect(
         ValidationService.validateTitle(null),
-        equals('enter_title'),
+        isNull,
       );
       expect(
         ValidationService.validateTitle('a' * 61),

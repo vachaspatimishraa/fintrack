@@ -3,7 +3,7 @@ class ValidationService {
   static final RegExp _amountPattern = RegExp(r'^\d+(\.\d{0,2})?$');
 
   static String? validateTitle(String? value) {
-    if (value == null || value.trim().isEmpty || value.trim().length > 60) {
+    if (value != null && value.trim().length > 60) {
       return 'enter_title';
     }
     return null;

@@ -163,14 +163,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ),
                     ),
                   ),
-                  FloatingActionButton.extended(
+                  ElevatedButton.icon(
                     onPressed: _onNext,
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    icon: const Icon(Icons.arrow_forward),
                     label: Text(_currentPage == _pages.length - 1
                         ? 'Create My First Wallet'
                         : 'Next'),
-                    icon: const Icon(Icons.arrow_forward),
                   ),
                 ],
               ),
@@ -209,13 +207,32 @@ class OnboardingPageWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          Text(
-            data.title,
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: theme.colorScheme.onSurface,
+          if (data.walletName != null) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.stars, color: theme.colorScheme.primary, size: 14),
+                  const SizedBox(width: 4),
+                  Text(
+                    data.walletName == 'Nainital Trip' ? 'Example 1' : 'Example 2',
+                    style: TextStyle(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            const SizedBox(height: 12),
+          ],
+          _buildTitle(context, data.title),
           const SizedBox(height: 12),
           Text(
             data.subtitle,
@@ -260,13 +277,22 @@ class OnboardingPageWidget extends StatelessWidget {
                       ))
                   .toList(),
             ),
-          if (data.features != null)
-            ...data.features!.map((f) => Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+          if (data.features != null) ...[
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: theme.colorScheme.outlineVariant.withOpacity(0.5)),
+              ),
+              child: Column(
+                children: data.features!.map((f) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: f.color.withOpacity(0.1),
                           shape: BoxShape.circle,
@@ -295,7 +321,10 @@ class OnboardingPageWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                )),
+                )).toList(),
+              ),
+            ),
+          ],
           if (data.walletName != null) ...[
             const SizedBox(height: 8),
             Center(
@@ -425,32 +454,83 @@ class OnboardingPageWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildTitle(BuildContext context, String title) {
+    final theme = Theme.of(context);
+    if (title.contains('Wallet')) {
+      final parts = title.split('Wallet');
+      return RichText(
+        text: TextSpan(
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
+          ),
+          children: [
+            TextSpan(text: parts[0]),
+            const TextSpan(
+              text: 'Wallet',
+              style: TextStyle(color: AppColors.primary),
+            ),
+            if (parts.length > 1) TextSpan(text: parts[1]),
+          ],
+        ),
+      );
+    }
+    return Text(
+      title,
+      style: theme.textTheme.headlineMedium?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: theme.colorScheme.onSurface,
+      ),
+    );
+  }
+
   Widget _buildTransactionList(BuildContext context, String title,
       Map<String, int> items, Color color, IconData icon) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(icon, color: color, size: 18),
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 16),
+            ),
             const SizedBox(width: 8),
             Text(
               title,
-              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+              style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ],
         ),
         const SizedBox(height: 8),
-        ...items.entries.map((e) => ListTile(
-              dense: true,
-              leading: const Icon(Icons.person_outline),
-              title: Text(e.key),
-              trailing: Text(
-                '₹${e.value}',
-                style: TextStyle(color: color, fontWeight: FontWeight.bold),
-              ),
-            )),
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+            ),
+          ),
+          child: Column(
+            children: items.entries.map((e) {
+              return ListTile(
+                dense: true,
+                leading: const Icon(Icons.person_outline, size: 20),
+                title: Text(e.key, style: const TextStyle(fontWeight: FontWeight.w500)),
+                trailing: Text(
+                  '₹${e.value}',
+                  style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
       ],
     );
   }
@@ -458,26 +538,59 @@ class OnboardingPageWidget extends StatelessWidget {
   Widget _buildCashOutList(BuildContext context, String title,
       List<String> items, Color color, IconData icon) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(icon, color: color, size: 18),
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 16),
+            ),
             const SizedBox(width: 8),
             Text(
               title,
-              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+              style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ],
         ),
         const SizedBox(height: 8),
-        ...items.map((e) => ListTile(
-              dense: true,
-              leading: Icon(_getIconForCashOut(e)),
-              title: Text(e),
-              trailing: const Icon(Icons.chevron_right, size: 16),
-            )),
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+            ),
+          ),
+          child: Column(
+            children: items.map((e) {
+              final isLast = items.last == e;
+              return Container(
+                decoration: BoxDecoration(
+                  border: isLast
+                      ? null
+                      : Border(
+                          bottom: BorderSide(
+                            color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+                          ),
+                        ),
+                ),
+                child: ListTile(
+                  dense: true,
+                  leading: Icon(_getIconForCashOut(e), size: 20, color: theme.colorScheme.onSurfaceVariant),
+                  title: Text(e, style: const TextStyle(fontWeight: FontWeight.w500)),
+                  trailing: const Icon(Icons.chevron_right, size: 16),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
       ],
     );
   }

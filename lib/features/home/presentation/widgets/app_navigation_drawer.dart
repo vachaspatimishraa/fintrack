@@ -67,7 +67,7 @@ class AppNavigationDrawer extends ConsumerWidget {
                   const SizedBox(height: 8),
                   _buildMenuItem(
                     context: context,
-                    icon: Icon(Icons.account_balance_outlined, color: Theme.of(context).colorScheme.primary),
+                    icon: Icon(Icons.account_balance_wallet_outlined, color: Theme.of(context).colorScheme.primary),
                     label: context.translate('accounts'),
                     destination: const AccountListScreen(),
                   ),
