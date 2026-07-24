@@ -20,24 +20,22 @@ class PdfService {
     final logoImage = pw.MemoryImage(logoData.buffer.asUint8List());
 
     // 1. Load Unicode Font for Hindi support
-    // We try to load regular and bold versions for better rendering
     pw.Font? regularFont;
     pw.Font? boldFont;
 
     try {
+      // These must be added to assets/fonts and pubspec.yaml by the user
       final fontData = await rootBundle.load('assets/fonts/NotoSansDevanagari-Regular.ttf');
       regularFont = pw.Font.ttf(fontData);
       
       final boldFontData = await rootBundle.load('assets/fonts/NotoSansDevanagari-Bold.ttf');
       boldFont = pw.Font.ttf(boldFontData);
     } catch (e) {
-      debugPrint('Warning: Could not load custom Unicode font. Hindi text might not render correctly: $e');
-      // Fallback is handled by the PDF library defaults, which don't support Hindi.
-      // Ideally, the font must be present in assets/fonts/
+      debugPrint('Warning: Custom Unicode font not found. Falling back to default: $e');
     }
 
-    // Define text styles using the loaded font
     final baseStyle = pw.TextStyle(font: regularFont);
+    final boldStyle = pw.TextStyle(font: boldFont ?? regularFont, fontWeight: pw.FontWeight.bold);
 
     double totalIncome = 0;
     double totalExpense = 0;
@@ -111,14 +109,20 @@ class PdfService {
           
           // Transactions Table
           pw.TableHelper.fromTextArray(
-            headers: ['Date', 'Category', 'Title', 'Type', 'Amount'],
+            headers: ['Date', 'Category', 'Title', 'Cash In', 'Cash Out'],
             data: transactions.map((tx) {
+              final isIncome = tx.type == 'income';
+              final amountStr = _formatAmountOnly(tx.amount);
               return [
                 AppFormatter.formatDate(tx.date),
                 tx.category,
                 tx.title.isNotEmpty ? tx.title : (tx.description.isNotEmpty ? tx.description : 'UPI'),
-                tx.type.toUpperCase(),
-                _formatAmountWithSymbol(tx.amount, tx.type == 'income'),
+                isIncome 
+                    ? pw.Text(amountStr, style: pw.TextStyle(font: boldFont, color: PdfColors.green, fontWeight: pw.FontWeight.bold))
+                    : '',
+                !isIncome 
+                    ? pw.Text(amountStr, style: pw.TextStyle(font: boldFont, color: PdfColors.red, fontWeight: pw.FontWeight.bold))
+                    : '',
               ];
             }).toList(),
             headerStyle: pw.TextStyle(
@@ -129,7 +133,10 @@ class PdfService {
             headerDecoration: const pw.BoxDecoration(color: PdfColors.indigo),
             cellStyle: baseStyle,
             cellAlignment: pw.Alignment.centerLeft,
-            cellAlignments: {4: pw.Alignment.centerRight},
+            cellAlignments: {
+              3: pw.Alignment.centerRight,
+              4: pw.Alignment.centerRight,
+            },
           ),
           
           // Footer
@@ -157,11 +164,9 @@ class PdfService {
     ], text: 'My FinTrack Financial Report');
   }
 
-  static String _formatAmountWithSymbol(double amount, bool isIncome) {
-    final symbol = isIncome ? '+' : '-';
-    // Use AppFormatter for currency formatting if it supports Hindi characters like ₹
-    // If not, we just use the number and assume the font handles the glyph.
-    return '$symbol ${AppFormatter.formatCurrency(amount)}';
+  static String _formatAmountOnly(double amount) {
+    // Return numeric value only, no currency symbol
+    return amount.toStringAsFixed(amount % 1 == 0 ? 0 : 2);
   }
 
   static pw.Widget _buildSummaryCard(
@@ -186,7 +191,7 @@ class PdfService {
           ),
           pw.SizedBox(height: 4),
           pw.Text(
-            AppFormatter.formatCurrency(amount),
+            _formatAmountOnly(amount),
             style: pw.TextStyle(
               fontSize: 14,
               fontWeight: pw.FontWeight.bold,
