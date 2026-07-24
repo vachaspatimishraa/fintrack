@@ -22,6 +22,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       final matchedLocation = state.matchedLocation;
       final isLoggingIn = matchedLocation == AppRoutes.login;
       final isSplashing = matchedLocation == AppRoutes.splash;
+      final isOnboarding = matchedLocation == AppRoutes.onboarding;
 
       // 1. If we are currently loading, only stay on splash or go to splash if at login
       if (status == AuthStatus.loading) {
@@ -29,15 +30,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         return null; // Stay where we are otherwise
       }
 
-      // 2. Error status -> Login
+      // 2. Error status (unauthenticated) -> stay on login, onboarding, or splash. Redirect others to splash.
       if (status == AuthStatus.error) {
-        return isLoggingIn ? null : AppRoutes.login;
+        if (isSplashing || isLoggingIn || isOnboarding) {
+          return null;
+        }
+        return AppRoutes.splash;
       }
 
-      // 3. Authenticated/Guest -> Splash (if currently at login)
-      // Do not automatically redirect from Splash to Home. Let SplashController decide.
+      // 3. Authenticated/Guest -> redirect to splash to handle wallet checks and route to Home/Create Wallet
       if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
-        if (isLoggingIn) {
+        if (isLoggingIn || isOnboarding) {
           return AppRoutes.splash;
         }
       }
