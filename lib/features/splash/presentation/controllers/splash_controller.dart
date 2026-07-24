@@ -57,16 +57,16 @@ class SplashController {
 
       // 4. Perform automatic navigation
       if (context.mounted) {
-        // 1. Is the user authenticated (or using guest mode)?
-        if (!isAuthenticated) {
-          context.go(AppRoutes.login);
-          return;
-        }
-
-        // 2. Has onboarding been completed?
+        // 1. Has onboarding been completed?
         final isCompleted = _ref.read(onboardingProvider);
         if (!isCompleted) {
           context.go(AppRoutes.onboarding);
+          return;
+        }
+
+        // 2. Is the user authenticated (or using guest mode)?
+        if (!isAuthenticated) {
+          context.go(AppRoutes.login);
           return;
         }
 

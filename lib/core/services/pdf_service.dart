@@ -55,6 +55,8 @@ class PdfService {
         theme: pw.ThemeData.withFont(
           base: regularFont,
           bold: boldFont,
+          italic: regularFont,
+          boldItalic: boldFont,
         ),
         build: (context) => [
           // Header

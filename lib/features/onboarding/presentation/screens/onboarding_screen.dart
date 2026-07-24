@@ -87,8 +87,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   void _complete() {
     ref.read(onboardingProvider.notifier).completeOnboarding();
-    // Navigate to Create Wallet
-    context.go(AppRoutes.createWallet);
+    // Navigate to Login Screen
+    context.go(AppRoutes.login);
   }
 
   @override
@@ -167,7 +167,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     onPressed: _onNext,
                     icon: const Icon(Icons.arrow_forward),
                     label: Text(_currentPage == _pages.length - 1
-                        ? 'Create My First Wallet'
+                        ? 'Let\'s Go'
                         : 'Next'),
                   ),
                 ],
@@ -203,7 +203,17 @@ class OnboardingPageWidget extends StatelessWidget {
                 color: theme.colorScheme.primaryContainer.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: Icon(data.icon, size: 100, color: AppColors.primary),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.asset(
+                  data.icon == Icons.account_balance_wallet
+                      ? 'assets/images/ob1.png'
+                      : (data.icon == Icons.landscape
+                          ? 'assets/images/ob2.png'
+                          : 'assets/images/ob3.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 32),

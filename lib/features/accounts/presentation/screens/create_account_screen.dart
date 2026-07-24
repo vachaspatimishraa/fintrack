@@ -76,7 +76,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? context.translate('edit_account') : 'Create Your First Wallet'),
+        title: Text(isEditing ? context.translate('edit_account') : 'Create Wallet'),
       ),
       body: SafeArea(
         child: Column(
@@ -91,7 +91,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     children: [
                       if (!isEditing) ...[
                         Text(
-                          'Create Your First Wallet',
+                          'Create Wallet',
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),

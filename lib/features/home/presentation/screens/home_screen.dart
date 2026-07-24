@@ -286,11 +286,34 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                       ),
                     ),
                     onPressed: () async {
-                      Navigator.pop(context);
-                      await homeController.exportPdf(
-                        dashboard.recentTransactions,
-                        dashboard.currentAccount?.name ?? 'Wallet',
+                      Navigator.pop(context); // Dismiss bottom sheet
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
+                      try {
+                        await homeController.exportPdf(
+                          dashboard.recentTransactions,
+                          dashboard.currentAccount?.name ?? 'Wallet',
+                        );
+                        if (context.mounted) {
+                          Navigator.pop(context); // Dismiss loading dialog
+                        }
+                      } catch (e, stackTrace) {
+                        debugPrint('PDF export failed: $e\n$stackTrace');
+                        if (context.mounted) {
+                          Navigator.pop(context); // Dismiss loading dialog
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to export PDF: ${e.toString()}'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      }
                     },
                     icon: const Icon(Icons.picture_as_pdf),
                     label: Text(context.translate('pdf')),
