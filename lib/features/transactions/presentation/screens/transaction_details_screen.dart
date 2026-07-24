@@ -526,6 +526,6 @@ class TransactionDetailsScreen extends ConsumerWidget {
   }
 
   AccountModel widgetPlaceholderAccount() {
-    return AccountModel()..name = 'Unknown Account';
+    return AccountModel()..name = 'Unknown Wallet';
   }
 }

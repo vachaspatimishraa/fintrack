@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/translations.dart';
-import '../screens/create_account_screen.dart';
 
 class EmptyAccountView extends StatelessWidget {
   const EmptyAccountView({super.key});
@@ -36,9 +37,7 @@ class EmptyAccountView extends StatelessWidget {
             const SizedBox(height: 48),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
-                );
+                context.push(AppRoutes.createWallet);
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),

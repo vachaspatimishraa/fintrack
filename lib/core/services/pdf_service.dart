@@ -31,11 +31,12 @@ class PdfService {
       final boldFontData = await rootBundle.load('assets/fonts/NotoSansDevanagari-Bold.ttf');
       boldFont = pw.Font.ttf(boldFontData);
     } catch (e) {
-      debugPrint('Warning: Custom Unicode font not found. Falling back to default: $e');
+      // Log warning instead of crashing if font is missing
+      debugPrint('Warning: Unicode font (NotoSansDevanagari) could not be loaded. Hindi characters may not render correctly. Error: $e');
     }
 
-    final baseStyle = pw.TextStyle(font: regularFont);
-    final boldStyle = pw.TextStyle(font: boldFont ?? regularFont, fontWeight: pw.FontWeight.bold);
+    final baseStyle = pw.TextStyle(font: regularFont, fontSize: 10);
+    final headerStyle = pw.TextStyle(font: boldFont ?? regularFont, fontWeight: pw.FontWeight.bold, color: PdfColors.white, fontSize: 10);
 
     double totalIncome = 0;
     double totalExpense = 0;
@@ -50,6 +51,7 @@ class PdfService {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(32),
         theme: pw.ThemeData.withFont(
           base: regularFont,
           bold: boldFont,
@@ -71,7 +73,7 @@ class PdfService {
                         fontSize: 24,
                         fontWeight: pw.FontWeight.bold,
                         color: PdfColor.fromInt(0xFF4A56B8),
-                        font: boldFont,
+                        font: boldFont ?? regularFont,
                       ),
                     ),
                   ],
@@ -91,7 +93,7 @@ class PdfService {
             style: pw.TextStyle(
               fontSize: 18, 
               fontWeight: pw.FontWeight.bold, 
-              font: boldFont,
+              font: boldFont ?? regularFont,
             ),
           ),
           pw.SizedBox(height: 20),
@@ -107,36 +109,58 @@ class PdfService {
           ),
           pw.SizedBox(height: 25),
           
-          // Transactions Table
-          pw.TableHelper.fromTextArray(
-            headers: ['Date', 'Category', 'Title', 'Cash In', 'Cash Out'],
-            data: transactions.map((tx) {
-              final isIncome = tx.type == 'income';
-              final amountStr = _formatAmountOnly(tx.amount);
-              return [
-                AppFormatter.formatDate(tx.date),
-                tx.category,
-                tx.title.isNotEmpty ? tx.title : (tx.description.isNotEmpty ? tx.description : 'UPI'),
-                isIncome 
-                    ? pw.Text(amountStr, style: pw.TextStyle(font: boldFont, color: PdfColors.green, fontWeight: pw.FontWeight.bold))
-                    : '',
-                !isIncome 
-                    ? pw.Text(amountStr, style: pw.TextStyle(font: boldFont, color: PdfColors.red, fontWeight: pw.FontWeight.bold))
-                    : '',
-              ];
-            }).toList(),
-            headerStyle: pw.TextStyle(
-              fontWeight: pw.FontWeight.bold,
-              color: PdfColors.white,
-              font: boldFont,
+          // Transactions Table (Manual implementation to support colors)
+          pw.Table(
+            border: const pw.TableBorder(
+              bottom: pw.BorderSide(color: PdfColors.grey200, width: 0.5),
+              horizontalInside: pw.BorderSide(color: PdfColors.grey200, width: 0.5),
             ),
-            headerDecoration: const pw.BoxDecoration(color: PdfColors.indigo),
-            cellStyle: baseStyle,
-            cellAlignment: pw.Alignment.centerLeft,
-            cellAlignments: {
-              3: pw.Alignment.centerRight,
-              4: pw.Alignment.centerRight,
+            columnWidths: {
+              0: const pw.FlexColumnWidth(2),
+              1: const pw.FlexColumnWidth(2),
+              2: const pw.FlexColumnWidth(3),
+              3: const pw.FlexColumnWidth(1.5),
+              4: const pw.FlexColumnWidth(1.5),
             },
+            children: [
+              // Header Row
+              pw.TableRow(
+                decoration: const pw.BoxDecoration(color: PdfColors.indigo),
+                children: [
+                  _buildTableCell('Date', headerStyle, isHeader: true),
+                  _buildTableCell('Category', headerStyle, isHeader: true),
+                  _buildTableCell('Title', headerStyle, isHeader: true),
+                  _buildTableCell('Cash In', headerStyle, isHeader: true, align: pw.Alignment.centerRight),
+                  _buildTableCell('Cash Out', headerStyle, isHeader: true, align: pw.Alignment.centerRight),
+                ],
+              ),
+              // Data Rows
+              ...transactions.map((tx) {
+                final isIncome = tx.type == 'income';
+                final amountStr = _formatAmountOnly(tx.amount);
+                
+                return pw.TableRow(
+                  children: [
+                    _buildTableCell(AppFormatter.formatDate(tx.date), baseStyle),
+                    _buildTableCell(tx.category, baseStyle),
+                    _buildTableCell(
+                      tx.title.isNotEmpty ? tx.title : (tx.description.isNotEmpty ? tx.description : 'UPI'),
+                      baseStyle,
+                    ),
+                    _buildTableCell(
+                      isIncome ? amountStr : '',
+                      pw.TextStyle(font: boldFont ?? regularFont, color: PdfColors.green, fontWeight: pw.FontWeight.bold, fontSize: 10),
+                      align: pw.Alignment.centerRight,
+                    ),
+                    _buildTableCell(
+                      !isIncome ? amountStr : '',
+                      pw.TextStyle(font: boldFont ?? regularFont, color: PdfColors.red, fontWeight: pw.FontWeight.bold, fontSize: 10),
+                      align: pw.Alignment.centerRight,
+                    ),
+                  ],
+                );
+              }),
+            ],
           ),
           
           // Footer
@@ -162,6 +186,16 @@ class PdfService {
     await Share.shareXFiles([
       XFile(file.path),
     ], text: 'My FinTrack Financial Report');
+  }
+
+  static pw.Widget _buildTableCell(String text, pw.TextStyle style, {bool isHeader = false, pw.Alignment align = pw.Alignment.centerLeft}) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.all(5),
+      child: pw.Container(
+        alignment: align,
+        child: pw.Text(text, style: style),
+      ),
+    );
   }
 
   static String _formatAmountOnly(double amount) {
@@ -196,7 +230,7 @@ class PdfService {
               fontSize: 14,
               fontWeight: pw.FontWeight.bold,
               color: color,
-              font: boldFont,
+              font: boldFont ?? regularFont,
             ),
           ),
         ],

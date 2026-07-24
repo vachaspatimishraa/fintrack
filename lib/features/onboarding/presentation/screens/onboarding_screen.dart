@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/utils/translations.dart';
-import '../../../accounts/presentation/screens/create_account_screen.dart';
-import '../providers/onboarding_provider.dart';
+import 'package:fintrack/features/onboarding/providers/onboarding_provider.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -70,6 +70,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       cashOut: ['Rent', 'School Fees', 'Grocery', 'Electricity', 'Fuel', 'Shopping'],
       note: 'At the end of the month, FinTrack generates a complete summary of income, expenses and remaining balance.',
       icon: Icons.calendar_month,
+      showWalletGrid: true,
     ),
   ];
 
@@ -86,10 +87,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   void _complete() {
     ref.read(onboardingProvider.notifier).completeOnboarding();
-    // Navigate to Create Wallet (which is renamed CreateAccountScreen)
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
-    );
+    // Navigate to Create Wallet
+    context.go(AppRoutes.createWallet);
   }
 
   @override
@@ -356,9 +355,73 @@ class OnboardingPageWidget extends StatelessWidget {
               ),
             ),
           ],
+          if (data.showWalletGrid) ...[
+            const SizedBox(height: 32),
+            const Divider(),
+            const SizedBox(height: 16),
+            const Center(
+              child: Text(
+                'Create wallets for anything that matters to you',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 16),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 3,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              children: [
+                _buildWalletExample(context, 'Daily Expenses', Icons.wallet, Colors.green),
+                _buildWalletExample(context, 'Monthly Budget', Icons.calendar_month, Colors.red),
+                _buildWalletExample(context, 'Nainital Trip', Icons.landscape, Colors.blue),
+                _buildWalletExample(context, 'Goa Vacation', Icons.beach_access, Colors.orange),
+                _buildWalletExample(context, 'College Expenses', Icons.school, Colors.purple),
+                _buildWalletExample(context, 'Business Expenses', Icons.business_center, Colors.brown),
+                _buildWalletExample(context, 'Car Maintenance', Icons.directions_car, Colors.indigo),
+                _buildWalletExample(context, 'Home Expenses', Icons.home, Colors.teal),
+                _buildWalletExample(context, 'Birthday Party', Icons.cake, Colors.pink),
+                _buildWalletExample(context, 'Wedding Budget', Icons.favorite, Colors.redAccent),
+                _buildWalletExample(context, 'Education', Icons.book, Colors.blueGrey),
+                _buildWalletExample(context, 'And More..', Icons.more_horiz, Colors.grey),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Center(
+              child: Text(
+                'There are no limits—organize your finances in the way that makes the most sense to you.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ),
+          ],
           const SizedBox(height: 40),
         ],
       ),
+    );
+  }
+
+  Widget _buildWalletExample(BuildContext context, String name, IconData icon, Color color) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Icon(icon, color: color, size: 24),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          name,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 10),
+        ),
+      ],
     );
   }
 
@@ -457,6 +520,7 @@ class OnboardingData {
   final List<String>? cashOut;
   final String? note;
   final IconData icon;
+  final bool showWalletGrid;
 
   OnboardingData({
     required this.title,
@@ -469,6 +533,7 @@ class OnboardingData {
     this.cashOut,
     this.note,
     required this.icon,
+    this.showWalletGrid = false,
   });
 }
 

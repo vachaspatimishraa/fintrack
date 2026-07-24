@@ -27,7 +27,7 @@ A modern, offline-first personal finance management application built with Flutt
 
 # 📱 About
 
-FinTrack is an offline-first personal finance manager designed to help you track income, expenses, accounts, and financial reports with a beautiful Material 3 interface.
+FinTrack is an offline-first personal finance manager designed to help you track income, expenses, wallets, and financial reports with a beautiful Material 3 interface.
 
 Data is stored locally using **Isar** and can be synchronized securely with **Supabase**.
 
@@ -36,7 +36,7 @@ Data is stored locally using **Isar** and can be synchronized securely with **Su
 # ✨ Features
 
 - 💰 Income & Expense Tracking
-- 📂 Multiple Accounts
+- 📂 Multiple Wallets
 - 🏷 Custom Categories
 - ☁️ Supabase Cloud Sync
 - 📱 Offline-first Architecture
@@ -57,7 +57,7 @@ Data is stored locally using **Isar** and can be synchronized securely with **Su
 
 > Add screenshots here.
 
-| Dashboard | Reports | Accounts |
+| Dashboard | Reports | Wallets |
 |-----------|---------|----------|
 | Screenshot | Screenshot | Screenshot |
 

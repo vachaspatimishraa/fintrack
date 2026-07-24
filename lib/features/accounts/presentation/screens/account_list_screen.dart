@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/translations.dart';
 import '../../providers/account_provider.dart';
 import '../../providers/account_search_provider.dart';
@@ -12,7 +14,6 @@ import '../widgets/account_card.dart';
 import '../widgets/rename_account_dialog.dart';
 import '../widgets/archive_account_dialog.dart';
 import '../widgets/delete_account_dialog.dart';
-import 'create_account_screen.dart';
 import '../../../../core/utils/formatter.dart';
 import '../../../../core/database/isar/collections/account_model.dart';
 
@@ -71,9 +72,7 @@ class AccountListScreen extends ConsumerWidget {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
-                    );
+                    context.push(AppRoutes.createWallet);
                   },
                   icon: const Icon(Icons.add, size: 16),
                   label: Text(context.translate('add_account')),

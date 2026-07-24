@@ -8,7 +8,7 @@ class RestoreTransactionDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Restore Transaction?'),
       content: const Text(
-        'This transaction will be added back to your account balance and transaction history.',
+        'This transaction will be added back to your wallet balance and transaction history.',
       ),
       actions: [
         TextButton(

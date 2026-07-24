@@ -6,6 +6,8 @@ import '../../../auth/providers/auth_provider.dart';
 import '../../providers/initialization_provider.dart';
 import '../../../settings/providers/settings_provider.dart';
 import '../../../settings/providers/security_provider.dart';
+import 'package:fintrack/features/onboarding/providers/onboarding_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
 
 class SplashController {
   final Ref _ref;
@@ -39,11 +41,29 @@ class SplashController {
 
       // 4. Perform automatic navigation
       if (context.mounted) {
-        if (isAuthenticated) {
-          context.go(AppRoutes.home);
-        } else {
+        // 1. Is the user authenticated (or using guest mode)?
+        if (!isAuthenticated) {
           context.go(AppRoutes.login);
+          return;
         }
+
+        // 2. Has onboarding been completed?
+        final onboardingCompleted = _ref.read(onboardingProvider);
+        if (!onboardingCompleted) {
+          context.go(AppRoutes.onboarding);
+          return;
+        }
+
+        // 3. Has the user created at least one Wallet?
+        final accounts = await _ref.read(accountRepositoryProvider).getAccounts();
+        if (!context.mounted) return;
+        if (accounts.isEmpty) {
+          context.go(AppRoutes.createWallet);
+          return;
+        }
+
+        // 4. Otherwise
+        context.go(AppRoutes.home);
       }
     } catch (e, stackTrace) {
       debugPrint('Startup navigation error: $e');

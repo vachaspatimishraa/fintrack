@@ -39,7 +39,7 @@ class CustomReportBuilder extends ConsumerWidget {
               initialValue: groupBy,
               items: const [
                 DropdownMenuItem(value: 'category', child: Text('Category')),
-                DropdownMenuItem(value: 'account', child: Text('Account')),
+                DropdownMenuItem(value: 'account', child: Text('Wallet')),
                 DropdownMenuItem(value: 'day', child: Text('Day')),
                 DropdownMenuItem(value: 'week', child: Text('Week')),
                 DropdownMenuItem(value: 'month', child: Text('Month')),

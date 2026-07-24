@@ -178,8 +178,8 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Accounts selection
-                    const Text('Account / Wallet', style: TextStyle(fontWeight: FontWeight.bold)),
+                    // Wallets selection
+                    const Text('Wallet', style: TextStyle(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     accountsAsync.when(
                       data: (accounts) {
@@ -187,7 +187,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                           initialValue: _accountId,
                           decoration: const InputDecoration(contentPadding: EdgeInsets.symmetric(horizontal: 12)),
                           items: [
-                            const DropdownMenuItem(value: null, child: Text('All Accounts')),
+                            const DropdownMenuItem(value: null, child: Text('All Wallets')),
                             ...accounts.map(
                               (acc) => DropdownMenuItem(value: acc.uuid, child: Text(acc.name)),
                             ),

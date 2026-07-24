@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../accounts/providers/account_provider.dart';
 import '../../../accounts/presentation/screens/account_list_screen.dart';
 import '../../../accounts/presentation/screens/create_account_screen.dart';
@@ -212,20 +214,22 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
         },
         tooltip: context.translate('open_navigation_drawer'),
       ),
-      title: Text(
-        context.translate('app_title'),
-        style: const TextStyle(fontWeight: FontWeight.bold),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset('assets/images/logo.png', height: 24),
+          const SizedBox(width: 8),
+          Text(
+            context.translate('app_title'),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
       actions: [
         // Add Button
         IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CreateAccountScreen(),
-              ),
-            );
+            context.push(AppRoutes.createWallet);
           },
           icon: const Icon(Icons.add),
           tooltip: context.translate('add_account'),
@@ -285,7 +289,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                       Navigator.pop(context);
                       await homeController.exportPdf(
                         dashboard.recentTransactions,
-                        dashboard.currentAccount?.name ?? 'Account',
+                        dashboard.currentAccount?.name ?? 'Wallet',
                       );
                     },
                     icon: const Icon(Icons.picture_as_pdf),
@@ -1091,12 +1095,12 @@ class EmptyAccountView extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              context.translate('no_accounts_yet'),
+              'No Wallets Yet',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 10),
             Text(
-              context.translate('create_first_account'),
+              'Create your first wallet to start tracking your finances.',
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -1110,7 +1114,7 @@ class EmptyAccountView extends StatelessWidget {
                 );
               },
               icon: const Icon(Icons.add),
-              label: Text(context.translate('create_account')),
+              label: Text('Create Wallet'),
             ),
           ],
         ),
@@ -1153,7 +1157,7 @@ class _AccountSwitcherWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final accountName = currentAccount?.name ?? 'Select Account';
+    final accountName = currentAccount?.name ?? 'Select Wallet';
 
     return Material(
       color: theme.colorScheme.secondaryContainer,
@@ -1275,7 +1279,7 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
                                 );
                               },
                               icon: const Icon(Icons.add),
-                              label: const Text('Add New Account'),
+                              label: const Text('Add New Wallet'),
                             ),
                           ],
                         ),
@@ -1367,7 +1371,7 @@ class _AccountSwitcherBottomSheet extends ConsumerWidget {
               },
               icon: const Icon(Icons.manage_accounts_outlined),
               label: const Text(
-                'Manage Accounts',
+                'Manage Wallets',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -1387,7 +1391,7 @@ void _showMigrationDialog(BuildContext context, WidgetRef ref) {
       return AlertDialog(
         title: const Text('Sync Existing Data?'),
         content: const Text(
-          'You already have local transactions. Would you like to upload them to your cloud account?',
+          'You already have local transactions. Would you like to upload them to your cloud backup?',
         ),
         actions: [
           TextButton(

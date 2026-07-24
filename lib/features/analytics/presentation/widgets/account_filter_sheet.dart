@@ -27,7 +27,7 @@ class AccountFilterSheet extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Select Accounts',
+                'Select Wallets',
                 style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               TextButton(
@@ -43,7 +43,7 @@ class AccountFilterSheet extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: Text(
-                    'No accounts available',
+                    'No wallets available',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
@@ -81,7 +81,7 @@ class AccountFilterSheet extends ConsumerWidget {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, _) => Center(child: Text('Error loading accounts: $err')),
+            error: (err, _) => Center(child: Text('Error loading wallets: $err')),
           ),
           const SizedBox(height: 24),
           FilledButton(

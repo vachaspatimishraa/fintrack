@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../constants/routes.dart';
-import 'route_names.dart';
-import '../../features/auth/providers/auth_provider.dart';
-import '../../features/splash/presentation/screens/splash_screen.dart';
-import '../../features/auth/presentation/screens/login_screen.dart';
-import '../../features/home/presentation/screens/home_screen.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/splash/presentation/screens/splash_screen.dart';
+import 'package:fintrack/features/auth/presentation/screens/login_screen.dart';
+import 'package:fintrack/features/home/presentation/screens/home_screen.dart';
+import 'package:fintrack/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:fintrack/features/accounts/presentation/screens/create_account_screen.dart';
+import 'package:fintrack/core/constants/routes.dart';
+import 'package:fintrack/core/router/route_names.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final listenable = ref.watch(routerRefreshListenableProvider);
@@ -32,10 +34,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         return isLoggingIn ? null : AppRoutes.login;
       }
 
-      // 3. Authenticated/Guest -> Home (if currently at login or splash)
+      // 3. Authenticated/Guest -> Splash (if currently at login)
+      // Do not automatically redirect from Splash to Home. Let SplashController decide.
       if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
-        if (isLoggingIn || isSplashing) {
-          return AppRoutes.home;
+        if (isLoggingIn) {
+          return AppRoutes.splash;
         }
       }
 
@@ -48,6 +51,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
+        path: AppRoutes.onboarding,
+        name: RouteNames.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.login,
         name: RouteNames.login,
         builder: (context, state) => const LoginScreen(),
@@ -56,6 +64,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.home,
         name: RouteNames.home,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.createWallet,
+        name: RouteNames.createWallet,
+        builder: (context, state) => const CreateAccountScreen(),
       ),
     ],
   );

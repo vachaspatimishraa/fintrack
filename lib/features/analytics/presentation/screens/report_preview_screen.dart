@@ -102,7 +102,7 @@ class ReportPreviewScreen extends ConsumerWidget {
       chips.add(Chip(label: const Text('Date Range Active'), avatar: const Icon(Icons.calendar_today, size: 14)));
     }
     if (filter.selectedAccounts.isNotEmpty) {
-      chips.add(Chip(label: Text('${filter.selectedAccounts.length} Accounts'), avatar: const Icon(Icons.account_balance, size: 14)));
+      chips.add(Chip(label: Text('${filter.selectedAccounts.length} Wallets'), avatar: const Icon(Icons.account_balance, size: 14)));
     }
     if (filter.selectedCategories.isNotEmpty) {
       chips.add(Chip(label: Text('${filter.selectedCategories.length} Categories'), avatar: const Icon(Icons.category, size: 14)));

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:fintrack/core/constants/routes.dart';
 import '../../../../core/database/isar/collections/account_model.dart';
 import '../../../../core/utils/translations.dart';
 import '../../../settings/domain/entities/currency_entity.dart';
@@ -67,6 +68,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     final isEditing = widget.account != null;
     final controller = ref.read(accountControllerProvider);
     final settings = ref.watch(settingsProvider).value;
+    final theme = Theme.of(context);
     final currencyCode = settings?.currency ?? 'INR';
     final currencySymbol = CurrencyEntity.supportedCurrencies
         .firstWhere((c) => c.code == currencyCode)
@@ -74,7 +76,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? context.translate('edit_account') : context.translate('create_account')),
+        title: Text(isEditing ? context.translate('edit_account') : 'Create Your First Wallet'),
       ),
       body: SafeArea(
         child: Column(
@@ -87,10 +89,27 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      if (!isEditing) ...[
+                        Text(
+                          'Create Your First Wallet',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'A Wallet represents where your money is stored or managed for a specific purpose.',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                      ],
                       TextFormField(
                         initialValue: _name,
                         decoration: InputDecoration(
                           labelText: context.translate('account_name'),
+                          hintText: 'e.g. Cash, SBI, Nainital Trip, Business',
                           border: const OutlineInputBorder(),
                         ),
                         validator: (val) {
@@ -254,7 +273,13 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
         openingBalanceDesc: '${context.translate('opening_balance_desc')}$_name',
       );
       if (mounted) {
-        context.pop();
+        final accounts = ref.read(accountsStreamProvider).value ?? [];
+        if (accounts.length <= 1) {
+          // If this was the first account created (including the one just saved)
+          context.go(AppRoutes.home);
+        } else {
+          context.pop();
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

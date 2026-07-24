@@ -38,7 +38,7 @@ class GroupingEngine {
           key = tx.category.isNotEmpty ? tx.category : 'Uncategorized';
           break;
         case 'account':
-          key = tx.accountId.isNotEmpty ? tx.accountId : 'Default Account';
+          key = tx.accountId.isNotEmpty ? tx.accountId : 'Default Wallet';
           break;
         default:
           key = tx.category.isNotEmpty ? tx.category : 'Others';

@@ -14,7 +14,7 @@ class InsightDetailsScreen extends ConsumerWidget {
   String _getEducationalTip(String category) {
     switch (category.toLowerCase()) {
       case 'savings':
-        return 'Financial planners recommend maintaining 3 to 6 months of living expenses in a liquid account as an emergency buffer before investing.';
+        return 'Financial planners recommend maintaining 3 to 6 months of living expenses in a liquid wallet as an emergency buffer before investing.';
       case 'budget':
         return 'The 50/30/20 budgeting rule suggests allocating 50% of income to Needs, 30% to Wants, and 20% to Savings/Debt paydown.';
       case 'expenses':

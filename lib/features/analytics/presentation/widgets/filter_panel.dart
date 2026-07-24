@@ -157,7 +157,7 @@ class _FilterPanelState extends ConsumerState<FilterPanel> {
                 DropdownMenuItem(value: 'highestAmount', child: Text('Highest Amount')),
                 DropdownMenuItem(value: 'lowestAmount', child: Text('Lowest Amount')),
                 DropdownMenuItem(value: 'category', child: Text('Category')),
-                DropdownMenuItem(value: 'account', child: Text('Account')),
+                DropdownMenuItem(value: 'account', child: Text('Wallet')),
               ],
               onChanged: (val) {
                 if (val != null) {
