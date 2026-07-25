@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/constants/colors.dart';
 import '../controllers/auth_controller.dart';
 
 class LoginScreen extends ConsumerWidget {

@@ -474,7 +474,7 @@ class _AddEditTransactionScreenState
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _accountId,
+                      initialValue: _accountId,
                       decoration: InputDecoration(
                         labelText: context.translate('account_wallet'),
                       ),

@@ -34,8 +34,11 @@ class TransactionDetailsScreen extends ConsumerWidget {
         await controller.deleteTransaction(transaction.uuid);
         if (!context.mounted) return;
 
-        // Pop back to transactions list
-        Navigator.pop(context);
+        // Pop back to transactions list if this route is still active
+        final route = ModalRoute.of(context);
+        if (route != null && route.isCurrent) {
+          Navigator.pop(context);
+        }
 
         // Show Undo SnackBar
         ScaffoldMessenger.of(context).showSnackBar(
@@ -204,15 +207,20 @@ class TransactionDetailsScreen extends ConsumerWidget {
       ),
       body: transactionsAsync.when(
         data: (list) {
+          debugPrint('UI rebuilt');
           final tx = list.firstWhere(
             (t) => t.uuid == transactionUuid,
             orElse: () => widgetPlaceholderTransaction(),
           );
 
           if (tx.uuid.isEmpty) {
+            debugPrint('Provider refreshed');
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (context.mounted) {
-                Navigator.pop(context);
+                final route = ModalRoute.of(context);
+                if (route != null && route.isCurrent) {
+                  Navigator.pop(context);
+                }
               }
             });
 

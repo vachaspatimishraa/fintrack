@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_categories.dart';
-import '../../../../core/constants/colors.dart';
 import '../../../../core/utils/formatter.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/selection_controller.dart';
