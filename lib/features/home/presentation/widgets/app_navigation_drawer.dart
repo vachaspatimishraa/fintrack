@@ -89,7 +89,7 @@ class AppNavigationDrawer extends ConsumerWidget {
 
   Widget _buildUserSection(BuildContext context, WidgetRef ref, AuthState authState, AuthController authController) {
     final isLoading = authState.status == AuthStatus.loading;
-    final isGuest = authState.status == AuthStatus.guest || authState.status == AuthStatus.error;
+    final isGuest = authState.status == AuthStatus.guest || authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.error;
     final theme = Theme.of(context);
 
     if (isGuest) {

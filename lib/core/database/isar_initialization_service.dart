@@ -28,20 +28,14 @@ class IsarInitializationService {
   }
 
   Future<void> initialize() async {
-    if (_isar != null) {
-      debugPrint("[LOG] Isar already initialized.");
-      return;
-    }
+    if (_isar != null) return;
     
     String? path;
     if (!kIsWeb) {
-      debugPrint("[LOG] Before getApplicationDocumentsDirectory()");
       final dir = await getApplicationDocumentsDirectory();
-      debugPrint("[LOG] After getApplicationDocumentsDirectory(): ${dir.path}");
       path = dir.path;
     }
     
-    debugPrint("[LOG] Before Isar.open()");
     _isar = await Isar.open(
       [
         AccountModelSchema,
@@ -63,6 +57,5 @@ class IsarInitializationService {
       ],
       directory: path ?? "",
     );
-    debugPrint("[LOG] After Isar.open()");
   }
 }

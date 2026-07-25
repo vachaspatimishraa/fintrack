@@ -45,7 +45,7 @@ void main() {
       expect(guest.status, AuthStatus.guest);
 
       const unauth = AuthState.unauthenticated(errorMessage: 'Cancel');
-      expect(unauth.status, AuthStatus.error);
+      expect(unauth.status, AuthStatus.unauthenticated);
 
       final errorState = AuthState.error('Failed connection');
       expect(errorState.status, AuthStatus.error);

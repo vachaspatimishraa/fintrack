@@ -24,30 +24,23 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isSplashing = matchedLocation == AppRoutes.splash;
       final isOnboarding = matchedLocation == AppRoutes.onboarding;
 
-      debugPrint('[ROUTER REDIRECT] Executing redirect:');
-      debugPrint('  - Current route: $matchedLocation');
-      debugPrint('  - Auth status: $status');
-
-      String? target;
-
       if (status == AuthStatus.loading) {
-        target = null;
-      } else if (status == AuthStatus.error) {
-        if (isSplashing || isLoggingIn || isOnboarding) {
-          target = null;
-        } else {
-          target = AppRoutes.login;
-        }
-      } else if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
-        if (isLoggingIn || isOnboarding) {
-          target = AppRoutes.home;
-        } else {
-          target = null;
+        return null;
+      }
+
+      if (status == AuthStatus.unauthenticated || status == AuthStatus.error) {
+        if (!isLoggingIn && !isOnboarding && !isSplashing) {
+          return AppRoutes.login;
         }
       }
 
-      debugPrint('  - Redirect target: $target');
-      return target;
+      if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
+        if (isLoggingIn || isOnboarding) {
+          return AppRoutes.home;
+        }
+      }
+
+      return null;
     },
     routes: [
       GoRoute(

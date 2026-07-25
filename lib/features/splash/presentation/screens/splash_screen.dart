@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/colors.dart';
-import '../../../../core/utils/translations.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {

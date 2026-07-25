@@ -91,7 +91,7 @@ class SettingsScreen extends ConsumerWidget {
 
   Widget _buildProfileCard(BuildContext context, WidgetRef ref, dynamic user, AuthStatus status) {
     final theme = Theme.of(context);
-    final isGuest = status == AuthStatus.guest || status == AuthStatus.error;
+    final isGuest = status == AuthStatus.guest || status == AuthStatus.unauthenticated || status == AuthStatus.error;
 
     if (isGuest) {
       return Card(
@@ -367,7 +367,7 @@ class SettingsScreen extends ConsumerWidget {
 
   void _showLogoutConfirmation(BuildContext context, WidgetRef ref) {
     final authState = ref.read(authProvider);
-    final isGuest = authState.status == AuthStatus.guest || authState.status == AuthStatus.error;
+    final isGuest = authState.status == AuthStatus.guest || authState.status == AuthStatus.unauthenticated || authState.status == AuthStatus.error;
 
     showDialog(
       context: context,
