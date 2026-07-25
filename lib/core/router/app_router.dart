@@ -24,28 +24,30 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isSplashing = matchedLocation == AppRoutes.splash;
       final isOnboarding = matchedLocation == AppRoutes.onboarding;
 
-      // 1. If we are currently loading, stay on splash if already on splash. Otherwise, stay where we are.
+      debugPrint('[ROUTER REDIRECT] Executing redirect:');
+      debugPrint('  - Current route: $matchedLocation');
+      debugPrint('  - Auth status: $status');
+
+      String? target;
+
       if (status == AuthStatus.loading) {
-        if (isSplashing) return AppRoutes.splash;
-        return null; 
-      }
-
-      // 2. Error status (unauthenticated) -> stay on login, onboarding, or splash. Redirect others to splash.
-      if (status == AuthStatus.error) {
+        target = null;
+      } else if (status == AuthStatus.error) {
         if (isSplashing || isLoggingIn || isOnboarding) {
-          return null;
+          target = null;
+        } else {
+          target = AppRoutes.login;
         }
-        return AppRoutes.splash;
-      }
-
-      // 3. Authenticated/Guest -> redirect to splash to handle wallet checks and route to Home/Create Wallet
-      if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
+      } else if (status == AuthStatus.authenticated || status == AuthStatus.guest) {
         if (isLoggingIn || isOnboarding) {
-          return AppRoutes.splash;
+          target = AppRoutes.home;
+        } else {
+          target = null;
         }
       }
 
-      return null;
+      debugPrint('  - Redirect target: $target');
+      return target;
     },
     routes: [
       GoRoute(

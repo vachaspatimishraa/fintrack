@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,96 +9,158 @@ import '../../../settings/providers/settings_provider.dart';
 import '../../../settings/providers/security_provider.dart';
 import 'package:fintrack/features/onboarding/providers/onboarding_provider.dart';
 import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class SplashController {
   final Ref _ref;
-  static bool _navigationInProgress = false;
 
   SplashController(this._ref);
 
   Future<void> handleAppStartup(BuildContext context) async {
-    if (_navigationInProgress) {
-      debugPrint('Startup navigation already in progress, ignoring duplicate call.');
-      return;
-    }
-    _navigationInProgress = true;
+
+    debugPrint('[SPLASH] START Splash');
+
+    String destinationRoute = AppRoutes.login;
+    bool onboardingCompleted = false;
+    bool isAuthenticated = false;
+    bool hasWallets = false;
 
     try {
-      // 1. Wait for foundation initialization (SharedPreferences, Supabase, Isar)
-      final prefs = await _ref.read(appInitializationProvider.future);
+      // 1. Wait for foundation initialization
+      debugPrint('[SPLASH] Getting shared preferences...');
+      final prefs = _ref.read(sharedPreferencesProvider);
+      debugPrint('[SPLASH] Preferences Ready');
 
       // 2. Load last selected account
       final lastAccountId = prefs.getString('last_selected_account_id');
-      debugPrint('Loaded last selected account ID: $lastAccountId');
+      debugPrint('[SPLASH] Loaded last selected account ID: $lastAccountId');
 
-      // 3. Wait for the authentication status to resolve with a timeout (5 seconds max)
-      int retryCount = 0;
-      AuthStatus status = _ref.read(authProvider).status;
-      while (status == AuthStatus.loading && retryCount < 100) {
-        await Future.delayed(const Duration(milliseconds: 50));
-        status = _ref.read(authProvider).status;
-        retryCount++;
+      // 3. Wait for the authentication status to resolve
+      debugPrint('[SPLASH] Waiting for auth status...');
+      AuthState authState = _ref.read(authProvider);
+      if (authState.status == AuthStatus.loading) {
+        final completer = Completer<AuthState>();
+        final subscription = _ref.listen<AuthState>(
+          authProvider,
+          (previous, next) {
+            if (next.status != AuthStatus.loading && !completer.isCompleted) {
+              completer.complete(next);
+            }
+          },
+          fireImmediately: true,
+        );
+        try {
+          authState = await completer.future.timeout(
+            const Duration(seconds: 3),
+          );
+        } catch (e) {
+          debugPrint('[SPLASH WARNING] Auth status wait timed out: $e. Using current status.');
+          authState = _ref.read(authProvider);
+        } finally {
+          subscription.close();
+        }
       }
+      final AuthStatus status = authState.status;
+      debugPrint('[SPLASH] Auth status resolved: $status');
+      isAuthenticated = status == AuthStatus.authenticated || status == AuthStatus.guest;
 
-      // Read settings and check if app lock is enabled
-      final settings = await _ref.read(settingsRepositoryProvider).loadSettings();
-      final isAuthenticated = status == AuthStatus.authenticated || status == AuthStatus.guest;
+      // 4. Load Settings
+      debugPrint('[SPLASH] Loading settings...');
+      final settings = await _ref.read(settingsRepositoryProvider).loadSettings().timeout(
+        const Duration(seconds: 3),
+        onTimeout: () {
+          debugPrint('[SPLASH WARNING] loadSettings timed out.');
+          return SettingsEntity();
+        },
+      );
+      debugPrint('[SPLASH] Settings Ready');
+
       if (settings.appLockEnabled && isAuthenticated) {
         _ref.read(lockProvider.notifier).lock();
+        debugPrint('[SPLASH] App Lock Enabled & Triggered');
       }
 
-      // Sync remote accounts if authenticated to retrieve existing user wallets
+      // 5. Restore session / Sync wallets
       if (status == AuthStatus.authenticated) {
+        debugPrint('[SPLASH] Wallet Sync Started');
         try {
-          await _ref.read(accountRepositoryProvider).syncAccounts();
-        } catch (_) {}
+          await _ref.read(accountRepositoryProvider).syncAccounts().timeout(
+            const Duration(seconds: 3),
+            onTimeout: () {
+              debugPrint('[SPLASH WARNING] syncAccounts timed out.');
+            },
+          );
+        } catch (e) {
+          debugPrint('[SPLASH WARNING] syncAccounts failed: $e');
+        }
+        debugPrint('[SPLASH] Wallet Sync Finished');
       }
 
-      // Determine onboarding status
-      final onboardingCompleted = _ref.read(onboardingProvider);
+      // Onboarding and Wallet check
+      onboardingCompleted = _ref.read(onboardingProvider);
+      debugPrint('[SPLASH] Onboarding completed status: $onboardingCompleted');
+
       if (!onboardingCompleted) {
-        final accounts = await _ref.read(accountRepositoryProvider).getAccounts();
+        debugPrint('[SPLASH] Checking for local wallets...');
+        final accounts = await _ref.read(accountRepositoryProvider).getAccounts().timeout(
+          const Duration(seconds: 3),
+          onTimeout: () {
+            debugPrint('[SPLASH WARNING] getAccounts timed out.');
+            return [];
+          },
+        );
         if (accounts.isNotEmpty) {
           await _ref.read(onboardingProvider.notifier).completeOnboarding();
+          onboardingCompleted = true;
+          debugPrint('[SPLASH] Wallets found locally, marked onboarding completed.');
         }
       }
 
-      // 4. Perform automatic navigation
-      if (context.mounted) {
-        // 1. Has onboarding been completed?
-        final isCompleted = _ref.read(onboardingProvider);
-        if (!isCompleted) {
-          context.go(AppRoutes.onboarding);
-          return;
-        }
-
-        // 2. Is the user authenticated (or using guest mode)?
-        if (!isAuthenticated) {
-          context.go(AppRoutes.login);
-          return;
-        }
-
-        // 3. Has the user created at least one Wallet?
-        final finalAccounts = await _ref.read(accountRepositoryProvider).getAccounts();
-        if (!context.mounted) return;
-        if (finalAccounts.isEmpty) {
-          context.go(AppRoutes.createWallet);
-          return;
-        }
-
-        // 4. Otherwise
-        context.go(AppRoutes.home);
+      if (onboardingCompleted && isAuthenticated) {
+        debugPrint('[SPLASH] Checking wallets for final navigation...');
+        final finalAccounts = await _ref.read(accountRepositoryProvider).getAccounts().timeout(
+          const Duration(seconds: 3),
+          onTimeout: () {
+            debugPrint('[SPLASH WARNING] getAccounts (final) timed out.');
+            return [];
+          },
+        );
+        hasWallets = finalAccounts.isNotEmpty;
       }
+
+      // Determine correct route
+      if (!onboardingCompleted) {
+        destinationRoute = AppRoutes.onboarding;
+      } else if (!isAuthenticated) {
+        destinationRoute = AppRoutes.login;
+      } else if (!hasWallets) {
+        destinationRoute = AppRoutes.createWallet;
+      } else {
+        destinationRoute = AppRoutes.home;
+      }
+
     } catch (e, stackTrace) {
-      debugPrint('Startup navigation error: $e');
+      debugPrint('[SPLASH ERROR] Startup error: $e');
       debugPrintStack(stackTrace: stackTrace);
-      if (context.mounted) {
-        context.go(AppRoutes.login);
-      }
+      destinationRoute = AppRoutes.login;
     } finally {
-      Future.delayed(const Duration(seconds: 1), () {
-        _navigationInProgress = false;
-      });
+      debugPrint('[SPLASH] Finalizing navigation to: $destinationRoute');
+      if (context.mounted) {
+        debugPrint('[SPLASH] Context is mounted. Navigating to: $destinationRoute');
+        context.go(destinationRoute);
+      } else {
+        debugPrint('[SPLASH SEVERE WARNING] Context is NOT mounted. Retrying navigation via microtask.');
+        Future.microtask(() {
+          if (context.mounted) {
+            debugPrint('[SPLASH] Retry: Context mounted. Navigating to: $destinationRoute');
+            context.go(destinationRoute);
+          } else {
+            debugPrint('[SPLASH ERROR] Retry failed: Context still NOT mounted.');
+          }
+        });
+      }
+
+      // Navigation flag removed
     }
   }
 }

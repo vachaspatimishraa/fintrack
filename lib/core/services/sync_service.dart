@@ -14,7 +14,7 @@ import '../utils/sync_preferences.dart';
 class SyncService {
   final Isar _isar;
   final ConnectivityService _connectivity;
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final SupabaseClient _supabase;
 
   final _pendingCountController = StreamController<int>.broadcast();
   final _syncStatusController = StreamController<bool>.broadcast();
@@ -26,7 +26,8 @@ class SyncService {
     required Isar isar,
     required ConnectivityService connectivity,
   })  : _isar = isar,
-        _connectivity = connectivity {
+        _connectivity = connectivity,
+        _supabase = Supabase.instance.client {
     _init();
   }
 

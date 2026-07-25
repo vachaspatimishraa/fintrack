@@ -3,12 +3,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SessionService {
   final SharedPreferences _prefs;
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final SupabaseClient _supabase;
 
   static const String _keyLastLogin = 'auth_last_login_time';
   static const String _keyGuestMode = 'auth_guest_mode_enabled';
 
-  SessionService(this._prefs);
+  SessionService(this._prefs) : _supabase = Supabase.instance.client;
 
   Future<void> setLastLoginNow() async {
     await _prefs.setString(_keyLastLogin, DateTime.now().toIso8601String());

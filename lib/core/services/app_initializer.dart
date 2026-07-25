@@ -17,14 +17,22 @@ class AppInitializer {
       await dotenv.load(fileName: ".env");
       debugPrint("[INIT] Environment variables loaded successfully.");
     } catch (e) {
-      debugPrint("[INIT WARNING] Failed to load .env file. Falling back to default settings: $e");
+      debugPrint("[INIT ERROR] Failed to load .env file: $e");
+      throw Exception("Failed to load .env file: $e");
+    }
+
+    // Verify env variables exist
+    final url = dotenv.env['SUPABASE_URL'];
+    final anonKey = dotenv.env['SUPABASE_ANON_KEY'];
+    if (url == null || url.isEmpty || anonKey == null || anonKey.isEmpty) {
+      throw Exception("Required environment variables (SUPABASE_URL, SUPABASE_ANON_KEY) are missing or empty.");
     }
 
     // 2. Initialize SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     debugPrint("[INIT] SharedPreferences initialized.");
 
-    // 3. Initialize Supabase safely (with offline recovery fallback)
+    // 3. Initialize Supabase safely
     try {
       debugPrint("[INIT] Initializing Supabase...");
       await _supabaseService.initialize().timeout(const Duration(seconds: 10), onTimeout: () {
@@ -33,7 +41,8 @@ class AppInitializer {
       });
       debugPrint("[INIT] Supabase initialized successfully.");
     } catch (e) {
-      debugPrint("[INIT WARNING] Supabase initialization failed. Continuing in offline-first mode: $e");
+      debugPrint("[INIT ERROR] Supabase initialization failed: $e");
+      throw Exception("Supabase initialization failed: $e");
     }
 
     // 4. Initialize Isar Database

@@ -20,12 +20,5 @@ final appInitializerProvider = Provider<AppInitializer>((ref) {
 
 // Provider that holds the initialized SharedPreferences instance
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  final init = ref.watch(appInitializationProvider);
-  return init.requireValue;
-});
-
-// Asynchronous provider that drives the startup flow
-final appInitializationProvider = FutureProvider<SharedPreferences>((ref) async {
-  final initializer = ref.watch(appInitializerProvider);
-  return await initializer.initialize();
+  throw UnimplementedError('sharedPreferencesProvider must be overridden in main()');
 });

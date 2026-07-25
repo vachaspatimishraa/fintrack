@@ -14,6 +14,10 @@ import 'isar/collections/goal_model.dart';
 import 'package:flutter/foundation.dart';
 
 class IsarInitializationService {
+  static final IsarInitializationService _instance = IsarInitializationService._internal();
+  factory IsarInitializationService() => _instance;
+  IsarInitializationService._internal();
+
   Isar? _isar;
 
   Isar get isar {
@@ -24,13 +28,20 @@ class IsarInitializationService {
   }
 
   Future<void> initialize() async {
-    if (_isar != null) return;
+    if (_isar != null) {
+      debugPrint("[LOG] Isar already initialized.");
+      return;
+    }
     
     String? path;
     if (!kIsWeb) {
+      debugPrint("[LOG] Before getApplicationDocumentsDirectory()");
       final dir = await getApplicationDocumentsDirectory();
+      debugPrint("[LOG] After getApplicationDocumentsDirectory(): ${dir.path}");
       path = dir.path;
     }
+    
+    debugPrint("[LOG] Before Isar.open()");
     _isar = await Isar.open(
       [
         AccountModelSchema,
@@ -52,5 +63,6 @@ class IsarInitializationService {
       ],
       directory: path ?? "",
     );
+    debugPrint("[LOG] After Isar.open()");
   }
 }

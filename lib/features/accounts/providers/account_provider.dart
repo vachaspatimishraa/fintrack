@@ -84,10 +84,6 @@ class CurrentAccountNotifier extends StateNotifier<String?> {
 }
 
 final currentAccountProvider = StateNotifierProvider<CurrentAccountNotifier, String?>((ref) {
-  final init = ref.watch(appInitializationProvider);
-  if (init.value == null) {
-    return CurrentAccountNotifier.dummy();
-  }
   final prefs = ref.watch(sharedPreferencesProvider);
   return CurrentAccountNotifier(prefs);
 });

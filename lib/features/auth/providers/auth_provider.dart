@@ -77,26 +77,37 @@ class AuthNotifier extends StateNotifier<AuthState> {
         super(const AuthState.loading());
 
   Future<void> _init() async {
+    debugPrint("[LOG] AuthNotifier._init START");
     state = const AuthState.loading();
     try {
       // 1. Restoring session
+      debugPrint("[LOG] Before sessionService.refreshSessionIfNeeded()");
       await _sessionService.refreshSessionIfNeeded();
+      debugPrint("[LOG] After sessionService.refreshSessionIfNeeded()");
 
       final user = _repository.currentUser;
       final isGuest = _sessionService.isGuestModeEnabled();
+      debugPrint("[LOG] AuthNotifier current user: ${user?.email}, isGuest: $isGuest");
 
       if (user != null && Supabase.instance.client.auth.currentUser != null) {
+        debugPrint("[LOG] User authenticated");
         state = AuthState.authenticated(user);
+        debugPrint("[LOG] Before sessionService.setLastLoginNow()");
         await _sessionService.setLastLoginNow();
+        debugPrint("[LOG] After sessionService.setLastLoginNow()");
         _syncService.triggerSync();
       } else if (isGuest) {
+        debugPrint("[LOG] Guest mode enabled");
         state = const AuthState.guest();
       } else {
+        debugPrint("[LOG] NOT authenticated and NOT guest");
         state = const AuthState.unauthenticated();
       }
 
       // 2. Listen to authentication state changes
+      debugPrint("[LOG] Setting up authStateChanges listener");
       _repository.authStateChanges.listen((data) async {
+        debugPrint("[LOG] AuthState changed: ${data.event}");
         final session = data.session;
         if (session != null && Supabase.instance.client.auth.currentUser != null) {
           state = AuthState.authenticated(session.user);
@@ -112,7 +123,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
           }
         }
       });
+      debugPrint("[LOG] AuthNotifier._init DONE");
     } catch (e) {
+      debugPrint("[LOG] AuthNotifier._init ERROR: $e");
       state = AuthState.error(e.toString());
     }
   }
@@ -184,11 +197,6 @@ final sessionServiceProvider = Provider<SessionService>((ref) {
 });
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final init = ref.watch(appInitializationProvider);
-  if (init.value == null) {
-    return AuthNotifier.loading();
-  }
-
   final repository = ref.watch(authRepositoryProvider);
   final syncService = ref.watch(syncServiceProvider);
   final sessionService = ref.watch(sessionServiceProvider);
