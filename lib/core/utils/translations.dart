@@ -239,7 +239,7 @@ class AppTranslations {
       'delete_account': 'Delete Wallet',
       'delete_account_title': 'Delete Wallet?',
       'delete_account_desc':
-          'Are you sure you want to delete {name}? This will perform a soft-delete and the wallet will be hidden. Transactions will remain in the database.',
+          'Are you sure you want to delete {name}?\n\nThe wallet will be removed from this device and your cloud account.\n\nTransactions linked to this wallet will be preserved.',
       'deleted_success': 'deleted successfully.',
       'no_account_selected': 'No Wallet Selected',
       'open_navigation_drawer': 'Open Navigation Drawer',

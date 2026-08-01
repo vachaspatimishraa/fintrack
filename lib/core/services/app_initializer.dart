@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config/environment.dart';
 import '../config/supabase_config_service.dart';
 import '../database/isar_initialization_service.dart';
 
@@ -11,16 +11,11 @@ class AppInitializer {
   AppInitializer(this._isarService, this._supabaseService);
 
   Future<SharedPreferences> initialize() async {
-    try {
-      await dotenv.load(fileName: ".env");
-    } catch (e) {
-      throw Exception("Failed to load .env file: $e");
-    }
-
-    final url = dotenv.env['SUPABASE_URL'];
-    final anonKey = dotenv.env['SUPABASE_ANON_KEY'];
-    if (url == null || url.isEmpty || anonKey == null || anonKey.isEmpty) {
-      throw Exception("Required environment variables (SUPABASE_URL, SUPABASE_ANON_KEY) are missing or empty.");
+    final url = Environment.supabaseUrl;
+    final anonKey = Environment.supabaseAnonKey;
+    if (url.isEmpty || anonKey.isEmpty) {
+      // In development or when dart-define is omitted, warn or proceed
+      // debugPrint("SUPABASE_URL or SUPABASE_ANON_KEY empty via Environment");
     }
 
     final prefs = await SharedPreferences.getInstance();

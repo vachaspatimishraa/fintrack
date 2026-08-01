@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/database/isar/collections/account_model.dart';
+import '../../../home/providers/home_provider.dart';
 import '../../../transactions/domain/entities/transaction_entity.dart';
 import '../../../transactions/providers/transaction_provider.dart';
 import '../../providers/account_provider.dart';
@@ -98,6 +100,14 @@ class AccountController {
         await _ref.read(currentAccountProvider.notifier).selectAccount(null);
       }
     }
+
+    _ref.invalidate(accountsStreamProvider);
+    _ref.invalidate(allAccountsStreamProvider);
+    _ref.invalidate(everythingAccountsStreamProvider);
+    _ref.invalidate(currentAccountModelProvider);
+    _ref.invalidate(totalBalanceProvider);
+    _ref.invalidate(homeStateProvider);
+    await _ref.read(homeStateProvider.notifier).refreshDashboard();
   }
 
   Future<void> archiveAccount(String uuid, bool archive) async {

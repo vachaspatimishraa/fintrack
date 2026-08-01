@@ -113,8 +113,8 @@ class AccountRepositoryImpl implements AccountRepository {
       await _syncService.queueSync(
         entityType: 'account',
         entityUuid: uuid,
-        action: 'delete',
-        payload: {},
+        action: 'update',
+        payload: account.toJson(),
       );
     }
   }
@@ -129,7 +129,7 @@ class AccountRepositoryImpl implements AccountRepository {
 
       await _localDatasource.putAccount(account);
 
-      _syncService.queueSync(
+      await _syncService.queueSync(
         entityType: 'account',
         entityUuid: uuid,
         action: 'update',
@@ -149,7 +149,7 @@ class AccountRepositoryImpl implements AccountRepository {
 
       await _localDatasource.putAccount(account);
 
-      _syncService.queueSync(
+      await _syncService.queueSync(
         entityType: 'account',
         entityUuid: uuid,
         action: 'update',
@@ -169,14 +169,22 @@ class AccountRepositoryImpl implements AccountRepository {
       final localAccount = await _localDatasource.getAccountByUuid(remoteAccount.uuid);
 
       if (localAccount == null) {
-        await _localDatasource.putAccount(remoteAccount);
-      } else {
-        final resolution = ConflictResolver.resolve(local: localAccount, remote: remoteAccount);
-        if (resolution == ConflictResolutionResult.remoteWins) {
-          remoteAccount.id = localAccount.id;
+        if (!remoteAccount.isDeleted) {
           await _localDatasource.putAccount(remoteAccount);
-        } else if (resolution == ConflictResolutionResult.localWins) {
-          await _remoteDatasource.upsertAccount(localAccount.toJson());
+        }
+      } else {
+        if (remoteAccount.isDeleted) {
+          localAccount.isDeleted = true;
+          localAccount.updatedAt = DateTime.now();
+          await _localDatasource.putAccount(localAccount);
+        } else {
+          final resolution = ConflictResolver.resolve(local: localAccount, remote: remoteAccount);
+          if (resolution == ConflictResolutionResult.remoteWins) {
+            remoteAccount.id = localAccount.id;
+            await _localDatasource.putAccount(remoteAccount);
+          } else if (resolution == ConflictResolutionResult.localWins) {
+            await _remoteDatasource.upsertAccount(localAccount.toJson());
+          }
         }
       }
     }

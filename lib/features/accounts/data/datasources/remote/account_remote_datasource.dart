@@ -36,7 +36,10 @@ class AccountRemoteDataSource {
 
   Future<void> deleteAccount(String uuid) async {
     try {
-      await _supabase.from('accounts').delete().eq('id', uuid);
+      await _supabase.from('accounts').update({
+        'is_deleted': true,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('id', uuid);
     } catch (e, stack) {
       debugPrint("========== REMOTE DATASOURCE ERROR ==========");
       debugPrint(e.toString());
