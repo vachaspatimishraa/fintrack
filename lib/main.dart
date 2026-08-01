@@ -13,6 +13,7 @@ import 'core/services/app_initializer.dart';
 
 import 'features/settings/presentation/widgets/authentication_guard.dart';
 import 'features/splash/providers/initialization_provider.dart';
+import 'features/settings/domain/entities/settings_entity.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,63 +44,40 @@ class FinTrackApp extends ConsumerWidget {
     final settingsAsync = ref.watch(settingsProvider);
     final locale = ref.watch(localeProvider);
 
+    final settings = settingsAsync.value ?? SettingsEntity();
+
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
-        return settingsAsync.when(
-          data: (settings) {
-            ColorScheme lightColorScheme;
-            ColorScheme darkColorScheme;
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
 
-            if (settings.dynamicColor && lightDynamic != null && darkDynamic != null) {
-              lightColorScheme = lightDynamic.harmonized();
-              darkColorScheme = darkDynamic.harmonized();
-            } else {
-              lightColorScheme = DynamicColorService.getFallbackColorScheme(Brightness.light);
-              darkColorScheme = DynamicColorService.getFallbackColorScheme(Brightness.dark);
-            }
+        if (settings.dynamicColor && lightDynamic != null && darkDynamic != null) {
+          lightColorScheme = lightDynamic.harmonized();
+          darkColorScheme = darkDynamic.harmonized();
+        } else {
+          lightColorScheme = DynamicColorService.getFallbackColorScheme(Brightness.light);
+          darkColorScheme = DynamicColorService.getFallbackColorScheme(Brightness.dark);
+        }
 
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: 'FinTrack',
-              theme: ThemeService.getTheme(settings, lightColorScheme),
-              darkTheme: ThemeService.getTheme(settings, darkColorScheme),
-              themeMode: themeMode,
-              routerConfig: router,
-              locale: locale,
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: LocalizationService.getSupportedLocales(),
-              builder: (context, child) {
-                return AuthenticationGuard(
-                  child: child!,
-                );
-              },
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'FinTrack',
+          theme: ThemeService.getTheme(settings, lightColorScheme),
+          darkTheme: ThemeService.getTheme(settings, darkColorScheme),
+          themeMode: themeMode,
+          routerConfig: router,
+          locale: locale,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: LocalizationService.getSupportedLocales(),
+          builder: (context, child) {
+            return AuthenticationGuard(
+              child: child!,
             );
           },
-          loading: () => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/logo.png', height: 100),
-                    const SizedBox(height: 24),
-                    const CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          error: (err, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Center(child: Text('Error: $err')),
-            ),
-          ),
         );
       },
     );

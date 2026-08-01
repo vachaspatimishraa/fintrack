@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../splash/providers/initialization_provider.dart';
+import '../../sync/providers/sync_provider.dart';
 import '../data/repositories/goal_repository_impl.dart';
 import '../data/datasources/local/goals_local_datasource_impl.dart';
 import '../data/datasources/remote/goals_remote_datasource_impl.dart';
@@ -25,11 +26,13 @@ final goalRemoteDatasourceProvider = Provider((ref) {
 final goalRepositoryProvider = Provider<GoalRepository>((ref) {
   final localDatasource = ref.watch(goalLocalDatasourceProvider);
   final remoteDatasource = ref.watch(goalRemoteDatasourceProvider);
+  final syncService = ref.watch(syncServiceProvider);
   final supabase = Supabase.instance.client;
   return GoalRepositoryImpl(
     localDatasource: localDatasource,
     remoteDatasource: remoteDatasource,
     supabase: supabase,
+    syncService: syncService,
   );
 });
 

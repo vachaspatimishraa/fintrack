@@ -155,6 +155,8 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
 
       final syncStatus = _getCurrentHomeSyncStatus();
 
+      final computedBalance = openingBalance + incomeSum - expenseSum;
+
       state = state.copyWith(
         isLoading: false,
         clearError: true,
@@ -162,7 +164,7 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
           currentAccount: currentAccount,
           income: incomeSum,
           expense: expenseSum,
-          balance: openingBalance + incomeSum - expenseSum,
+          balance: computedBalance,
           transactionCount: filteredTxCount,
           recentTransactions: recentTx,
           syncStatus: syncStatus,

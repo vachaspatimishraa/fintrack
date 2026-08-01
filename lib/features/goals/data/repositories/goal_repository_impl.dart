@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../../../../core/services/sync_service.dart';
 import '../../domain/entities/goal_entity.dart';
 import '../../domain/entities/milestone_entity.dart';
 import '../../domain/entities/contribution_entity.dart';
@@ -22,6 +23,7 @@ class GoalRepositoryImpl implements GoalRepository {
   final GoalsLocalDatasource _localDatasource;
   final GoalsRemoteDatasource _remoteDatasource;
   final SupabaseClient _supabase;
+  final SyncService? _syncService;
 
   // Optimized In-Memory Cache
   final Map<String, GoalEntity> _goalCache = {};
@@ -32,9 +34,11 @@ class GoalRepositoryImpl implements GoalRepository {
     required GoalsLocalDatasource localDatasource,
     required GoalsRemoteDatasource remoteDatasource,
     required SupabaseClient supabase,
+    SyncService? syncService,
   })  : _localDatasource = localDatasource,
         _remoteDatasource = remoteDatasource,
-        _supabase = supabase;
+        _supabase = supabase,
+        _syncService = syncService;
 
   String get _currentUserId => _supabase.auth.currentUser?.id ?? '';
 
@@ -145,6 +149,14 @@ class GoalRepositoryImpl implements GoalRepository {
     await GoalsPerformanceService.track('deleteGoal', () async {
       await _localDatasource.deleteGoal(goalId);
       _invalidateCache();
+      if (_syncService != null) {
+        await _syncService!.queueSync(
+          entityType: 'goal',
+          entityUuid: goalId,
+          action: 'delete',
+          payload: {},
+        );
+      }
     });
   }
 

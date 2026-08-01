@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../accounts/providers/account_provider.dart';
+import '../../../home/providers/home_provider.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/utils/duplicate_transaction_service.dart';
 import '../../providers/transaction_provider.dart';
@@ -9,16 +11,27 @@ class TransactionController {
 
   TransactionController(this._ref);
 
-  Future<void> saveTransaction(TransactionEntity transaction) {
-    return _ref.read(transactionRepositoryProvider).saveTransaction(transaction);
+  void _invalidateProviders() {
+    _ref.invalidate(transactionsStreamProvider);
+    _ref.invalidate(accountsStreamProvider);
+    _ref.invalidate(allAccountsStreamProvider);
+    _ref.invalidate(currentAccountModelProvider);
+    _ref.invalidate(homeStateProvider);
   }
 
-  Future<void> deleteTransaction(String uuid) {
-    return _ref.read(transactionRepositoryProvider).deleteTransaction(uuid);
+  Future<void> saveTransaction(TransactionEntity transaction) async {
+    await _ref.read(transactionRepositoryProvider).saveTransaction(transaction);
+    _invalidateProviders();
   }
 
-  Future<void> restoreTransaction(String uuid) {
-    return _ref.read(transactionRepositoryProvider).restoreTransaction(uuid);
+  Future<void> deleteTransaction(String uuid) async {
+    await _ref.read(transactionRepositoryProvider).deleteTransaction(uuid);
+    _invalidateProviders();
+  }
+
+  Future<void> restoreTransaction(String uuid) async {
+    await _ref.read(transactionRepositoryProvider).restoreTransaction(uuid);
+    _invalidateProviders();
   }
 
   TransactionEntity duplicateTransaction(TransactionEntity transaction) {

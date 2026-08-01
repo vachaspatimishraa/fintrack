@@ -231,13 +231,20 @@ class SyncService {
       debugPrint("==========================");
 
       if (item.action == 'delete') {
-        await _supabase.from(table).delete().eq('id', item.entityUuid);
+        try {
+          await _supabase.from(table).delete().eq('id', item.entityUuid);
+        } catch (_) {
+          await _supabase.from(table).update({
+            'is_deleted': true,
+            'updated_at': DateTime.now().toIso8601String(),
+          }).eq('id', item.entityUuid);
+        }
       } else {
         await _supabase.from(table).upsert(payload);
       }
 
       // Print success
-      debugPrint("Transaction uploaded successfully");
+      debugPrint("Operation uploaded successfully");
 
       // Mark locally as synced
       await _markAsSyncedLocally(item.entityType, item.entityUuid, userId);
@@ -298,19 +305,27 @@ class SyncService {
     // 1. Pull Accounts
     try {
       final accountsData = await _supabase.from('accounts').select().eq('user_id', userId);
+      final remoteUuids = <String>{};
       for (final item in accountsData) {
         try {
           final remoteAccount = AccountModel.fromJson(item);
+          remoteUuids.add(remoteAccount.uuid);
           final localAccount = await _isar.accountModels.filter().uuidEqualTo(remoteAccount.uuid).findFirst();
 
           if (localAccount == null) {
-            // New account from cloud
-            await _isar.writeTxn(() async {
-              await _isar.accountModels.put(remoteAccount);
-            });
+            if (!remoteAccount.isDeleted) {
+              await _isar.writeTxn(() async {
+                await _isar.accountModels.put(remoteAccount);
+              });
+            }
           } else {
-            // Conflict Resolution: Latest updatedAt wins
-            if (remoteAccount.updatedAt.isAfter(localAccount.updatedAt)) {
+            if (remoteAccount.isDeleted) {
+              await _isar.writeTxn(() async {
+                localAccount.isDeleted = true;
+                localAccount.updatedAt = DateTime.now();
+                await _isar.accountModels.put(localAccount);
+              });
+            } else if (remoteAccount.updatedAt.isAfter(localAccount.updatedAt)) {
               debugPrint('Conflict resolved (Account): Remote wins for ${remoteAccount.name}');
               await _isar.writeTxn(() async {
                 remoteAccount.id = localAccount.id;
@@ -322,6 +337,23 @@ class SyncService {
           debugPrint('Error parsing account item: $itemErr');
         }
       }
+
+      // Reconcile local active accounts missing from cloud (hard-deleted on cloud)
+      final localSyncedAccounts = await _isar.accountModels
+          .filter()
+          .userIdEqualTo(userId)
+          .isDeletedEqualTo(false)
+          .isSyncedEqualTo(true)
+          .findAll();
+      for (final local in localSyncedAccounts) {
+        if (!remoteUuids.contains(local.uuid)) {
+          await _isar.writeTxn(() async {
+            local.isDeleted = true;
+            local.updatedAt = DateTime.now();
+            await _isar.accountModels.put(local);
+          });
+        }
+      }
     } catch (e) {
       debugPrint('Cloud pull synchronization error for Accounts: $e');
     }
@@ -329,19 +361,27 @@ class SyncService {
     // 2. Pull Transactions
     try {
       final transactionsData = await _supabase.from('transactions').select().eq('user_id', userId);
+      final remoteUuids = <String>{};
       for (final item in transactionsData) {
         try {
           final remoteTx = TransactionModel.fromJson(item);
+          remoteUuids.add(remoteTx.uuid);
           final localTx = await _isar.transactionModels.filter().uuidEqualTo(remoteTx.uuid).findFirst();
 
           if (localTx == null) {
-            // New transaction from cloud
-            await _isar.writeTxn(() async {
-              await _isar.transactionModels.put(remoteTx);
-            });
+            if (!remoteTx.isDeleted) {
+              await _isar.writeTxn(() async {
+                await _isar.transactionModels.put(remoteTx);
+              });
+            }
           } else {
-            // Conflict Resolution: Latest updatedAt wins
-            if (remoteTx.updatedAt.isAfter(localTx.updatedAt)) {
+            if (remoteTx.isDeleted) {
+              await _isar.writeTxn(() async {
+                localTx.isDeleted = true;
+                localTx.updatedAt = DateTime.now();
+                await _isar.transactionModels.put(localTx);
+              });
+            } else if (remoteTx.updatedAt.isAfter(localTx.updatedAt)) {
               debugPrint('Conflict resolved (Transaction): Remote wins for transaction ${remoteTx.uuid}');
               await _isar.writeTxn(() async {
                 remoteTx.id = localTx.id;
@@ -353,6 +393,23 @@ class SyncService {
           debugPrint('Error parsing transaction item: $itemErr');
         }
       }
+
+      // Reconcile local active transactions missing from cloud (hard-deleted on cloud)
+      final localSyncedTxs = await _isar.transactionModels
+          .filter()
+          .userIdEqualTo(userId)
+          .isDeletedEqualTo(false)
+          .isSyncedEqualTo(true)
+          .findAll();
+      for (final local in localSyncedTxs) {
+        if (!remoteUuids.contains(local.uuid)) {
+          await _isar.writeTxn(() async {
+            local.isDeleted = true;
+            local.updatedAt = DateTime.now();
+            await _isar.transactionModels.put(local);
+          });
+        }
+      }
     } catch (e) {
       debugPrint('Cloud pull synchronization error for Transactions: $e');
     }
@@ -360,23 +417,52 @@ class SyncService {
     // 3. Pull Budgets
     try {
       final budgetsData = await _supabase.from('budgets').select().eq('user_id', userId);
+      final remoteUuids = <String>{};
       for (final item in budgetsData) {
         try {
           final remoteBudget = BudgetModel.fromJson(item);
+          remoteUuids.add(remoteBudget.uuid);
           final localBudget = await _isar.budgetModels.filter().uuidEqualTo(remoteBudget.uuid).findFirst();
 
           if (localBudget == null) {
-            await _isar.writeTxn(() async {
-              await _isar.budgetModels.put(remoteBudget);
-            });
-          } else if (remoteBudget.updatedAt.isAfter(localBudget.updatedAt)) {
-            await _isar.writeTxn(() async {
-              remoteBudget.id = localBudget.id;
-              await _isar.budgetModels.put(remoteBudget);
-            });
+            if (!remoteBudget.isDeleted) {
+              await _isar.writeTxn(() async {
+                await _isar.budgetModels.put(remoteBudget);
+              });
+            }
+          } else {
+            if (remoteBudget.isDeleted) {
+              await _isar.writeTxn(() async {
+                localBudget.isDeleted = true;
+                localBudget.updatedAt = DateTime.now();
+                await _isar.budgetModels.put(localBudget);
+              });
+            } else if (remoteBudget.updatedAt.isAfter(localBudget.updatedAt)) {
+              await _isar.writeTxn(() async {
+                remoteBudget.id = localBudget.id;
+                await _isar.budgetModels.put(remoteBudget);
+              });
+            }
           }
         } catch (itemErr) {
           debugPrint('Error parsing budget item: $itemErr');
+        }
+      }
+
+      // Reconcile local active budgets missing from cloud
+      final localSyncedBudgets = await _isar.budgetModels
+          .filter()
+          .ownerIdEqualTo(userId)
+          .isDeletedEqualTo(false)
+          .syncStatusEqualTo('synced')
+          .findAll();
+      for (final local in localSyncedBudgets) {
+        if (!remoteUuids.contains(local.uuid)) {
+          await _isar.writeTxn(() async {
+            local.isDeleted = true;
+            local.updatedAt = DateTime.now();
+            await _isar.budgetModels.put(local);
+          });
         }
       }
     } catch (e) {
@@ -386,23 +472,52 @@ class SyncService {
     // 4. Pull Goals
     try {
       final goalsData = await _supabase.from('goals').select().eq('user_id', userId);
+      final remoteUuids = <String>{};
       for (final item in goalsData) {
         try {
           final remoteGoal = GoalModel.fromJson(item);
+          remoteUuids.add(remoteGoal.uuid);
           final localGoal = await _isar.goalModels.filter().uuidEqualTo(remoteGoal.uuid).findFirst();
 
           if (localGoal == null) {
-            await _isar.writeTxn(() async {
-              await _isar.goalModels.put(remoteGoal);
-            });
-          } else if (remoteGoal.updatedAt.isAfter(localGoal.updatedAt)) {
-            await _isar.writeTxn(() async {
-              remoteGoal.id = localGoal.id;
-              await _isar.goalModels.put(remoteGoal);
-            });
+            if (!remoteGoal.isDeleted) {
+              await _isar.writeTxn(() async {
+                await _isar.goalModels.put(remoteGoal);
+              });
+            }
+          } else {
+            if (remoteGoal.isDeleted) {
+              await _isar.writeTxn(() async {
+                localGoal.isDeleted = true;
+                localGoal.updatedAt = DateTime.now();
+                await _isar.goalModels.put(localGoal);
+              });
+            } else if (remoteGoal.updatedAt.isAfter(localGoal.updatedAt)) {
+              await _isar.writeTxn(() async {
+                remoteGoal.id = localGoal.id;
+                await _isar.goalModels.put(remoteGoal);
+              });
+            }
           }
         } catch (itemErr) {
           debugPrint('Error parsing goal item: $itemErr');
+        }
+      }
+
+      // Reconcile local active goals missing from cloud
+      final localSyncedGoals = await _isar.goalModels
+          .filter()
+          .ownerIdEqualTo(userId)
+          .isDeletedEqualTo(false)
+          .syncStatusEqualTo('synced')
+          .findAll();
+      for (final local in localSyncedGoals) {
+        if (!remoteUuids.contains(local.uuid)) {
+          await _isar.writeTxn(() async {
+            local.isDeleted = true;
+            local.updatedAt = DateTime.now();
+            await _isar.goalModels.put(local);
+          });
         }
       }
     } catch (e) {

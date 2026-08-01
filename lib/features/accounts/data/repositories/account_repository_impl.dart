@@ -110,7 +110,7 @@ class AccountRepositoryImpl implements AccountRepository {
 
       await _localDatasource.putAccount(account);
 
-      _syncService.queueSync(
+      await _syncService.queueSync(
         entityType: 'account',
         entityUuid: uuid,
         action: 'delete',

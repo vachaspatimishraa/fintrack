@@ -7,6 +7,7 @@ import '../../../accounts/presentation/screens/account_list_screen.dart';
 import '../../../accounts/presentation/screens/create_account_screen.dart';
 import '../../../transactions/providers/transaction_provider.dart';
 import '../../../transactions/presentation/screens/add_edit_transaction_screen.dart';
+import '../../../transactions/presentation/controllers/transaction_controller.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../../domain/models/dashboard_model.dart';
 import '../../domain/models/home_state.dart';
@@ -839,21 +840,21 @@ class TransactionTile extends ConsumerWidget {
   }
 
   void _showDeleteConfirmation(BuildContext context, WidgetRef ref) async {
-    final repo = ref.read(transactionRepositoryProvider);
+    final controller = ref.read(transactionControllerProvider);
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => DeleteTransactionDialog(),
     );
 
     if (confirm == true) {
-      await repo.deleteTransaction(transaction.uuid);
+      await controller.deleteTransaction(transaction.uuid);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           UndoDeleteSnackBar(
             context: context,
             onUndo: () async {
               try {
-                await repo.restoreTransaction(transaction.uuid);
+                await controller.restoreTransaction(transaction.uuid);
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(

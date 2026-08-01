@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../../home/providers/home_provider.dart';
 import '../../providers/transaction_provider.dart';
 import 'transaction_list_controller.dart';
 
@@ -62,6 +63,9 @@ class SelectionNotifier extends StateNotifier<SelectionState> {
     for (final uuid in uuidsToDelete) {
       await repo.deleteTransaction(uuid);
     }
+
+    _ref.invalidate(transactionsStreamProvider);
+    _ref.invalidate(homeStateProvider);
 
     clearSelection();
     // Refresh the paginated transactions list
