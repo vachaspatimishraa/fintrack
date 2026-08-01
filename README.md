@@ -10,12 +10,8 @@ Track your income, expenses, wallets, and financial goals with a beautiful, fast
 
 <p align="center">
 
-<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+<a href="https://github.com/vachaspatimishraa/fintrack/releases/tag/FinTrack">
     <img src="https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white"/>
-</a>
-
-<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
-    <img src="https://img.shields.io/badge/Latest-Release-blue?style=for-the-badge&logo=github"/>
 </a>
 
 </p>
@@ -148,7 +144,7 @@ Download the latest APK from the Releases page.
 
 <p align="center">
 
-<a href="https://github.com/vachaspatimishraa/fintrack/releases/latest">
+<a href="https://github.com/vachaspatimishraa/fintrack/releases/tag/FinTrack">
 <img src="https://img.shields.io/badge/⬇ Download Latest APK-2ea44f?style=for-the-badge"/>
 </a>
 
