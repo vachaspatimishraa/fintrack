@@ -139,7 +139,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       await _repository.signInWithGoogle();
     } catch (e) {
-      state = AuthState.unauthenticated(errorMessage: e.toString());
+      final errorStr = e.toString();
+      // If user merely dismissed the Google prompt without an error code
+      if (errorStr.contains('canceled') && !errorStr.contains('16') && !errorStr.contains('failed')) {
+        state = const AuthState.unauthenticated();
+        return;
+      }
+
+      String userMessage = errorStr;
+      if (errorStr.contains('16') || errorStr.contains('Account reauth failed') || errorStr.contains('code 10')) {
+        userMessage = 'Google Sign-In failed: App SHA-1 or package name is not registered in Google Cloud Console.';
+      }
+      state = AuthState.unauthenticated(errorMessage: userMessage);
     }
   }
 
