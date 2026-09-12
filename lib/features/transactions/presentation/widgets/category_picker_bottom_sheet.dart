@@ -56,21 +56,26 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
       },
       loading: () => Container(
         height: 300,
-        decoration: const BoxDecoration(
-          color: Color(0xFF202126),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         ),
-        child: const Center(child: CircularProgressIndicator(color: Colors.white70)),
+        child: Center(
+          child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary),
+        ),
       ),
       error: (err, _) => Container(
         height: 200,
         padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Color(0xFF202126),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         ),
         child: Center(
-          child: Text('Error loading categories: $err', style: const TextStyle(color: Colors.white70)),
+          child: Text(
+            'Error loading categories: $err',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
         ),
       ),
     );
@@ -78,6 +83,7 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
 
   /// The primary 3-column Grid View matching the user's screenshot
   Widget _buildGridPickerView(List<CategoryModel> categories) {
+    final theme = Theme.of(context);
     final displayCategories = _searchQuery.isEmpty
         ? categories
         : categories
@@ -85,9 +91,9 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
             .toList();
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF212226),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: SafeArea(
         top: false,
@@ -101,7 +107,7 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.edit_outlined, color: Color(0xFFB0B3B8), size: 22),
+                    icon: Icon(Icons.edit_outlined, color: theme.colorScheme.onSurfaceVariant, size: 22),
                     tooltip: 'Edit Categories',
                     onPressed: () {
                       setState(() {
@@ -110,7 +116,7 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                     },
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close, color: Color(0xFFB0B3B8), size: 22),
+                    icon: Icon(Icons.close, color: theme.colorScheme.onSurfaceVariant, size: 22),
                     tooltip: 'Close',
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -123,16 +129,16 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
                 child: TextField(
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                  style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14),
                   onChanged: (val) => setState(() => _searchQuery = val),
                   decoration: InputDecoration(
                     hintText: 'Search categories...',
-                    hintStyle: const TextStyle(color: Color(0xFF7A7D85), fontSize: 14),
-                    prefixIcon: const Icon(Icons.search, color: Color(0xFF7A7D85), size: 20),
+                    hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14),
+                    prefixIcon: Icon(Icons.search, color: theme.colorScheme.onSurfaceVariant, size: 20),
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
                     filled: true,
-                    fillColor: const Color(0xFF2A2B30),
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide.none,
@@ -153,9 +159,9 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
+                            Text(
                               'No categories found',
-                              style: TextStyle(color: Color(0xFF9E9E9E), fontSize: 15),
+                              style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 15),
                             ),
                             const SizedBox(height: 12),
                             TextButton.icon(
@@ -178,11 +184,11 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
   /// Builds a 3-column table-like grid with subtle borders between columns and rows
   Widget _buildCustomBorderedGrid(List<CategoryModel> categories) {
     const int crossAxisCount = 3;
-    const Color borderColor = Color(0xFF2E3037);
+    final Color borderColor = Theme.of(context).colorScheme.outlineVariant;
 
     return SingleChildScrollView(
       child: Table(
-        border: const TableBorder(
+        border: TableBorder(
           horizontalInside: BorderSide(color: borderColor, width: 0.8),
           verticalInside: BorderSide(color: borderColor, width: 0.8),
           bottom: BorderSide(color: borderColor, width: 0.8),
@@ -220,18 +226,19 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
   }
 
   Widget _buildGridCell(CategoryModel cat) {
+    final theme = Theme.of(context);
     final isSelected = widget.selectedCategory.toLowerCase() == cat.name.toLowerCase();
     final emoji = CategoryEmojiHelper.getEmoji(cat.icon, cat.name);
 
     return Material(
-      color: isSelected ? const Color(0xFF2E313A) : Colors.transparent,
+      color: isSelected ? theme.colorScheme.primaryContainer.withValues(alpha: 0.5) : Colors.transparent,
       child: InkWell(
         onTap: () {
           widget.onCategorySelected(cat.name);
           Navigator.of(context).pop();
         },
-        splashColor: Colors.white10,
-        highlightColor: Colors.white10,
+        splashColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+        highlightColor: theme.colorScheme.primary.withValues(alpha: 0.05),
         child: Container(
           height: 58,
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -249,7 +256,7 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                 child: Text(
                   cat.name,
                   style: TextStyle(
-                    color: isSelected ? Colors.white : const Color(0xFFE2E4EA),
+                    color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
                     fontSize: 14.5,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
@@ -266,10 +273,11 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
 
   /// Manage / Edit Mode view allowing Drag & Drop reordering, category deletion, and category addition
   Widget _buildManageCategoriesView(List<CategoryModel> categories) {
+    final theme = Theme.of(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF212226),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: SafeArea(
         top: false,
@@ -288,14 +296,14 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                         _isEditMode = false;
                       });
                     },
-                    icon: const Icon(Icons.check, color: Color(0xFF4CAF50), size: 20),
-                    label: const Text(
+                    icon: Icon(Icons.check, color: theme.colorScheme.primary, size: 20),
+                    label: Text(
                       'Done',
-                      style: TextStyle(color: Color(0xFF4CAF50), fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close, color: Color(0xFFB0B3B8), size: 22),
+                    icon: Icon(Icons.close, color: theme.colorScheme.onSurfaceVariant, size: 22),
                     tooltip: 'Close',
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -309,14 +317,14 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Drag = to reorder • Tap 🗑 to delete',
-                    style: TextStyle(color: Color(0xFF8A8D96), fontSize: 13),
+                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 13),
                   ),
                   FilledButton.icon(
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF2C3240),
-                      foregroundColor: const Color(0xFF64B5F6),
+                      backgroundColor: theme.colorScheme.primaryContainer,
+                      foregroundColor: theme.colorScheme.onPrimaryContainer,
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
@@ -328,7 +336,7 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
               ),
             ),
 
-            const Divider(color: Color(0xFF2E3037), height: 1),
+            Divider(color: theme.colorScheme.outlineVariant, height: 1),
 
             // Reorderable list of categories
             ConstrainedBox(
@@ -336,12 +344,12 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                 maxHeight: MediaQuery.of(context).size.height * 0.58,
               ),
               child: categories.isEmpty
-                  ? const Padding(
-                      padding: EdgeInsets.all(32.0),
+                  ? Padding(
+                      padding: const EdgeInsets.all(32.0),
                       child: Center(
                         child: Text(
                           'No categories. Tap "+ Add Category" to create one.',
-                          style: TextStyle(color: Color(0xFF9E9E9E)),
+                          style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                         ),
                       ),
                     )
@@ -365,18 +373,18 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
 
                         return Container(
                           key: ValueKey(cat.uuid.isNotEmpty ? cat.uuid : '${cat.name}_$index'),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             border: Border(
-                              bottom: BorderSide(color: Color(0xFF2B2D33), width: 0.8),
+                              bottom: BorderSide(color: theme.colorScheme.outlineVariant, width: 0.8),
                             ),
                           ),
                           child: ListTile(
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                             leading: ReorderableDragStartListener(
                               index: index,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.drag_handle,
-                                color: Color(0xFF7A7D85),
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 24,
                               ),
                             ),
@@ -390,8 +398,8 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                                 Expanded(
                                   child: Text(
                                     cat.name,
-                                    style: const TextStyle(
-                                      color: Color(0xFFE2E4EA),
+                                    style: TextStyle(
+                                      color: theme.colorScheme.onSurface,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -403,12 +411,12 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.edit_outlined, color: Color(0xFF8A8D96), size: 20),
+                                  icon: Icon(Icons.edit_outlined, color: theme.colorScheme.onSurfaceVariant, size: 20),
                                   tooltip: 'Edit',
                                   onPressed: () => _showAddOrEditCategoryDialog(categoryToEdit: cat),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.delete_outline, color: Color(0xFFE57373), size: 20),
+                                  icon: Icon(Icons.delete_outline, color: theme.colorScheme.error, size: 20),
                                   tooltip: 'Delete',
                                   onPressed: () => _confirmDeleteCategory(cat),
                                 ),
@@ -426,19 +434,20 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
   }
 
   Widget _buildHeader({required String title, required Widget trailing}) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.only(left: 18.0, right: 6.0, top: 12.0, bottom: 12.0),
-      decoration: const BoxDecoration(
-        color: Color(0xFF2C2D32),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainer,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFFE4E6EB),
+            style: TextStyle(
+              color: theme.colorScheme.onSurface,
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -454,19 +463,17 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF26272C),
-        title: const Text('Delete Category?', style: TextStyle(color: Colors.white, fontSize: 18)),
+        title: const Text('Delete Category?'),
         content: Text(
           'Are you sure you want to delete "${cat.name}"? Existing transactions will keep their records.',
-          style: const TextStyle(color: Color(0xFFB0B3B8), fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+            child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
+            style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
             onPressed: () async {
               Navigator.of(ctx).pop();
               await ref.read(categoryControllerProvider).deleteCategory(cat.uuid);
@@ -490,13 +497,13 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFF212226),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (ctx) {
         return StatefulBuilder(
           builder: (modalContext, setModalState) {
+            final theme = Theme.of(modalContext);
             final activeEmojis = CategoryEmojiHelper.emojiCategories[selectedCategoryTab] ??
                 CategoryEmojiHelper.emojiCategories.values.first;
 
@@ -518,14 +525,14 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                       children: [
                         Text(
                           isEditing ? 'Edit Category' : 'Add Category',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurface,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.close, color: Colors.grey),
+                          icon: Icon(Icons.close, color: theme.colorScheme.onSurfaceVariant),
                           onPressed: () => Navigator.of(modalContext).pop(),
                         ),
                       ],
@@ -539,9 +546,9 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                           width: 54,
                           height: 54,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF2C2D33),
+                            color: theme.colorScheme.surfaceContainerHighest,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: const Color(0xFF3E4048)),
+                            border: Border.all(color: theme.colorScheme.outlineVariant),
                           ),
                           alignment: Alignment.center,
                           child: Text(
@@ -555,14 +562,14 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                             controller: nameController,
                             autofocus: true,
                             textCapitalization: TextCapitalization.words,
-                            style: const TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 16),
                             decoration: InputDecoration(
                               labelText: 'Category Name',
-                              labelStyle: const TextStyle(color: Color(0xFF8A8D96)),
+                              labelStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                               hintText: 'e.g. Drink, Snacks, Clothes',
-                              hintStyle: const TextStyle(color: Color(0xFF5A5D65)),
+                              hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6)),
                               filled: true,
-                              fillColor: const Color(0xFF2A2B30),
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide.none,
@@ -578,23 +585,30 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Select Emoji',
-                          style: TextStyle(color: Color(0xFFB0B3B8), fontWeight: FontWeight.bold, fontSize: 14),
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                         // Quick custom emoji typer
                         SizedBox(
                           width: 140,
                           height: 36,
                           child: TextField(
-                            style: const TextStyle(color: Colors.white, fontSize: 13),
+                            style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 13),
                             decoration: InputDecoration(
                               hintText: 'Type any emoji',
-                              hintStyle: const TextStyle(color: Color(0xFF6A6D75), fontSize: 12),
+                              hintStyle: TextStyle(
+                                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                                fontSize: 12,
+                              ),
                               isDense: true,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                               filled: true,
-                              fillColor: const Color(0xFF2A2B30),
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide.none,
@@ -625,15 +639,17 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                             child: ChoiceChip(
                               label: Text(tab),
                               labelStyle: TextStyle(
-                                color: isSelected ? Colors.white : const Color(0xFF9A9DA6),
+                                color: isSelected
+                                    ? theme.colorScheme.onPrimaryContainer
+                                    : theme.colorScheme.onSurfaceVariant,
                                 fontSize: 12,
                                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                               ),
                               selected: isSelected,
-                              selectedColor: const Color(0xFF383A44),
-                              backgroundColor: const Color(0xFF28292E),
+                              selectedColor: theme.colorScheme.primaryContainer,
+                              backgroundColor: theme.colorScheme.surfaceContainer,
                               side: BorderSide(
-                                color: isSelected ? const Color(0xFF5A5D6B) : Colors.transparent,
+                                color: isSelected ? theme.colorScheme.primary : Colors.transparent,
                               ),
                               onSelected: (_) {
                                 setModalState(() {
@@ -651,9 +667,9 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                     Container(
                       height: 160,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1B1C20),
+                        color: theme.colorScheme.surfaceContainerLow,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: const Color(0xFF2D2E35)),
+                        border: Border.all(color: theme.colorScheme.outlineVariant),
                       ),
                       padding: const EdgeInsets.all(8),
                       child: GridView.builder(
@@ -676,10 +692,10 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                             borderRadius: BorderRadius.circular(8),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: isSelected ? const Color(0xFF383B46) : Colors.transparent,
+                                color: isSelected ? theme.colorScheme.primaryContainer : Colors.transparent,
                                 borderRadius: BorderRadius.circular(8),
                                 border: isSelected
-                                    ? Border.all(color: const Color(0xFF64B5F6), width: 1.5)
+                                    ? Border.all(color: theme.colorScheme.primary, width: 1.5)
                                     : null,
                               ),
                               alignment: Alignment.center,
@@ -697,7 +713,8 @@ class _CategoryPickerBottomSheetState extends ConsumerState<CategoryPickerBottom
                     // Save Button
                     FilledButton(
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF1976D2),
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: theme.colorScheme.onPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),

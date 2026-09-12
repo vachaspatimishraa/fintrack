@@ -12,11 +12,14 @@ class IncomeTrendChart extends StatelessWidget {
       return Container(
         height: 180,
         decoration: BoxDecoration(
-          color: Colors.grey.shade50,
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Center(
-          child: Text('No Income Trend available'),
+        child: Center(
+          child: Text(
+            'No Income Trend available',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+          ),
         ),
       );
     }
@@ -51,7 +54,7 @@ class _IncomeTrendPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final areaPaint = Paint()
-      ..color = Colors.green.withOpacity(0.15)
+      ..color = Colors.green.withValues(alpha: 0.15)
       ..style = PaintingStyle.fill;
 
     final path = Path();

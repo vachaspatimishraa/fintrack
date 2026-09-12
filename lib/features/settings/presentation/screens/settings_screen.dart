@@ -239,13 +239,20 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   Widget _buildAppearanceCard(BuildContext context, WidgetRef ref, SettingsEntity settings) {
+    final String modeKey = switch (settings.themeMode) {
+      'light' => 'light',
+      'dark' => 'dark',
+      'amoled' => 'amoled',
+      _ => 'system_default',
+    };
+
     return Card(
       child: Column(
         children: [
           ListTile(
             leading: const Icon(Icons.palette_outlined),
             title: Text(context.translate('theme_mode')),
-            subtitle: Text(context.translate(settings.themeMode == 'system' ? 'system_default' : settings.themeMode)),
+            subtitle: Text(context.translate(modeKey)),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.push(

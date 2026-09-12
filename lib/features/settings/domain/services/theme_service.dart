@@ -1,53 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:fintrack/core/constants/colors.dart';
 import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class ThemeService {
   static ThemeData getTheme(SettingsEntity settings, ColorScheme colorScheme) {
     final bool isDark = colorScheme.brightness == Brightness.dark;
+    final bool isAmoled = isDark && settings.amoledMode;
     
     // Handle AMOLED mode and consistent surfaces
-    final Color surfaceColor = (isDark && settings.amoledMode) 
+    final Color surfaceColor = isAmoled 
         ? Colors.black 
         : colorScheme.surface;
 
+    final Color scaffoldBackgroundColor = isAmoled
+        ? Colors.black
+        : (isDark ? AppColors.darkBackground : AppColors.background);
+
     final ColorScheme activeColorScheme = colorScheme.copyWith(
       surface: surfaceColor,
-      surfaceContainer: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainer,
-      surfaceContainerHigh: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerHigh,
-      surfaceContainerHighest: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerHighest,
-      surfaceContainerLow: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerLow,
-      surfaceContainerLowest: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerLowest,
+      surfaceContainer: isAmoled ? Colors.black : colorScheme.surfaceContainer,
+      surfaceContainerHigh: isAmoled ? Colors.black : colorScheme.surfaceContainerHigh,
+      surfaceContainerHighest: isAmoled ? Colors.black : colorScheme.surfaceContainerHighest,
+      surfaceContainerLow: isAmoled ? Colors.black : colorScheme.surfaceContainerLow,
+      surfaceContainerLowest: isAmoled ? Colors.black : colorScheme.surfaceContainerLowest,
     );
 
     return ThemeData(
       useMaterial3: true,
-      colorScheme: activeColorScheme.copyWith(
-        surface: surfaceColor,
-      ),
-      scaffoldBackgroundColor: surfaceColor,
+      colorScheme: activeColorScheme,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
       appBarTheme: AppBarTheme(
-        backgroundColor: surfaceColor,
+        backgroundColor: scaffoldBackgroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-          color: isDark ? Colors.white : Colors.black87,
+          color: activeColorScheme.onSurface,
           fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
         iconTheme: IconThemeData(
-          color: isDark ? Colors.white : Colors.black87,
+          color: activeColorScheme.onSurface,
         ),
       ),
       cardTheme: CardThemeData(
         color: surfaceColor,
-        elevation: isDark && settings.amoledMode ? 0 : 2,
-        shadowColor: Colors.black.withOpacity(0.03),
+        elevation: isAmoled ? 0 : (isDark ? 0 : 1),
+        shadowColor: Colors.black.withValues(alpha: 0.03),
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color: isDark ? Colors.grey.shade800 : Colors.grey.shade200, 
+            color: isAmoled ? Colors.grey.shade900 : activeColorScheme.outlineVariant, 
             width: 1.0,
           ),
         ),
@@ -59,14 +63,14 @@ class ThemeService {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+            color: activeColorScheme.outlineVariant,
             width: 1.0,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+            color: activeColorScheme.outlineVariant,
             width: 1.0,
           ),
         ),
@@ -81,9 +85,9 @@ class ThemeService {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: activeColorScheme.primary,
-          foregroundColor: Colors.white,
+          foregroundColor: activeColorScheme.onPrimary,
           elevation: 2,
-          shadowColor: activeColorScheme.primary.withOpacity(0.2),
+          shadowColor: activeColorScheme.primary.withValues(alpha: 0.2),
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 28),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
@@ -94,6 +98,24 @@ class ThemeService {
             fontSize: 16,
           ),
         ),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: surfaceColor,
+        surfaceTintColor: Colors.transparent,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: surfaceColor,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: activeColorScheme.outlineVariant,
+        thickness: 1.0,
       ),
       visualDensity: _getVisualDensity(settings.displayDensity),
     );

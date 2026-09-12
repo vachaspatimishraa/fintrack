@@ -379,7 +379,11 @@ class TransactionDetailsScreen extends ConsumerWidget {
                           children: [
                             Text(
                               context.translate('receipt'),
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.grey),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              ),
                             ),
                             if (tx.receiptLocalPath != null || tx.receiptUrl != null)
                               IconButton(
@@ -487,7 +491,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: Colors.grey.shade600, size: 20),
+          Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -495,7 +499,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 12),
                 ),
                 const SizedBox(height: 2),
                 Text(
