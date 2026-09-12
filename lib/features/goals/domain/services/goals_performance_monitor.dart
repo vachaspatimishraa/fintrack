@@ -1,4 +1,4 @@
-import '../utils/goals_performance_service.dart';
+import 'package:fintrack/features/goals/domain/utils/goals_performance_service.dart';
 
 class GoalsPerformanceMonitor {
   static void logStartupTime(int durationMs) {

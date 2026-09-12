@@ -1,4 +1,4 @@
-import '../entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
 
 class RuleEngine {
   const RuleEngine._();

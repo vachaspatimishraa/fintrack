@@ -1,22 +1,22 @@
 import 'package:isar/isar.dart';
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../datasources/local/budget_local_datasource.dart';
-import '../datasources/remote/budget_remote_datasource.dart';
-import '../mappers/budget_mapper.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../../domain/repositories/budget_repository.dart';
-import '../../domain/entities/budget_event_bus.dart';
-import '../../domain/entities/budget_statistics.dart';
-import '../../domain/entities/budget_api_contract.dart';
-import '../../domain/utils/budget_history_service.dart';
-import '../../domain/utils/budget_alert_engine.dart';
-import '../../domain/utils/budget_performance_service.dart';
-import '../datasources/local/budget_alert_local_datasource.dart';
-import '../repositories/budget_alert_repository_impl.dart';
-import '../../../../core/database/isar/collections/budget_model.dart';
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../../../core/services/sync_service.dart';
+import 'package:fintrack/features/budget/data/datasources/local/budget_local_datasource.dart';
+import 'package:fintrack/features/budget/data/datasources/remote/budget_remote_datasource.dart';
+import 'package:fintrack/features/budget/data/mappers/budget_mapper.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_event_bus.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_statistics.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_api_contract.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_history_service.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_alert_engine.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_performance_service.dart';
+import 'package:fintrack/features/budget/data/datasources/local/budget_alert_local_datasource.dart';
+import 'package:fintrack/features/budget/data/repositories/budget_alert_repository_impl.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/core/services/sync_service.dart';
 
 /// Implementation of [BudgetRepository] following API contracts.
 class BudgetRepositoryImpl implements BudgetRepository {
@@ -219,32 +219,32 @@ class BudgetRepositoryImpl implements BudgetRepository {
   @override
   Stream<List<BudgetEntity>> watchBudgets() {
     return _localDatasource.watch(_currentUserId).map(
-          (models) => models.map((m) => BudgetMapper.toEntity(m)).toList(),
+          (models) => models.map(BudgetMapper.toEntity).toList(),
         );
   }
 
   @override
   Future<List<BudgetEntity>> getBudgets() async {
     final models = await _localDatasource.findAll(_currentUserId);
-    return models.map((m) => BudgetMapper.toEntity(m)).toList();
+    return models.map(BudgetMapper.toEntity).toList();
   }
 
   @override
   Future<List<BudgetEntity>> getActiveBudgets() async {
     final models = await _localDatasource.findActive(_currentUserId);
-    return models.map((m) => BudgetMapper.toEntity(m)).toList();
+    return models.map(BudgetMapper.toEntity).toList();
   }
 
   @override
   Future<List<BudgetEntity>> getCompletedBudgets() async {
     final models = await _localDatasource.getBudgetsByStatus(_currentUserId, BudgetApiContract.statusCompleted);
-    return models.map((m) => BudgetMapper.toEntity(m)).toList();
+    return models.map(BudgetMapper.toEntity).toList();
   }
 
   @override
   Future<List<BudgetEntity>> getCategoryBudgets() async {
     final models = await _localDatasource.getCategoryBudgets(_currentUserId);
-    return models.map((m) => BudgetMapper.toEntity(m)).toList();
+    return models.map(BudgetMapper.toEntity).toList();
   }
 
   @override

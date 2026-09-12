@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/income_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
 
 class IncomePieChart extends StatelessWidget {
   final List<CategorySlice> categories;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/recommendation_provider.dart';
-import '../widgets/recommendation_card.dart';
-import '../../../../shared/widgets/offline_banner.dart';
+import 'package:fintrack/features/budget/providers/recommendation_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/recommendation_card.dart';
+import 'package:fintrack/shared/widgets/offline_banner.dart';
 
 class BudgetRecommendationScreen extends ConsumerWidget {
   const BudgetRecommendationScreen({super.key});

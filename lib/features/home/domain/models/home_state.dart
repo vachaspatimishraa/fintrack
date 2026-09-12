@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dashboard_model.dart';
+import 'package:fintrack/features/home/domain/models/dashboard_model.dart';
 
 class HomeState {
   final bool isLoading;

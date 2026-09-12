@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/budget_provider.dart';
-import '../widgets/overall_budget_card.dart';
-import '../widgets/budget_statistics_card.dart';
-import '../widgets/budget_efficiency_card.dart';
-import '../widgets/category_budget_progress_ring.dart';
-import '../widgets/category_budget_grid.dart';
-import '../widgets/budget_alert_section.dart';
-import '../widgets/budget_recommendation_section.dart';
-import '../widgets/recent_activity_timeline.dart';
-import '../widgets/quick_action_panel.dart';
-import '../../../../shared/widgets/offline_banner.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/overall_budget_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_statistics_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_efficiency_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/category_budget_progress_ring.dart';
+import 'package:fintrack/features/budget/presentation/widgets/category_budget_grid.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_alert_section.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_recommendation_section.dart';
+import 'package:fintrack/features/budget/presentation/widgets/recent_activity_timeline.dart';
+import 'package:fintrack/features/budget/presentation/widgets/quick_action_panel.dart';
+import 'package:fintrack/shared/widgets/offline_banner.dart';
 
 class BudgetDashboardScreen extends ConsumerWidget {
   const BudgetDashboardScreen({super.key});

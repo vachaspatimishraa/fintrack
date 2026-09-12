@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/category_data.dart';
-import '../../domain/repositories/category_repository.dart';
-import '../../domain/utils/category_growth_calculator.dart';
-import '../../domain/utils/category_ranking_service.dart';
+import 'package:fintrack/features/analytics/domain/entities/category_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/category_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/category_growth_calculator.dart';
+import 'package:fintrack/features/analytics/domain/utils/category_ranking_service.dart';
 
 /// Controller for category analytics business logic
 class CategoryController {
-  final CategoryRepository _repository;
+  final CategoryRepository repository;
   final Ref ref;
 
-  CategoryController(this._repository, this.ref);
+  CategoryController(this.repository, this.ref);
 
   /// Generate insights from category report
   List<String> generateInsights(CategoryAnalyticsReport report) {

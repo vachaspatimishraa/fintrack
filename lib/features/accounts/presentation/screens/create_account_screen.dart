@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fintrack/core/constants/routes.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../../core/utils/translations.dart';
-import '../../../settings/domain/entities/currency_entity.dart';
-import '../../../settings/providers/settings_provider.dart';
-import '../controllers/account_controller.dart';
-import '../../providers/account_provider.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/settings/domain/entities/currency_entity.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/accounts/presentation/controllers/account_controller.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
 
 class CreateAccountScreen extends ConsumerStatefulWidget {
   final AccountModel? account;
@@ -289,7 +289,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
         );
       }
     } catch (e, stackTrace) {
-      debugPrint("ACCOUNT SAVE FAILED");
+      debugPrint('ACCOUNT SAVE FAILED');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stackTrace);
 

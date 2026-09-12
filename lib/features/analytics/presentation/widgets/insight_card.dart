@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/ai_insight_data.dart';
-import '../../providers/ai_insight_provider.dart';
-import '../screens/insight_details_screen.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/providers/ai_insight_provider.dart';
+import 'package:fintrack/features/analytics/presentation/screens/insight_details_screen.dart';
 
 class InsightCard extends ConsumerWidget {
   final AIInsight insight;

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../../../core/database/isar/collections/receipt_model.dart';
-import '../screens/receipt_preview_screen.dart';
+import 'package:fintrack/core/database/isar/collections/receipt_model.dart';
+import 'package:fintrack/features/transactions/presentation/screens/receipt_preview_screen.dart';
 
 class ReceiptThumbnail extends StatelessWidget {
   final ReceiptModel receipt;

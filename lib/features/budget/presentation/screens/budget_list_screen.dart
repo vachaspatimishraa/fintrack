@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/budget_list_controller.dart';
-import '../widgets/budget_card.dart';
-import '../widgets/budget_filter_sheet.dart';
-import '../widgets/budget_sort_sheet.dart';
-import 'add_edit_budget_screen.dart';
+import 'package:fintrack/features/budget/presentation/controllers/budget_list_controller.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_filter_sheet.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_sort_sheet.dart';
+import 'package:fintrack/features/budget/presentation/screens/add_edit_budget_screen.dart';
 
 class BudgetListScreen extends ConsumerWidget {
   const BudgetListScreen({super.key});

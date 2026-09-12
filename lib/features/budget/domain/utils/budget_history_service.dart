@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
 
 class BudgetHistoryService {
   final Isar _isar;

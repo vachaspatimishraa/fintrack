@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'core/router/app_router.dart';
-import 'features/settings/providers/settings_provider.dart';
-import 'features/settings/domain/services/theme_service.dart';
-import 'features/settings/domain/services/dynamic_color_service.dart';
-import 'features/settings/domain/services/localization_service.dart';
-import 'core/database/isar_initialization_service.dart';
-import 'core/config/supabase_config_service.dart';
-import 'core/services/app_initializer.dart';
+import 'package:fintrack/core/router/app_router.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/domain/services/theme_service.dart';
+import 'package:fintrack/features/settings/domain/services/dynamic_color_service.dart';
+import 'package:fintrack/features/settings/domain/services/localization_service.dart';
+import 'package:fintrack/core/database/isar_initialization_service.dart';
+import 'package:fintrack/core/config/supabase_config_service.dart';
+import 'package:fintrack/core/services/app_initializer.dart';
 
-import 'features/settings/presentation/widgets/authentication_guard.dart';
-import 'features/splash/providers/initialization_provider.dart';
-import 'features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/presentation/widgets/authentication_guard.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

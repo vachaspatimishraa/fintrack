@@ -1,5 +1,5 @@
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/cash_flow_data.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/cash_flow_data.dart';
 
 class CashFlowAggregators {
   static CashFlowReport aggregate({

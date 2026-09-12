@@ -1,5 +1,5 @@
-import '../entities/goal_analytics_model.dart';
-import '../repositories/goal_repository.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_analytics_model.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
 
 class GoalAnalyticsService {
   final GoalRepository _repository;

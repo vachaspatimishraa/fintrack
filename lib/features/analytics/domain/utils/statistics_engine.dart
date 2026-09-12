@@ -1,6 +1,6 @@
 import 'dart:math';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/custom_report_data.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
 
 class StatisticsEngine {
   const StatisticsEngine._();

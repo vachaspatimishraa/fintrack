@@ -1,4 +1,4 @@
-import '../services/enterprise_certification.dart';
+import 'package:fintrack/features/goals/domain/services/enterprise_certification.dart';
 
 /// Final validator to run before code is merged into the release branch.
 class ReleaseValidator {

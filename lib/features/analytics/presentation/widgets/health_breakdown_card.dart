@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/financial_health_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/financial_health_data.dart';
 
 class HealthBreakdownCard extends StatelessWidget {
   final HealthBreakdown breakdown;

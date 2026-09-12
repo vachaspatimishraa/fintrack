@@ -1,5 +1,5 @@
 import 'dart:developer';
-import '../utils/budget_performance_service.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_performance_service.dart';
 
 /// Service to audit repository interactions for quality and performance.
 /// 

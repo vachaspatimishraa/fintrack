@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import '../../../../../core/database/isar/collections/transaction_model.dart';
-import '../../../domain/entities/transaction_query_filter.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_query_filter.dart';
 
 class TransactionLocalDatasource {
   final Isar _isar;

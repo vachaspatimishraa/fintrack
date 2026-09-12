@@ -10,7 +10,7 @@ class ReportsSecurityValidator {
   }
 
   bool validateLogPrivacy(String logMessage) {
-    final monetaryPattern = RegExp(r"(₹|\$|rs\.?)\s*\d+", caseSensitive: false);
+    final monetaryPattern = RegExp(r'(₹|\$|rs\.?)\s*\d+', caseSensitive: false);
     if (monetaryPattern.hasMatch(logMessage)) {
       return false; // Violates data minimization log policies
     }

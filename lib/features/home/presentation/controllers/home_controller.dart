@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/home_provider.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../../../../core/services/pdf_service.dart';
-import '../../../../core/services/excel_service.dart';
+import 'package:fintrack/features/home/providers/home_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/core/services/pdf_service.dart';
+import 'package:fintrack/core/services/excel_service.dart';
 
 class HomeController {
   final Ref _ref;

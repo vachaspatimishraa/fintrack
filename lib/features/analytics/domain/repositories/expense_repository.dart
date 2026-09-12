@@ -1,4 +1,4 @@
-import '../entities/expense_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
 
 abstract class ExpenseRepository {
   Future<ExpenseReport> getExpenseReport(String filter);

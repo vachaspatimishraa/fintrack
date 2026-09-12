@@ -1,15 +1,15 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'isar/collections/account_model.dart';
-import 'isar/collections/transaction_model.dart';
-import 'isar/collections/sync_queue_item.dart';
-import 'isar/collections/category_model.dart';
-import 'isar/collections/receipt_model.dart';
-import 'isar/collections/budget_model.dart';
-import 'isar/collections/budget_recommendation_model.dart';
-import 'isar/collections/settings_model.dart';
-import 'isar/collections/backup_history_model.dart';
-import 'isar/collections/goal_model.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/core/database/isar/collections/sync_queue_item.dart';
+import 'package:fintrack/core/database/isar/collections/category_model.dart';
+import 'package:fintrack/core/database/isar/collections/receipt_model.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/core/database/isar/collections/budget_recommendation_model.dart';
+import 'package:fintrack/core/database/isar/collections/settings_model.dart';
+import 'package:fintrack/core/database/isar/collections/backup_history_model.dart';
+import 'package:fintrack/core/database/isar/collections/goal_model.dart';
 
 import 'package:flutter/foundation.dart';
 
@@ -55,7 +55,7 @@ class IsarInitializationService {
         ContributionModelSchema,
         GoalHistoryModelSchema,
       ],
-      directory: path ?? "",
+      directory: path ?? '',
     );
   }
 }

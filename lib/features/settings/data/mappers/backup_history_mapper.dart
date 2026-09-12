@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/backup_history_model.dart';
-import '../../domain/entities/backup_history_entity.dart';
+import 'package:fintrack/core/database/isar/collections/backup_history_model.dart';
+import 'package:fintrack/features/settings/domain/entities/backup_history_entity.dart';
 
 class BackupHistoryMapper {
   static BackupHistoryEntity toEntity(BackupHistoryModel model) {

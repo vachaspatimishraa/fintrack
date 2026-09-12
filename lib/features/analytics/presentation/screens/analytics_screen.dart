@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../providers/analytics_provider.dart';
-import '../widgets/dashboard_widgets.dart';
-import 'calendar_analytics_screen.dart';
-import 'spending_trend_screen.dart';
-import 'monthly_report_screen.dart';
-import 'yearly_report_screen.dart';
-import 'custom_report_screen.dart';
-import 'financial_health_screen.dart';
-import 'ai_insights_screen.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/providers/analytics_provider.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/dashboard_widgets.dart';
+import 'package:fintrack/features/analytics/presentation/screens/calendar_analytics_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/spending_trend_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/monthly_report_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/yearly_report_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/custom_report_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/financial_health_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/ai_insights_screen.dart';
 
 
 

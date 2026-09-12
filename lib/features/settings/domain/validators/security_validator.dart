@@ -1,4 +1,4 @@
-import '../entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 /// Validator for security and privacy compliance in Settings.
 class SecurityValidator {

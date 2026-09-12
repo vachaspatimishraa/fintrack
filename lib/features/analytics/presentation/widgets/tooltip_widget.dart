@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/income_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
 
 /// Custom tooltip widget for chart interactions
 class IncomeChartTooltip extends StatelessWidget {

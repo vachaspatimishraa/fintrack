@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/budget_insight.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_insight.dart';
 
 class BudgetInsightCard extends StatelessWidget {
   final BudgetInsight insight;

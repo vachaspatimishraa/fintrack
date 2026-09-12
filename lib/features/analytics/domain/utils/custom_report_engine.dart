@@ -1,8 +1,8 @@
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/custom_report_data.dart';
-import 'filter_engine.dart';
-import 'grouping_engine.dart';
-import 'statistics_engine.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/filter_engine.dart';
+import 'package:fintrack/features/analytics/domain/utils/grouping_engine.dart';
+import 'package:fintrack/features/analytics/domain/utils/statistics_engine.dart';
 
 class CustomReportEngine {
   const CustomReportEngine._();

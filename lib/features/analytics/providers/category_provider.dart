@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/category_repository_impl.dart';
-import '../domain/entities/category_data.dart';
-import '../domain/repositories/category_repository.dart';
-import '../presentation/controllers/category_controller.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/category_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/category_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/category_repository.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/category_controller.dart';
 
 final categoryTimeFilterProvider = StateProvider<String>((ref) => 'month');
 
@@ -29,7 +29,7 @@ final categoryInsightsProvider = Provider<List<String>>((ref) {
   final controller = ref.watch(categoryControllerProvider);
 
   return reportAsync.when(
-    data: (report) => controller.generateInsights(report),
+    data: controller.generateInsights,
     loading: () => [],
     error: (err, stack) => [],
   );

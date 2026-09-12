@@ -1,22 +1,22 @@
 import 'dart:async';
-import '../../../../core/services/sync_service.dart';
-import '../../domain/entities/goal_entity.dart';
-import '../../domain/entities/milestone_entity.dart';
-import '../../domain/entities/contribution_entity.dart';
-import '../../domain/entities/goal_progress_model.dart';
-import '../../domain/entities/goal_forecast_model.dart';
-import '../../domain/entities/goal_analytics_model.dart';
-import '../../domain/entities/goal_reminder_model.dart';
-import '../../domain/entities/goal_template_model.dart';
-import '../../domain/entities/goal_sync_status.dart';
-import '../../domain/repositories/goal_repository.dart';
-import '../../domain/repositories/goals_local_datasource.dart';
-import '../../domain/repositories/goals_remote_datasource.dart';
-import '../../domain/utils/goals_performance_service.dart';
-import '../../domain/services/goal_progress_service.dart';
-import '../../domain/services/goal_forecast_service.dart';
-import '../../domain/services/goal_analytics_service.dart';
-import '../mappers/goal_mapper.dart';
+import 'package:fintrack/core/services/sync_service.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/milestone_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/contribution_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_progress_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_forecast_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_analytics_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_reminder_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_template_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_sync_status.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
+import 'package:fintrack/features/goals/domain/repositories/goals_local_datasource.dart';
+import 'package:fintrack/features/goals/domain/repositories/goals_remote_datasource.dart';
+import 'package:fintrack/features/goals/domain/utils/goals_performance_service.dart';
+import 'package:fintrack/features/goals/domain/services/goal_progress_service.dart';
+import 'package:fintrack/features/goals/domain/services/goal_forecast_service.dart';
+import 'package:fintrack/features/goals/domain/services/goal_analytics_service.dart';
+import 'package:fintrack/features/goals/data/mappers/goal_mapper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GoalRepositoryImpl implements GoalRepository {
@@ -64,7 +64,7 @@ class GoalRepositoryImpl implements GoalRepository {
       final models = await _localDatasource.loadGoals(_currentUserId);
       final entities = models
           .where((m) => includeDeleted || !m.isDeleted)
-          .map((m) => GoalMapper.toEntity(m))
+          .map(GoalMapper.toEntity)
           .toList();
       
       _cachedGoalList = entities;
@@ -82,7 +82,7 @@ class GoalRepositoryImpl implements GoalRepository {
     return _localDatasource.watchGoals(_currentUserId).map(
           (models) => models
               .where((m) => !m.isDeleted)
-              .map((m) => GoalMapper.toEntity(m))
+              .map(GoalMapper.toEntity)
               .toList(),
         );
   }
@@ -150,7 +150,7 @@ class GoalRepositoryImpl implements GoalRepository {
       await _localDatasource.deleteGoal(goalId);
       _invalidateCache();
       if (_syncService != null) {
-        await _syncService!.queueSync(
+        await _syncService.queueSync(
           entityType: 'goal',
           entityUuid: goalId,
           action: 'delete',

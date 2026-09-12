@@ -1,7 +1,7 @@
-import '../../../budget/domain/entities/budget_entity.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/financial_health_data.dart';
-import 'health_score_calculator.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/financial_health_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/health_score_calculator.dart';
 
 class TrendService {
   const TrendService._();

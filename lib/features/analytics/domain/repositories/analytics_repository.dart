@@ -1,9 +1,9 @@
-import '../entities/analytics_state.dart';
-import '../entities/monthly_report_data.dart';
-import '../entities/yearly_report_data.dart';
-import '../entities/custom_report_data.dart';
-import '../entities/financial_health_data.dart';
-import '../entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/analytics_state.dart';
+import 'package:fintrack/features/analytics/domain/entities/monthly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/yearly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/financial_health_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
 
 
 

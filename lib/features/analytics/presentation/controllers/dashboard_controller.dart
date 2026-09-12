@@ -1,4 +1,4 @@
-import '../../domain/repositories/analytics_repository.dart';
+import 'package:fintrack/features/analytics/domain/repositories/analytics_repository.dart';
 
 class DashboardController {
   final AnalyticsRepository _repository;

@@ -1,4 +1,4 @@
-import '../entities/transaction_dto.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_dto.dart';
 
 abstract class TransactionApi {
   Future<TransactionDto?> getTransactionDto(String uuid);

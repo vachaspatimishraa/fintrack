@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/expense_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
 
 /// Widget to display expense categories as a pie chart
 class ExpensePieChart extends ConsumerWidget {

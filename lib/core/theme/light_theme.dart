@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
+import 'package:fintrack/core/constants/colors.dart';
 
 ThemeData get lightTheme {
   return ThemeData(

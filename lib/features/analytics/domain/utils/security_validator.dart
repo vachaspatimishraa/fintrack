@@ -12,7 +12,7 @@ class SecurityValidator {
 
   bool validateLogPrivacy(String logMessage) {
     // Logs should never print transactional details, notes, or raw monetary numbers
-    final monetaryPattern = RegExp(r"(₹|\$|rs\.?)\s*\d+", caseSensitive: false);
+    final monetaryPattern = RegExp(r'(₹|\$|rs\.?)\s*\d+', caseSensitive: false);
     if (monetaryPattern.hasMatch(logMessage)) {
       return false; // Violates data minimization and privacy logs policy
     }

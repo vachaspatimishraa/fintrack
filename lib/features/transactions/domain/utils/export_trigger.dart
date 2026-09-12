@@ -1,4 +1,4 @@
-import '../entities/transaction_event_bus.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_event_bus.dart';
 
 class ExportTrigger {
   final TransactionEventBus _eventBus;

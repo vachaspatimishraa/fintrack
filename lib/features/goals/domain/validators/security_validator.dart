@@ -1,4 +1,4 @@
-import '../entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
 
 /// Validator for security and privacy compliance in Goals.
 class SecurityValidator {

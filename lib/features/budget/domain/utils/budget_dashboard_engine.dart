@@ -1,8 +1,8 @@
-import '../entities/budget_dashboard_data.dart';
-import '../entities/budget_entity.dart';
-import '../repositories/budget_repository.dart';
-import '../repositories/budget_alert_repository.dart';
-import '../repositories/budget_analytics_repository.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_dashboard_data.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_alert_repository.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_analytics_repository.dart';
 
 class BudgetDashboardEngine {
   final BudgetRepository _budgetRepository;

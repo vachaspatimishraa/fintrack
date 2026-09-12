@@ -1,8 +1,8 @@
-import 'reports_architecture_validator.dart';
-import 'reports_security_validator.dart';
-import 'reports_performance_validator.dart';
-import 'reports_accessibility_validator.dart';
-import 'reports_offline_compliance_checker.dart';
+import 'package:fintrack/features/reports/domain/utils/reports_architecture_validator.dart';
+import 'package:fintrack/features/reports/domain/utils/reports_security_validator.dart';
+import 'package:fintrack/features/reports/domain/utils/reports_performance_validator.dart';
+import 'package:fintrack/features/reports/domain/utils/reports_accessibility_validator.dart';
+import 'package:fintrack/features/reports/domain/utils/reports_offline_compliance_checker.dart';
 
 class ReportsEnterpriseCertification {
   final ReportsArchitectureValidator _archVal = const ReportsArchitectureValidator();

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/budget_provider.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
 
 class BudgetDashboardController {
   final Ref _ref;
@@ -11,4 +11,4 @@ class BudgetDashboardController {
   }
 }
 
-final budgetDashboardControllerProvider = Provider<BudgetDashboardController>((ref) => BudgetDashboardController(ref));
+final budgetDashboardControllerProvider = Provider<BudgetDashboardController>(BudgetDashboardController.new);

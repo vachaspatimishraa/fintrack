@@ -1,11 +1,11 @@
-import '../entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
 
 class BudgetHealthCalculator {
   static Future<double> calculateScore(List<BudgetEntity> budgets) async {
     if (budgets.isEmpty) return 100.0;
 
     double totalScore = 0.0;
-    int budgetCount = budgets.length;
+    final int budgetCount = budgets.length;
 
     for (final budget in budgets) {
       double budgetScore = 100.0;

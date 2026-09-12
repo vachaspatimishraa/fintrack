@@ -1,7 +1,7 @@
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/weekly_report_data.dart';
-import '../../domain/repositories/weekly_report_repository.dart';
-import '../../domain/utils/weekly_aggregator.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/weekly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/weekly_report_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/weekly_aggregator.dart';
 
 class WeeklyReportRepositoryImpl implements WeeklyReportRepository {
   final TransactionRepository _transactionRepository;

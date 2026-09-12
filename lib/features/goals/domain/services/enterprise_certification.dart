@@ -1,5 +1,5 @@
-import 'architecture_validation_service.dart';
-import 'quality_checklist.dart';
+import 'package:fintrack/features/goals/domain/services/architecture_validation_service.dart';
+import 'package:fintrack/features/goals/domain/services/quality_checklist.dart';
 
 /// Certification authority for the Goals Module.
 /// 

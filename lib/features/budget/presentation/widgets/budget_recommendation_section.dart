@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/budget_insight.dart';
-import 'budget_insight_card.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_insight.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_insight_card.dart';
 
 class BudgetRecommendationSection extends StatelessWidget {
   final List<BudgetInsight> recommendations;

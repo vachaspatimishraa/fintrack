@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../providers/backup_provider.dart';
-import '../controllers/backup_controller.dart';
+import 'package:fintrack/features/settings/providers/backup_provider.dart';
+import 'package:fintrack/features/settings/presentation/controllers/backup_controller.dart';
 
-import '../widgets/restore_backup_dialog.dart';
+import 'package:fintrack/features/settings/presentation/widgets/restore_backup_dialog.dart';
 
 class BackupHistoryScreen extends ConsumerWidget {
   const BackupHistoryScreen({super.key});

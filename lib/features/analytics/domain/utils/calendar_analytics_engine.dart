@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/calendar_analytics_data.dart';
-import 'activity_streak_service.dart';
-import 'heatmap_calculator.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/activity_streak_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/heatmap_calculator.dart';
 
 class CalendarAnalyticsEngine {
   const CalendarAnalyticsEngine._();

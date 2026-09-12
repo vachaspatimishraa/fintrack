@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/translations.dart';
-import '../controllers/settings_controller.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/settings/presentation/controllers/settings_controller.dart';
 
 class ThemeSelectionCard extends ConsumerWidget {
   final String currentMode;

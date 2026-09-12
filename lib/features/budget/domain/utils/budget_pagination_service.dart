@@ -1,6 +1,6 @@
-import '../../domain/entities/budget_entity.dart';
-import '../../data/mappers/budget_mapper.dart';
-import '../../data/datasources/local/budget_local_datasource.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/data/mappers/budget_mapper.dart';
+import 'package:fintrack/features/budget/data/datasources/local/budget_local_datasource.dart';
 
 class BudgetPaginationService {
   final BudgetLocalDatasource _localDatasource;
@@ -21,6 +21,6 @@ class BudgetPaginationService {
       status: status,
       budgetType: budgetType,
     );
-    return models.map((m) => BudgetMapper.toEntity(m)).toList();
+    return models.map(BudgetMapper.toEntity).toList();
   }
 }

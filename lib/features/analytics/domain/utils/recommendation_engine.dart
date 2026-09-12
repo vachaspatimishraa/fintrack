@@ -1,4 +1,4 @@
-import '../entities/financial_health_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/financial_health_data.dart';
 
 class RecommendationEngine {
   const RecommendationEngine._();

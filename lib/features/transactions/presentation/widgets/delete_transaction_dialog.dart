@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/translations.dart';
+import 'package:fintrack/core/utils/translations.dart';
 
 class DeleteTransactionDialog extends StatelessWidget {
   const DeleteTransactionDialog({super.key});

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/transaction_list_controller.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_list_controller.dart';
 
 class TransactionSearchBar extends ConsumerStatefulWidget {
   const TransactionSearchBar({super.key});

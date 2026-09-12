@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/budget_analytics.dart';
-import '../../domain/entities/budget_history_record.dart';
-import '../../domain/entities/budget_insight.dart';
-import '../../domain/repositories/budget_analytics_repository.dart';
-import '../../domain/repositories/budget_repository.dart';
-import '../../../transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_analytics.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_history_record.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_insight.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_analytics_repository.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
 
 class BudgetAnalyticsRepositoryImpl implements BudgetAnalyticsRepository {
   final BudgetRepository _budgetRepository;
-  final TransactionRepository _transactionRepository;
+  final TransactionRepository transactionRepository;
 
   BudgetAnalyticsRepositoryImpl({
     required BudgetRepository budgetRepository,
-    required TransactionRepository transactionRepository,
-  })  : _budgetRepository = budgetRepository,
-        _transactionRepository = transactionRepository;
+    required this.transactionRepository,
+  })  : _budgetRepository = budgetRepository;
 
   @override
   Future<BudgetAnalytics> getBudgetAnalytics() async {
@@ -53,9 +52,13 @@ class BudgetAnalyticsRepositoryImpl implements BudgetAnalyticsRepository {
     String status = 'Excellent';
     if (efficiencyScore < 20) {
       status = 'Critical';
-    } else if (efficiencyScore < 40) status = 'Poor';
-    else if (efficiencyScore < 60) status = 'Average';
-    else if (efficiencyScore < 80) status = 'Good';
+    } else if (efficiencyScore < 40) {
+      status = 'Poor';
+    } else if (efficiencyScore < 60) {
+      status = 'Average';
+    } else if (efficiencyScore < 80) {
+      status = 'Good';
+    }
 
     final history = await getBudgetHistory();
     final successfulMonths = history.where((h) => h.status == 'Successful').length;

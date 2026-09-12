@@ -1,20 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../../sync/providers/sync_provider.dart';
-import '../data/datasources/local/account_local_datasource.dart';
-import '../data/datasources/remote/account_remote_datasource.dart';
-import '../domain/repositories/account_repository.dart';
-import '../data/repositories/account_repository_impl.dart';
-import '../domain/utils/search_engine.dart';
-import '../domain/utils/filter_engine.dart';
-import '../domain/utils/sort_engine.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import 'account_search_provider.dart';
-import 'account_sort_provider.dart';
-import 'account_filter_provider.dart';
-import 'account_pagination_provider.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/accounts/data/datasources/local/account_local_datasource.dart';
+import 'package:fintrack/features/accounts/data/datasources/remote/account_remote_datasource.dart';
+import 'package:fintrack/features/accounts/domain/repositories/account_repository.dart';
+import 'package:fintrack/features/accounts/data/repositories/account_repository_impl.dart';
+import 'package:fintrack/features/accounts/domain/utils/search_engine.dart';
+import 'package:fintrack/features/accounts/domain/utils/filter_engine.dart';
+import 'package:fintrack/features/accounts/domain/utils/sort_engine.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/accounts/providers/account_search_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_sort_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_filter_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_pagination_provider.dart';
 
 final accountLocalDatasourceProvider = Provider<AccountLocalDatasource>((ref) {
   final isarService = ref.watch(isarInitializationServiceProvider);

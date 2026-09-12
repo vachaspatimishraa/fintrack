@@ -1,4 +1,4 @@
-import '../../presentation/controllers/goal_controller.dart';
+import 'package:fintrack/features/goals/presentation/controllers/goal_controller.dart';
 
 /// Service to validate the architectural integrity of the Goals Module.
 /// 

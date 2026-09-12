@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/translations.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../../auth/presentation/controllers/auth_controller.dart';
-import '../../../sync/providers/sync_provider.dart';
-import '../../providers/settings_provider.dart';
-import '../../domain/entities/settings_entity.dart';
-import '../../../../shared/widgets/offline_banner.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/shared/widgets/offline_banner.dart';
 
-import 'appearance_screen.dart';
-import 'localization_screen.dart';
-import 'security_settings_screen.dart';
-import 'backup_settings_screen.dart';
-import 'about_screen.dart';
-import 'developer_options_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/appearance_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/localization_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/security_settings_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/backup_settings_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/about_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/developer_options_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});

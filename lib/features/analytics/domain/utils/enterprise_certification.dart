@@ -1,8 +1,8 @@
-import 'architecture_validation_service.dart';
-import 'security_validator.dart';
-import 'performance_validator.dart';
-import 'accessibility_validator.dart';
-import 'offline_compliance_checker.dart';
+import 'package:fintrack/features/analytics/domain/utils/architecture_validation_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/security_validator.dart';
+import 'package:fintrack/features/analytics/domain/utils/performance_validator.dart';
+import 'package:fintrack/features/analytics/domain/utils/accessibility_validator.dart';
+import 'package:fintrack/features/analytics/domain/utils/offline_compliance_checker.dart';
 
 class EnterpriseCertification {
   final ArchitectureValidationService _archVal = const ArchitectureValidationService();

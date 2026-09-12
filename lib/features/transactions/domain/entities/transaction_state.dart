@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class TransactionState {
   final List<TransactionEntity> transactions;

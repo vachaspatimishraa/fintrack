@@ -1,6 +1,6 @@
-import '../entities/settings_entity.dart';
-import '../entities/app_information_entity.dart';
-import '../entities/backup_history_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/app_information_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/backup_history_entity.dart';
 
 /// Central repository for all application configuration and user preferences.
 abstract class SettingsRepository {

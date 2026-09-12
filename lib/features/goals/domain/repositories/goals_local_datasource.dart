@@ -1,4 +1,4 @@
-import '../../../../core/database/isar/collections/goal_model.dart';
+import 'package:fintrack/core/database/isar/collections/goal_model.dart';
 
 /// Contract for local persistent storage of goals and related entities.
 abstract class GoalsLocalDatasource {

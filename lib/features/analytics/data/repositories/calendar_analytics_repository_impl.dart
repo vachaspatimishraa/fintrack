@@ -1,8 +1,8 @@
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/calendar_analytics_data.dart';
-import '../../domain/repositories/calendar_analytics_repository.dart';
-import '../../domain/utils/activity_streak_service.dart';
-import '../../domain/utils/calendar_analytics_engine.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/calendar_analytics_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/activity_streak_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/calendar_analytics_engine.dart';
 
 class CalendarAnalyticsRepositoryImpl implements CalendarAnalyticsRepository {
   final TransactionRepository _transactionRepository;

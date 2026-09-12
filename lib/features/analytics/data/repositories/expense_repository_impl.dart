@@ -1,7 +1,7 @@
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/expense_data.dart';
-import '../../domain/repositories/expense_repository.dart';
-import '../../domain/utils/expense_aggregator.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/expense_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/expense_aggregator.dart';
 
 class ExpenseRepositoryImpl implements ExpenseRepository {
   final TransactionRepository _transactionRepository;

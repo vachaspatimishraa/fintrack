@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../providers/budget_analytics_provider.dart';
-import '../widgets/budget_efficiency_card.dart';
-import '../widgets/savings_analysis_card.dart';
-import '../widgets/overspending_analysis_card.dart';
-import '../widgets/budget_insight_card.dart';
-import '../widgets/budget_charts.dart';
-import 'budget_history_screen.dart';
+import 'package:fintrack/features/budget/providers/budget_analytics_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_efficiency_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/savings_analysis_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/overspending_analysis_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_insight_card.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_charts.dart';
+import 'package:fintrack/features/budget/presentation/screens/budget_history_screen.dart';
 
 class BudgetAnalyticsScreen extends ConsumerWidget {
   const BudgetAnalyticsScreen({super.key});

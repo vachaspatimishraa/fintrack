@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/auth_controller.dart';
+import 'package:fintrack/features/auth/presentation/controllers/auth_controller.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -61,7 +61,7 @@ class LoginScreen extends ConsumerWidget {
               ),
               const Spacer(),
               FilledButton.icon(
-                onPressed: isLoading ? null : () => controller.loginWithGoogle(),
+                onPressed: isLoading ? null : controller.loginWithGoogle,
                 icon: isLoading
                     ? const SizedBox(
                         width: 20,
@@ -76,7 +76,7 @@ class LoginScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               OutlinedButton(
-                onPressed: isLoading ? null : () => controller.continueAsGuest(),
+                onPressed: isLoading ? null : controller.continueAsGuest,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(

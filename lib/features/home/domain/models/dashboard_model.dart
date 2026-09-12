@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 enum HomeSyncStatus {
   synced,

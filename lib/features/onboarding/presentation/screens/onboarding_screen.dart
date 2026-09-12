@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/routes.dart';
-import '../../../../core/constants/colors.dart';
-import '../../../../core/utils/translations.dart';
+import 'package:fintrack/core/constants/routes.dart';
+import 'package:fintrack/core/constants/colors.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/core/services/permission_service.dart';
 import 'package:fintrack/features/onboarding/providers/onboarding_provider.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -85,9 +86,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     }
   }
 
-  void _complete() {
+  Future<void> _complete() async {
     ref.read(onboardingProvider.notifier).completeOnboarding();
-    // Navigate to Login Screen
+    await AppPermissionService.promptInitialPermissions(context);
+    if (!mounted) return;
     context.go(AppRoutes.login);
   }
 

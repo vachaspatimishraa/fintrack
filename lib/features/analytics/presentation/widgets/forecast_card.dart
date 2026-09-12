@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/ai_insight_data.dart';
-import '../../domain/entities/spending_trend_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
 
 class ForecastCard extends StatelessWidget {
   final dynamic forecast;

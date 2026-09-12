@@ -1,4 +1,4 @@
-import '../entities/report_history_model.dart';
+import 'package:fintrack/features/reports/domain/entities/report_history_model.dart';
 
 abstract class ReportHistoryRepository {
   Future<void> saveReportHistory(ReportHistoryEntry entry);

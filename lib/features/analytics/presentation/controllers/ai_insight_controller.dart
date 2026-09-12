@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/repositories/analytics_repository.dart';
-import '../../providers/ai_insight_provider.dart';
+import 'package:fintrack/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:fintrack/features/analytics/providers/ai_insight_provider.dart';
 
 class AIInsightController {
   final AnalyticsRepository _repository;

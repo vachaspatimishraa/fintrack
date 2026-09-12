@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/utils/income_growth_calculator.dart';
-import '../../providers/income_provider.dart';
-import '../widgets/banners.dart';
-import '../widgets/income_insights_widget.dart';
-import '../widgets/income_pie_chart.dart';
-import '../widgets/income_sources_list.dart';
-import '../widgets/income_statistics_card.dart';
-import '../widgets/income_trend_chart.dart';
-import '../widgets/skeleton_loaders.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/utils/income_growth_calculator.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/banners.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/income_insights_widget.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/income_pie_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/income_sources_list.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/income_statistics_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/income_trend_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_loaders.dart';
+import 'package:fintrack/features/analytics/providers/income_provider.dart';
 
 class IncomeAnalyticsScreen extends ConsumerWidget {
   const IncomeAnalyticsScreen({super.key});
@@ -123,8 +123,8 @@ class IncomeAnalyticsScreen extends ConsumerWidget {
                                           color: report.comparison
                                                   .growthPercentage >=
                                               0
-                                              ? Colors.green.withOpacity(0.1)
-                                              : Colors.red.withOpacity(0.1),
+                                              ? Colors.green.withValues(alpha: 0.1)
+                                              : Colors.red.withValues(alpha: 0.1),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
@@ -295,7 +295,7 @@ class IncomeAnalyticsScreen extends ConsumerWidget {
                       return ErrorBanner(
                         message: error.toString(),
                         onRetry: () {
-                          ref.refresh(incomeReportProvider);
+                          ref.invalidate(incomeReportProvider);
                         },
                       );
                     },

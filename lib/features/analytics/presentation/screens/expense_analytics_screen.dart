@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/utils/expense_growth_calculator.dart';
-import '../../providers/expense_provider.dart';
-import '../widgets/banners.dart';
-import '../widgets/expense_health_card.dart';
-import '../widgets/expense_insights_widget.dart';
-import '../widgets/expense_pie_chart.dart';
-import '../widgets/expense_statistics_card.dart';
-import '../widgets/expense_trend_chart.dart';
-import '../widgets/expense_top_merchants.dart';
-import '../widgets/skeleton_loaders.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/utils/expense_growth_calculator.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/banners.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/expense_health_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/expense_insights_widget.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/expense_pie_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/expense_statistics_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/expense_top_merchants.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/expense_trend_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_loaders.dart';
+import 'package:fintrack/features/analytics/providers/expense_provider.dart';
 
 class ExpenseAnalyticsScreen extends ConsumerWidget {
   const ExpenseAnalyticsScreen({super.key});
@@ -126,8 +126,8 @@ class ExpenseAnalyticsScreen extends ConsumerWidget {
                                           color: report.comparison
                                                   .growthPercentage <
                                               0
-                                              ? Colors.green.withOpacity(0.1)
-                                              : Colors.red.withOpacity(0.1),
+                                              ? Colors.green.withValues(alpha: 0.1)
+                                              : Colors.red.withValues(alpha: 0.1),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
@@ -304,7 +304,7 @@ class ExpenseAnalyticsScreen extends ConsumerWidget {
                       return ErrorBanner(
                         message: error.toString(),
                         onRetry: () {
-                          ref.refresh(expenseReportProvider);
+                          ref.invalidate(expenseReportProvider);
                         },
                       );
                     },

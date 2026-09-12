@@ -1,5 +1,5 @@
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/analytics_state.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/analytics_state.dart';
 
 class AnalyticsEngine {
   static AnalyticsState calculateState(List<TransactionEntity> transactions) {

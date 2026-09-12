@@ -1,9 +1,9 @@
-import '../repositories/goal_repository.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
 
 class GoalTemplateService {
-  final GoalRepository _repository;
+  final GoalRepository repository;
 
-  GoalTemplateService(this._repository);
+  GoalTemplateService(this.repository);
 
   Future<void> apply(String templateId) async {
     // Logic to create a goal from a template

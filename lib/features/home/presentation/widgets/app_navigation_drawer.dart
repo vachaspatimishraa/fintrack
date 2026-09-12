@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../auth/presentation/controllers/auth_controller.dart';
-import '../../../sync/providers/sync_provider.dart';
-import '../../../transactions/presentation/screens/transactions_screen.dart';
-import '../../../accounts/presentation/screens/account_list_screen.dart';
-import '../../../settings/presentation/screens/settings_screen.dart';
-import '../../../../core/utils/translations.dart';
+import 'package:fintrack/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/transactions/presentation/screens/transactions_screen.dart';
+import 'package:fintrack/features/accounts/presentation/screens/account_list_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/settings_screen.dart';
+import 'package:fintrack/core/utils/translations.dart';
 
 class AppNavigationDrawer extends ConsumerWidget {
   const AppNavigationDrawer({super.key});

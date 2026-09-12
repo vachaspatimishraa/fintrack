@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/entities/transaction_query_filter.dart';
-import '../../providers/transaction_provider.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_query_filter.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
 
 class TransactionListState {
   final List<TransactionEntity> transactions;

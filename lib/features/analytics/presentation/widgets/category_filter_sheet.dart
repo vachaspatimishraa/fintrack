@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/constants/app_categories.dart';
-import '../../providers/custom_report_provider.dart';
+import 'package:fintrack/core/constants/app_categories.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
 
 class CategoryFilterSheet extends ConsumerWidget {
   const CategoryFilterSheet({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/entities/report_history_model.dart';
-import '../domain/repositories/report_history_repository.dart';
-import '../data/repositories/report_history_repository_impl.dart';
+import 'package:fintrack/features/reports/domain/entities/report_history_model.dart';
+import 'package:fintrack/features/reports/domain/repositories/report_history_repository.dart';
+import 'package:fintrack/features/reports/data/repositories/report_history_repository_impl.dart';
 
 final reportHistoryRepositoryProvider = Provider<ReportHistoryRepository>((ref) {
   return ReportHistoryRepositoryImpl();

@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/settings_model.dart';
-import '../../domain/entities/settings_entity.dart';
+import 'package:fintrack/core/database/isar/collections/settings_model.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class SettingsMapper {
   static SettingsEntity toEntity(SettingsModel model) {

@@ -1,5 +1,5 @@
-import '../services/enterprise_certification.dart';
-import '../services/quality_checklist.dart';
+import 'package:fintrack/features/settings/domain/services/enterprise_certification.dart';
+import 'package:fintrack/features/settings/domain/services/quality_checklist.dart';
 
 /// Final validator to run before code is merged for release.
 class ReleaseValidator {

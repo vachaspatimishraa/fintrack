@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../providers/category_provider.dart';
-import '../widgets/banners.dart';
-import '../widgets/category_bar_chart.dart';
-import '../widgets/category_comparison_card.dart';
-import '../widgets/category_insights_widget.dart';
-import '../widgets/category_pie_chart.dart';
-import '../widgets/category_statistics_card.dart';
-import '../widgets/category_details_screen.dart';
-import '../widgets/skeleton_loaders.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/banners.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_bar_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_comparison_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_details_screen.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_insights_widget.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_pie_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_statistics_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_loaders.dart';
+import 'package:fintrack/features/analytics/providers/category_provider.dart';
 
 class CategoryAnalyticsScreen extends ConsumerWidget {
   const CategoryAnalyticsScreen({super.key});
@@ -229,7 +229,7 @@ class CategoryAnalyticsScreen extends ConsumerWidget {
                       return ErrorBanner(
                         message: error.toString(),
                         onRetry: () {
-                          ref.refresh(categoryAnalyticsReportProvider);
+                          ref.invalidate(categoryAnalyticsReportProvider);
                         },
                       );
                     },

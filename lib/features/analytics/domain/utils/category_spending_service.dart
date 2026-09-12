@@ -1,4 +1,4 @@
-import '../entities/expense_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
 
 /// Service for analyzing spending patterns and category insights
 class CategorySpendingService {
@@ -25,9 +25,6 @@ class CategorySpendingService {
   ) {
     final total = categories.fold<double>(0, (sum, cat) => sum + cat.amount);
     final avg = categories.isNotEmpty ? total / categories.length : 0;
-    final variance = categories
-        .map((cat) => (cat.amount - avg) * (cat.amount - avg))
-        .fold<double>(0, (sum, v) => sum + v);
 
     final variability = <String, double>{};
     for (final cat in categories) {

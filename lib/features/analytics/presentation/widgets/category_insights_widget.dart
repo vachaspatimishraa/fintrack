@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/category_provider.dart';
+import 'package:fintrack/features/analytics/providers/category_provider.dart';
 
 /// Widget to display category insights
 class CategoryInsightsWidget extends ConsumerWidget {
@@ -9,7 +9,6 @@ class CategoryInsightsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final insightsAsync = ref.watch(categoryInsightsProvider);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return insightsAsync.isEmpty
         ? const SizedBox.shrink()
@@ -72,7 +71,7 @@ class _InsightItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border(
           left: BorderSide(
-            color: Colors.amber.withOpacity(0.5),
+            color: Colors.amber.withValues(alpha: 0.5),
             width: 4,
           ),
         ),

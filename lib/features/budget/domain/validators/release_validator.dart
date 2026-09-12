@@ -1,4 +1,4 @@
-import '../services/enterprise_certification.dart';
+import 'package:fintrack/features/budget/domain/services/enterprise_certification.dart';
 
 /// Validator for final release checks.
 /// 

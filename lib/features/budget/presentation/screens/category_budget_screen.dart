@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/budget_provider.dart';
-import '../widgets/budget_card.dart';
-import 'add_edit_budget_screen.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_card.dart';
+import 'package:fintrack/features/budget/presentation/screens/add_edit_budget_screen.dart';
 
-import '../widgets/category_budget_statistics_card.dart';
-import '../../../../shared/widgets/offline_banner.dart';
+import 'package:fintrack/features/budget/presentation/widgets/category_budget_statistics_card.dart';
+import 'package:fintrack/shared/widgets/offline_banner.dart';
 
 class CategoryBudgetScreen extends ConsumerWidget {
   const CategoryBudgetScreen({super.key});

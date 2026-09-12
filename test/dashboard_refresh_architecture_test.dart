@@ -17,9 +17,9 @@ void main() {
         ..name = 'Primary Wallet'
         ..balance = 1000.0;
 
-      double incomeSum = 500.0;
-      double expenseSum = 200.0;
-      double openingBalance = 700.0;
+      final double incomeSum = 500.0;
+      final double expenseSum = 200.0;
+      final double openingBalance = 700.0;
 
       final computedBalance = openingBalance + incomeSum - expenseSum;
 

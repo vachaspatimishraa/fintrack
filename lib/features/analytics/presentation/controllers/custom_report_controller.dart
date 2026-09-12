@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
-import '../../domain/entities/custom_report_data.dart';
-import '../../domain/repositories/analytics_repository.dart';
-import '../../providers/custom_report_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
 
 class CustomReportController {
   final AnalyticsRepository _repository;

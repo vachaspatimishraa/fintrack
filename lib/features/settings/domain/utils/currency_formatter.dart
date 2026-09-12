@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import '../entities/currency_entity.dart';
-import '../entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/currency_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class CurrencyFormatter {
   static String format(double amount, SettingsEntity settings) {

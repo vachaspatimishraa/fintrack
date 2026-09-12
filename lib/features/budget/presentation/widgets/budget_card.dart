@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../screens/budget_details_screen.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/presentation/screens/budget_details_screen.dart';
 
 class BudgetCard extends StatelessWidget {
   final BudgetEntity budget;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/translations.dart';
-import '../screens/add_edit_transaction_screen.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/transactions/presentation/screens/add_edit_transaction_screen.dart';
 
 class EmptyTransactionView extends StatelessWidget {
   final String? title;

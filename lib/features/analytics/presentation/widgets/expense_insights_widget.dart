@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/expense_provider.dart';
+import 'package:fintrack/features/analytics/providers/expense_provider.dart';
 
 /// Widget to display expense insights and recommendations
 class ExpenseInsightsWidget extends ConsumerWidget {
@@ -9,7 +9,6 @@ class ExpenseInsightsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final insightsAsync = ref.watch(expenseInsightsProvider);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return insightsAsync.isEmpty
         ? const SizedBox.shrink()
@@ -72,7 +71,7 @@ class _InsightItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border(
           left: BorderSide(
-            color: Colors.amber.withOpacity(0.5),
+            color: Colors.amber.withValues(alpha: 0.5),
             width: 4,
           ),
         ),

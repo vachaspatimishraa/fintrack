@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/expense_repository_impl.dart';
-import '../domain/entities/expense_data.dart';
-import '../domain/repositories/expense_repository.dart';
-import '../presentation/controllers/expense_controller.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/expense_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/expense_repository.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/expense_controller.dart';
 
 final expenseTimeFilterProvider = StateProvider<String>((ref) => '30days');
 
@@ -29,7 +29,7 @@ final expenseInsightsProvider = Provider<List<String>>((ref) {
   final controller = ref.watch(expenseControllerProvider);
 
   return reportAsync.when(
-    data: (report) => controller.generateInsights(report),
+    data: controller.generateInsights,
     loading: () => [],
     error: (err, stack) => [],
   );

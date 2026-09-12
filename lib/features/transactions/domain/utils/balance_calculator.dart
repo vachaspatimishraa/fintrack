@@ -1,4 +1,4 @@
-import '../entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class BalanceCalculator {
   static double calculateTotalBalance(List<TransactionEntity> transactions, double openingBalance) {

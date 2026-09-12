@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../auth/providers/auth_provider.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../../domain/entities/budget_query_filter.dart';
-import '../../domain/utils/budget_pagination_service.dart';
-import '../../providers/budget_provider.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_query_filter.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_pagination_service.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
 
 class BudgetListState {
   final List<BudgetEntity> budgets;

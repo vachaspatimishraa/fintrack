@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/entities/app_information_entity.dart';
-import 'settings_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/app_information_entity.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
 
 final appInformationProvider = FutureProvider<AppInformationEntity>((ref) {
   final repository = ref.watch(settingsRepositoryProvider);

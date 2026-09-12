@@ -1,4 +1,4 @@
-import '../entities/yearly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/yearly_report_data.dart';
 
 class YearlyAnalyticsEngine {
   const YearlyAnalyticsEngine._();

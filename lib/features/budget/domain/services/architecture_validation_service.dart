@@ -1,4 +1,4 @@
-import '../../presentation/controllers/budget_controller.dart';
+import 'package:fintrack/features/budget/presentation/controllers/budget_controller.dart';
 
 /// Service to validate the architectural integrity of the Budget Module.
 /// 

@@ -1,6 +1,6 @@
 import 'dart:async';
-import '../../domain/entities/report_history_model.dart';
-import '../../domain/repositories/report_history_repository.dart';
+import 'package:fintrack/features/reports/domain/entities/report_history_model.dart';
+import 'package:fintrack/features/reports/domain/repositories/report_history_repository.dart';
 
 class ReportHistoryRepositoryImpl implements ReportHistoryRepository {
   final List<ReportHistoryEntry> _history = [];

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/calendar_analytics_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
 
 class CalendarHeatmap extends StatelessWidget {
   const CalendarHeatmap({super.key});

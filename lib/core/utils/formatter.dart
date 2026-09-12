@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import '../../features/settings/domain/entities/currency_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/currency_entity.dart';
 
 class AppFormatter {
   const AppFormatter._();

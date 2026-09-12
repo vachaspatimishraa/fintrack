@@ -1,5 +1,5 @@
-import '../entities/budget_entity.dart';
-import '../entities/category_budget_distribution.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/category_budget_distribution.dart';
 
 class CategoryBudgetCalculator {
   static List<CategoryBudgetDistribution> calculateDistribution(List<BudgetEntity> categoryBudgets) {

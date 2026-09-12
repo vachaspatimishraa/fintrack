@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/database/isar/collections/category_model.dart';
-import '../../providers/transaction_provider.dart';
+import 'package:fintrack/core/database/isar/collections/category_model.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
 
 class CategoryController {
   final Ref _ref;

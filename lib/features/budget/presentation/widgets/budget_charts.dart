@@ -61,7 +61,6 @@ class BudgetPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     if (data.isEmpty) return const SizedBox.shrink();
 
-    final total = data.values.fold(0.0, (sum, v) => sum + v);
     final colors = [
       Colors.blue, Colors.green, Colors.orange, Colors.purple,
       Colors.red, Colors.teal, Colors.amber, Colors.pink

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/budget_analytics_provider.dart';
-import '../widgets/budget_history_card.dart';
+import 'package:fintrack/features/budget/providers/budget_analytics_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_history_card.dart';
 
 class BudgetHistoryScreen extends ConsumerWidget {
   const BudgetHistoryScreen({super.key});

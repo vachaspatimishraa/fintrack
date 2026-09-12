@@ -1,12 +1,12 @@
-import '../entities/goal_entity.dart';
-import '../entities/milestone_entity.dart';
-import '../entities/contribution_entity.dart';
-import '../entities/goal_progress_model.dart';
-import '../entities/goal_forecast_model.dart';
-import '../entities/goal_analytics_model.dart';
-import '../entities/goal_reminder_model.dart';
-import '../entities/goal_template_model.dart';
-import '../entities/goal_sync_status.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/milestone_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/contribution_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_progress_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_forecast_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_analytics_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_reminder_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_template_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_sync_status.dart';
 
 /// Central repository for all goal-related operations.
 /// 

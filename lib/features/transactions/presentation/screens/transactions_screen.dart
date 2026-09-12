@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/translations.dart';
-import '../controllers/transaction_list_controller.dart';
-import '../controllers/selection_controller.dart';
-import 'add_edit_transaction_screen.dart';
-import '../widgets/search_bar.dart';
-import '../widgets/quick_filter_chips.dart';
-import '../widgets/filter_bottom_sheet.dart';
-import '../widgets/sort_bottom_sheet.dart';
-import '../widgets/transaction_timeline.dart';
-import '../widgets/empty_transaction_view.dart';
-import '../widgets/loading_skeleton.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_list_controller.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/selection_controller.dart';
+import 'package:fintrack/features/transactions/presentation/screens/add_edit_transaction_screen.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/search_bar.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/quick_filter_chips.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/filter_bottom_sheet.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/sort_bottom_sheet.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/transaction_timeline.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/empty_transaction_view.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/loading_skeleton.dart';
 
 class TransactionsScreen extends ConsumerStatefulWidget {
   const TransactionsScreen({super.key});

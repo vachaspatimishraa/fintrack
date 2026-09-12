@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/spending_trend_repository_impl.dart';
-import '../domain/entities/spending_trend_data.dart';
-import '../domain/repositories/spending_trend_repository.dart';
-import '../presentation/controllers/trend_controller.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/spending_trend_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/spending_trend_repository.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/trend_controller.dart';
 
 final trendTimeFilterProvider = StateProvider<String>((ref) => 'month');
 

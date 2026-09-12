@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/custom_report_data.dart';
-import '../../providers/custom_report_provider.dart';
-import '../controllers/custom_report_controller.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/custom_report_controller.dart';
 import 'package:intl/intl.dart';
 
 class ReportPreviewScreen extends ConsumerWidget {
@@ -40,13 +40,13 @@ class ReportPreviewScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              datasetAsync.whenData((dataset) => controller.shareReport(dataset));
+              datasetAsync.whenData(controller.shareReport);
             },
           ),
           IconButton(
             icon: const Icon(Icons.picture_as_pdf_outlined),
             onPressed: () {
-              datasetAsync.whenData((dataset) => controller.exportPDF(dataset));
+              datasetAsync.whenData(controller.exportPDF);
             },
           ),
         ],

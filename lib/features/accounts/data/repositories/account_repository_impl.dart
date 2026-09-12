@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../domain/repositories/account_repository.dart';
-import '../datasources/local/account_local_datasource.dart';
-import '../datasources/remote/account_remote_datasource.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../../core/services/sync_service.dart';
-import '../../domain/utils/conflict_resolver.dart';
+import 'package:fintrack/features/accounts/domain/repositories/account_repository.dart';
+import 'package:fintrack/features/accounts/data/datasources/local/account_local_datasource.dart';
+import 'package:fintrack/features/accounts/data/datasources/remote/account_remote_datasource.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/services/sync_service.dart';
+import 'package:fintrack/features/accounts/domain/utils/conflict_resolver.dart';
 
 class AccountRepositoryImpl implements AccountRepository {
   final AccountLocalDatasource _localDatasource;
@@ -77,11 +77,11 @@ class AccountRepositoryImpl implements AccountRepository {
       account.userId = _supabase.auth.currentUser?.id;
       account.isSynced = false;
 
-      debugPrint("Saving account: ${account.name} (UUID: ${account.uuid}, isNew: $isNew)");
+      debugPrint('Saving account: ${account.name} (UUID: ${account.uuid}, isNew: $isNew)');
 
       await _localDatasource.putAccount(account);
 
-      debugPrint("Local save successful. Queueing sync.");
+      debugPrint('Local save successful. Queueing sync.');
 
       // ignore: unawaited_futures
       _syncService.queueSync(
@@ -90,10 +90,10 @@ class AccountRepositoryImpl implements AccountRepository {
         action: isNew ? 'create' : 'update',
         payload: account.toJson(),
       ).catchError((e) {
-        debugPrint("Sync queue failed for account: $e");
+        debugPrint('Sync queue failed for account: $e');
       });
     } catch (e, stackTrace) {
-      debugPrint("ACCOUNT REPOSITORY SAVE FAILED");
+      debugPrint('ACCOUNT REPOSITORY SAVE FAILED');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stackTrace);
       rethrow;

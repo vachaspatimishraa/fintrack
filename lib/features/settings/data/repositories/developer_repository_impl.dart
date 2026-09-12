@@ -1,11 +1,11 @@
 import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../domain/repositories/developer_repository.dart';
-import '../../domain/repositories/settings_repository.dart';
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../../core/database/isar/collections/budget_model.dart';
-import '../../../../core/database/isar/collections/sync_queue_item.dart';
+import 'package:fintrack/features/settings/domain/repositories/developer_repository.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_repository.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/core/database/isar/collections/sync_queue_item.dart';
 
 class DeveloperRepositoryImpl implements DeveloperRepository {
   final Isar _isar;

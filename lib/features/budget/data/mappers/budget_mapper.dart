@@ -1,6 +1,6 @@
-import '../../../../core/database/isar/collections/budget_model.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../../domain/entities/budget_api_contract.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_api_contract.dart';
 
 /// Contract-compliant mapper for serialization and deserialization.
 class BudgetMapper {

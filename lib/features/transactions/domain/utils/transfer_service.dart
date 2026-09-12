@@ -1,4 +1,4 @@
-import '../../domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class TransferService {
   static List<TransactionEntity> createTransfer({

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/repositories/settings_repository.dart';
-import '../../providers/settings_provider.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_repository.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
 
 class SettingsController {
   final Ref _ref;
@@ -37,4 +37,4 @@ class SettingsController {
   Future<void> resetSettings() async => _repository.resetSettings();
 }
 
-final settingsControllerProvider = Provider<SettingsController>((ref) => SettingsController(ref));
+final settingsControllerProvider = Provider<SettingsController>(SettingsController.new);

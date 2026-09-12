@@ -1,4 +1,4 @@
-import '../entities/budget_alert_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
 
 /// Contract for managing financial alerts and threshold notifications.
 abstract class BudgetAlertRepository {

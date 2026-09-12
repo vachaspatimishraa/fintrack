@@ -1,6 +1,6 @@
 import 'dart:math';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../../../budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
 
 class HealthScoreCalculator {
   const HealthScoreCalculator._();
@@ -82,13 +82,13 @@ class HealthScoreCalculator {
     }
 
     // Calculate stability coefficient
-    double sum = monthlyAmounts.values.reduce((a, b) => a + b);
-    double mean = sum / monthlyAmounts.length;
-    double varianceSum = monthlyAmounts.values.fold(0.0, (prev, val) => prev + pow(val - mean, 2));
-    double standardDeviation = sqrt(varianceSum / monthlyAmounts.length);
+    final double sum = monthlyAmounts.values.reduce((a, b) => a + b);
+    final double mean = sum / monthlyAmounts.length;
+    final double varianceSum = monthlyAmounts.values.fold(0.0, (prev, val) => prev + pow(val - mean, 2));
+    final double standardDeviation = sqrt(varianceSum / monthlyAmounts.length);
 
     // High standard deviation relative to mean indicates instability
-    double coefficient = mean > 0 ? standardDeviation / mean : 1.0;
+    final double coefficient = mean > 0 ? standardDeviation / mean : 1.0;
     return max(0.0, 100.0 - (coefficient * 50.0));
   }
 

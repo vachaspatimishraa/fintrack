@@ -1,14 +1,14 @@
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../domain/entities/settings_entity.dart';
-import '../../domain/entities/app_information_entity.dart';
-import '../../domain/entities/backup_history_entity.dart';
-import '../../domain/repositories/settings_repository.dart';
-import '../../domain/repositories/backup_repository.dart';
-import '../../domain/utils/settings_performance_service.dart';
-import '../../domain/services/secure_storage_service.dart';
-import '../../domain/repositories/settings_remote_datasource.dart';
-import '../datasources/local/settings_local_datasource.dart';
-import '../mappers/settings_mapper.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/app_information_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/backup_history_entity.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_repository.dart';
+import 'package:fintrack/features/settings/domain/repositories/backup_repository.dart';
+import 'package:fintrack/features/settings/domain/utils/settings_performance_service.dart';
+import 'package:fintrack/features/settings/domain/services/secure_storage_service.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_remote_datasource.dart';
+import 'package:fintrack/features/settings/data/datasources/local/settings_local_datasource.dart';
+import 'package:fintrack/features/settings/data/mappers/settings_mapper.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsLocalDatasource _localDatasource;

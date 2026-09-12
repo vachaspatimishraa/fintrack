@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/calendar_analytics_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
 
 class DailyTimeline extends StatelessWidget {
   final AsyncValue<List<CalendarTransactionItem>> transactions;

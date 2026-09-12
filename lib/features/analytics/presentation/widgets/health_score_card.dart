@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'health_progress_ring.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/health_progress_ring.dart';
 
 class HealthScoreCard extends StatelessWidget {
   final double score;

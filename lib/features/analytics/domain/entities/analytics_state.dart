@@ -1,4 +1,4 @@
-import '../../../transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class AnalyticsState {
   final double totalBalance;

@@ -1,4 +1,4 @@
-import '../entities/weekly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/weekly_report_data.dart';
 
 class WeeklyComparisonService {
   const WeeklyComparisonService._();

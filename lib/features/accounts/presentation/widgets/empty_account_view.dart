@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/routes.dart';
-import '../../../../core/utils/translations.dart';
+import 'package:fintrack/core/constants/routes.dart';
+import 'package:fintrack/core/utils/translations.dart';
 
 class EmptyAccountView extends StatelessWidget {
   const EmptyAccountView({super.key});

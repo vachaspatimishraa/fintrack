@@ -1,24 +1,23 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:fintrack/core/constants/app_categories.dart';
+import 'package:fintrack/core/constants/colors.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/utils/validation_service.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_controller.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/category_picker_bottom_sheet.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/receipt_picker_bottom_sheet.dart';
+import 'package:fintrack/features/transactions/domain/utils/draft_manager.dart';
+import 'package:fintrack/features/settings/domain/entities/currency_entity.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../core/constants/app_categories.dart';
-import '../../../../core/constants/colors.dart';
-import '../../../../core/utils/translations.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/utils/validation_service.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../controllers/transaction_controller.dart';
-import '../../../../core/services/receipt_service.dart';
-import '../widgets/category_picker_bottom_sheet.dart';
-import '../widgets/receipt_picker_bottom_sheet.dart';
-import '../../domain/utils/draft_manager.dart';
-import '../../../settings/domain/entities/currency_entity.dart';
-import '../../../settings/providers/settings_provider.dart';
-import '../../../../core/utils/category_emoji_helper.dart';
-import '../../providers/transaction_provider.dart';
+import 'package:fintrack/core/services/receipt_service.dart';
+import 'package:fintrack/core/utils/category_emoji_helper.dart';
 
 class AddEditTransactionScreen extends ConsumerStatefulWidget {
   final TransactionEntity? transaction;
@@ -39,7 +38,8 @@ class AddEditTransactionScreen extends ConsumerStatefulWidget {
 
 class _AddEditTransactionScreenState
     extends ConsumerState<AddEditTransactionScreen> {
-  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  int _formSession = 0;
   final _receiptService = ReceiptService();
   final _scrollController = ScrollController();
   final _amountFocusNode = FocusNode();
@@ -84,13 +84,14 @@ class _AddEditTransactionScreenState
     'Net Banking',
   ];
 
+  TransactionEntity? _activeTransaction;
   late TextEditingController _amountController;
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
 
   @override
   void dispose() {
-    if (widget.transaction == null &&
+    if (_activeTransaction == null &&
         (_titleController.text.isNotEmpty ||
             _amountController.text.isNotEmpty)) {
       DraftManager.saveDraft({
@@ -114,7 +115,8 @@ class _AddEditTransactionScreenState
   @override
   void initState() {
     super.initState();
-    final tx = widget.transaction;
+    _activeTransaction = widget.transaction;
+    final tx = _activeTransaction;
     final isEditing = tx != null && tx.uuid.isNotEmpty;
 
     _type = isEditing ? tx.type : (widget.initialType ?? 'expense');
@@ -223,10 +225,10 @@ class _AddEditTransactionScreenState
   }
 
   bool get _isFormValid {
-    if (ValidationService.validateAmount(_amountStr) != null) {
+    if (ValidationService.validateAmount(_amountController.text) != null) {
       return false;
     }
-    if (ValidationService.validateTitle(_titleStr) != null) {
+    if (ValidationService.validateTitle(_titleController.text) != null) {
       return false;
     }
     if (ValidationService.validateCategory(_category) != null) {
@@ -332,7 +334,7 @@ class _AddEditTransactionScreenState
   Widget build(BuildContext context) {
     final accountsAsync = ref.watch(accountsStreamProvider);
     final controller = ref.read(transactionControllerProvider);
-    final isEditing = widget.transaction != null && widget.transaction!.uuid.isNotEmpty;
+    final isEditing = _activeTransaction != null && _activeTransaction!.uuid.isNotEmpty;
     final primaryThemeColor = _type == 'income'
         ? AppColors.income
         : AppColors.expense;
@@ -437,6 +439,7 @@ class _AddEditTransactionScreenState
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      key: ValueKey('amount_$_formSession'),
                       controller: _amountController,
                       focusNode: _amountFocusNode,
                       keyboardType: const TextInputType.numberWithOptions(
@@ -469,12 +472,8 @@ class _AddEditTransactionScreenState
                         final key = ValidationService.validateAmount(val);
                         return key != null ? context.translate(key) : null;
                       },
-                      onChanged: (val) {
-                        setState(() {
-                          _amountStr = val;
-                        });
-                      },
-                      onSaved: (val) => _amount = double.parse(val!),
+                      onSaved: (val) =>
+                          _amount = double.tryParse(val ?? '') ?? 0.0,
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
@@ -527,6 +526,7 @@ class _AddEditTransactionScreenState
                     const Divider(),
                     const SizedBox(height: 8),
                     TextFormField(
+                      key: ValueKey('title_$_formSession'),
                       controller: _titleController,
                       textCapitalization: TextCapitalization.sentences,
                       maxLength: 60,
@@ -538,14 +538,11 @@ class _AddEditTransactionScreenState
                         final key = ValidationService.validateTitle(val);
                         return key != null ? context.translate(key) : null;
                       },
-                      onChanged: (val) {
-                        setState(() {
-                          _titleStr = val;
-                        });
-                      },
+                      onSaved: (val) => _titleStr = val?.trim() ?? '',
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      key: ValueKey('desc_$_formSession'),
                       controller: _descriptionController,
                       maxLines: 3,
                       maxLength: 500,
@@ -677,49 +674,48 @@ class _AddEditTransactionScreenState
             child: SizedBox(
               width: double.infinity,
               height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryThemeColor,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: _isFormValid && !_isSaving
-                    ? () => _save(controller)
-                    : null,
-                child: _isSaving
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator.adaptive(
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : Text(
-                        isEditing
-                            ? context.translate('update_transaction')
-                            : context.translate('save_transaction'),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+              child: ListenableBuilder(
+                listenable: Listenable.merge([
+                  _amountController,
+                  _titleController,
+                ]),
+                builder: (context, _) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryThemeColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                    ),
+                    onPressed: _isFormValid && !_isSaving
+                        ? () => _save(controller)
+                        : null,
+                    child: _isSaving
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator.adaptive(
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            isEditing
+                                ? context.translate('update_transaction')
+                                : context.translate('save_transaction'),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                  );
+                },
               ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future<void> _pickImage(ImageSource source) async {
-    final file = await _receiptService.pickReceipt(source);
-    if (file == null) return;
-
-    setState(() {
-      _selectedImageFile = file;
-    });
   }
 
   void _showReceiptPicker() {
@@ -817,16 +813,8 @@ class _AddEditTransactionScreenState
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Reset form state for another entry
-                          setState(() {
-                            _amountStr = '';
-                            _titleStr = '';
-                            _description = '';
-                            _selectedImageFile = null;
-                            _receiptLocalPath = null;
-                            _receiptUrl = null;
-                            _formKey.currentState?.reset();
-                          });
+                          // Reset form state completely for a brand new entry
+                          _resetFormForNewTransaction();
                           Navigator.pop(context); // close bottom sheet
                         },
                         child: Text(context.translate('add_another')),
@@ -840,6 +828,30 @@ class _AddEditTransactionScreenState
         );
       },
     );
+  }
+
+  void _resetFormForNewTransaction() {
+    setState(() {
+      _activeTransaction = null;
+      _formSession++;
+      _formKey = GlobalKey<FormState>();
+      _amount = 0.0;
+      _amountStr = '';
+      _titleStr = '';
+      _description = '';
+      _selectedImageFile = null;
+      _receiptLocalPath = null;
+      _receiptUrl = null;
+      _paymentMethod = 'Cash';
+      _date = DateTime.now();
+      _category = _type == 'income'
+          ? AppCategories.income.first
+          : AppCategories.expense.first;
+      _amountController.clear();
+      _titleController.clear();
+      _descriptionController.clear();
+    });
+    unawaited(DraftManager.clearDraft());
   }
 
   void _save(TransactionController controller) async {
@@ -865,7 +877,7 @@ class _AddEditTransactionScreenState
       }
 
       final tx =
-          widget.transaction?.copyWith(
+          _activeTransaction?.copyWith(
             amount: _amount,
             type: _type,
             categoryId: _category,
@@ -901,7 +913,7 @@ class _AddEditTransactionScreenState
           );
 
       await controller.saveTransaction(tx);
-      await DraftManager.clearDraft();
+      unawaited(DraftManager.clearDraft());
 
       if (!mounted) return;
 

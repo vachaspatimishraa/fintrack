@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../../core/database/isar/collections/receipt_model.dart';
-import '../controllers/receipt_controller.dart';
-import '../widgets/receipt_picker_bottom_sheet.dart';
+import 'package:fintrack/core/database/isar/collections/receipt_model.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/receipt_controller.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/receipt_picker_bottom_sheet.dart';
 
 class ReceiptPreviewScreen extends ConsumerStatefulWidget {
   final ReceiptModel receipt;

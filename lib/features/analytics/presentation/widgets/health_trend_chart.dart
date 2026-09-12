@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import '../../domain/entities/financial_health_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/financial_health_data.dart';
 
 class HealthTrendChart extends StatelessWidget {
   final List<HistoricalHealthScore> historicalScores;

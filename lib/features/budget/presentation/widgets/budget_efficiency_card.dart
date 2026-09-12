@@ -11,9 +11,13 @@ class BudgetEfficiencyCard extends StatelessWidget {
     Color color = Colors.green;
     if (score < 20) {
       color = Colors.red;
-    } else if (score < 40) color = Colors.deepOrange;
-    else if (score < 60) color = Colors.orange;
-    else if (score < 80) color = Colors.amber;
+    } else if (score < 40) {
+      color = Colors.deepOrange;
+    } else if (score < 60) {
+      color = Colors.orange;
+    } else if (score < 80) {
+      color = Colors.amber;
+    }
 
     return Card(
       child: Padding(

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/network/connectivity_service.dart';
-import '../../../../core/services/sync_service.dart';
-import '../../../../core/utils/sync_preferences.dart';
-import '../../splash/providers/initialization_provider.dart';
+import 'package:fintrack/core/network/connectivity_service.dart';
+import 'package:fintrack/core/services/sync_service.dart';
+import 'package:fintrack/core/utils/sync_preferences.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
 
 final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
   final service = ConnectivityService();

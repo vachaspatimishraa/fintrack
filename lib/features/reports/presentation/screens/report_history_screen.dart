@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/report_history_model.dart';
-import '../../providers/report_history_provider.dart';
-import '../controllers/report_history_controller.dart';
+import 'package:fintrack/features/reports/domain/entities/report_history_model.dart';
+import 'package:fintrack/features/reports/providers/report_history_provider.dart';
+import 'package:fintrack/features/reports/presentation/controllers/report_history_controller.dart';
 
 class ReportHistoryScreen extends ConsumerWidget {
   const ReportHistoryScreen({super.key});

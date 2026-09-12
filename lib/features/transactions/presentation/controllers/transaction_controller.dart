@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../../home/providers/home_provider.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/utils/duplicate_transaction_service.dart';
-import '../../providers/transaction_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/home/providers/home_provider.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/utils/duplicate_transaction_service.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
 
 class TransactionController {
   final Ref _ref;
@@ -53,4 +53,4 @@ class TransactionController {
 }
 
 final transactionControllerProvider =
-    Provider<TransactionController>((ref) => TransactionController(ref));
+    Provider<TransactionController>(TransactionController.new);

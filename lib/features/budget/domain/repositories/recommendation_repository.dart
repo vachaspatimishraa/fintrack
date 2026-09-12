@@ -1,4 +1,4 @@
-import '../entities/budget_recommendation_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_recommendation_entity.dart';
 
 abstract class RecommendationRepository {
   Stream<List<BudgetRecommendationEntity>> watchRecommendations();

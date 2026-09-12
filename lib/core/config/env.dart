@@ -1,4 +1,4 @@
-import 'environment.dart';
+import 'package:fintrack/core/config/environment.dart';
 
 class Env {
   const Env._();

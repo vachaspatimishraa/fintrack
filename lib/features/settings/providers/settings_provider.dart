@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../../../core/utils/formatter.dart';
-import '../data/datasources/local/settings_local_datasource.dart';
-import '../data/repositories/settings_repository_impl.dart';
-import '../domain/entities/settings_entity.dart';
-import '../domain/repositories/settings_repository.dart';
-import '../domain/repositories/settings_remote_datasource.dart';
-import '../domain/services/theme_service.dart';
-import '../domain/services/dynamic_color_service.dart';
-import '../domain/services/localization_service.dart';
-import 'backup_provider.dart';
-import 'security_provider.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/settings/data/datasources/local/settings_local_datasource.dart';
+import 'package:fintrack/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_repository.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_remote_datasource.dart';
+import 'package:fintrack/features/settings/domain/services/theme_service.dart';
+import 'package:fintrack/features/settings/domain/services/dynamic_color_service.dart';
+import 'package:fintrack/features/settings/domain/services/localization_service.dart';
+import 'package:fintrack/features/settings/providers/backup_provider.dart';
+import 'package:fintrack/features/settings/providers/security_provider.dart';
 
-import '../data/datasources/remote/settings_remote_datasource_impl.dart';
+import 'package:fintrack/features/settings/data/datasources/remote/settings_remote_datasource_impl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final settingsLocalDatasourceProvider = Provider<SettingsLocalDatasource>((ref) {
@@ -70,7 +70,7 @@ final appThemeProvider = Provider.family<ThemeData, Brightness>((ref, brightness
   final settingsAsync = ref.watch(settingsProvider);
   final settings = settingsAsync.maybeWhen(
     data: (s) => s,
-    orElse: () => SettingsEntity(),
+    orElse: SettingsEntity.new,
   );
 
   final colorScheme = DynamicColorService.getFallbackColorScheme(brightness);
@@ -80,7 +80,7 @@ final appThemeProvider = Provider.family<ThemeData, Brightness>((ref, brightness
 final localeProvider = Provider<Locale>((ref) {
   final settingsAsync = ref.watch(settingsProvider);
   return settingsAsync.maybeWhen(
-    data: (settings) => LocalizationService.getLocale(settings),
+    data: LocalizationService.getLocale,
     orElse: () => const Locale('en'),
   );
 });

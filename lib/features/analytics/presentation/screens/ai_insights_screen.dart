@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/ai_insight_provider.dart';
-import '../widgets/insight_card.dart';
-import '../widgets/forecast_card.dart';
-import '../widgets/smart_recommendation_card.dart';
-import '../widgets/insight_offline_banner.dart';
-import 'insight_history_screen.dart';
+import 'package:fintrack/features/analytics/providers/ai_insight_provider.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/insight_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/forecast_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/smart_recommendation_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/insight_offline_banner.dart';
+import 'package:fintrack/features/analytics/presentation/screens/insight_history_screen.dart';
 
 class AIInsightsScreen extends ConsumerStatefulWidget {
   const AIInsightsScreen({super.key});
@@ -39,7 +39,7 @@ class _AIInsightsScreenState extends ConsumerState<AIInsightsScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => controller.refresh(),
+            onPressed: controller.refresh,
             tooltip: 'Regenerate Insights',
           ),
         ],

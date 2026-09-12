@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class ThemeService {
   static ThemeData getTheme(SettingsEntity settings, ColorScheme colorScheme) {
@@ -10,7 +10,7 @@ class ThemeService {
         ? Colors.black 
         : colorScheme.surface;
 
-    ColorScheme activeColorScheme = colorScheme.copyWith(
+    final ColorScheme activeColorScheme = colorScheme.copyWith(
       surface: surfaceColor,
       surfaceContainer: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainer,
       surfaceContainerHigh: (isDark && settings.amoledMode) ? Colors.black : colorScheme.surfaceContainerHigh,

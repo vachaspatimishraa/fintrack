@@ -1,4 +1,4 @@
-import '../domain/utils/settings_performance_service.dart';
+import 'package:fintrack/features/settings/domain/utils/settings_performance_service.dart';
 
 /// Performance benchmark suite for Settings operations.
 class PerformanceBenchmarks {

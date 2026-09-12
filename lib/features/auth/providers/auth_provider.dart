@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../data/repositories/auth_repository.dart';
-import '../../../../core/services/auth_service.dart';
-import '../../../../core/services/sync_service.dart';
-import '../../../../core/services/session_service.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../../sync/providers/sync_provider.dart';
-import '../../settings/providers/settings_provider.dart';
+import 'package:fintrack/features/auth/data/repositories/auth_repository.dart';
+import 'package:fintrack/core/services/auth_service.dart';
+import 'package:fintrack/core/services/sync_service.dart';
+import 'package:fintrack/core/services/session_service.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
 
 enum AuthStatus { loading, authenticated, guest, unauthenticated, error }
 
@@ -119,7 +119,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         }
       });
     } catch (e) {
-      debugPrint("AuthNotifier initialization error: $e");
+      debugPrint('AuthNotifier initialization error: $e');
       state = AuthState.error(e.toString());
     }
   }

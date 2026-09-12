@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/weekly_report_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/weekly_report_data.dart';
 
 class WeeklySummaryCard extends StatelessWidget {
   final WeeklyReport report;

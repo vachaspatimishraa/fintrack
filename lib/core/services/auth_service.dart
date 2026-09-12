@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../config/env.dart';
+import 'package:fintrack/core/config/env.dart';
 
 class AuthService {
   final SupabaseClient _supabase;

@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import '../../../../../core/database/isar/collections/goal_model.dart';
-import '../../../domain/repositories/goals_local_datasource.dart';
+import 'package:fintrack/core/database/isar/collections/goal_model.dart';
+import 'package:fintrack/features/goals/domain/repositories/goals_local_datasource.dart';
 
 class GoalsLocalDatasourceImpl implements GoalsLocalDatasource {
   final Isar _isar;

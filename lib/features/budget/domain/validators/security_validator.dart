@@ -1,4 +1,4 @@
-import '../entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
 
 /// Validator for security compliance within the Budget Module.
 /// 

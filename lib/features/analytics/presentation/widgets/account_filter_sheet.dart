@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../providers/custom_report_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
 
 class AccountFilterSheet extends ConsumerWidget {
   const AccountFilterSheet({super.key});

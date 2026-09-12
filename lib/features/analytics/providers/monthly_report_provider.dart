@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/entities/monthly_report_data.dart';
-import '../presentation/controllers/monthly_report_controller.dart';
-import 'analytics_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/monthly_report_data.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/monthly_report_controller.dart';
+import 'package:fintrack/features/analytics/providers/analytics_provider.dart';
 
 final selectedMonthProvider = StateProvider<DateTime>((ref) {
   return DateTime.now();

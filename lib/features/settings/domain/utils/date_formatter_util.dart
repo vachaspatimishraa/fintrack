@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import '../entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class DateFormatterUtil {
   static String format(DateTime date, SettingsEntity settings) {

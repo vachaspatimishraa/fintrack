@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/entities/calendar_analytics_data.dart';
-import '../../domain/repositories/calendar_analytics_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/calendar_analytics_repository.dart';
 
 class CalendarController {
   final CalendarAnalyticsRepository _repository;

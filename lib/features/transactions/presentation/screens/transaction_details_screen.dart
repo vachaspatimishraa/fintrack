@@ -3,19 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../../core/constants/app_categories.dart';
-import '../../../../core/constants/colors.dart';
-import '../../../../core/utils/category_emoji_helper.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../../../core/utils/translations.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../providers/transaction_provider.dart';
-import '../controllers/transaction_controller.dart';
-import '../widgets/delete_transaction_dialog.dart';
-import '../widgets/undo_delete_snackbar.dart';
-import 'add_edit_transaction_screen.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/constants/colors.dart';
+import 'package:fintrack/core/utils/category_emoji_helper.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_controller.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/delete_transaction_dialog.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/undo_delete_snackbar.dart';
+import 'package:fintrack/features/transactions/presentation/screens/add_edit_transaction_screen.dart';
 
 class TransactionDetailsScreen extends ConsumerWidget {
   final String transactionUuid;
@@ -198,7 +197,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
             tooltip: context.translate('share'),
             onPressed: transactionsAsync.maybeWhen(
               data: (list) {
-                final tx = list.firstWhere((t) => t.uuid == transactionUuid, orElse: () => widgetPlaceholderTransaction());
+                final tx = list.firstWhere((t) => t.uuid == transactionUuid, orElse: widgetPlaceholderTransaction);
                 return tx.uuid.isEmpty ? null : () => _handleShare(context, tx);
               },
               orElse: () => null,
@@ -211,7 +210,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
           debugPrint('UI rebuilt');
           final tx = list.firstWhere(
             (t) => t.uuid == transactionUuid,
-            orElse: () => widgetPlaceholderTransaction(),
+            orElse: widgetPlaceholderTransaction,
           );
 
           if (tx.uuid.isEmpty) {
@@ -236,7 +235,7 @@ class TransactionDetailsScreen extends ConsumerWidget {
           final primaryColor = isIncome ? AppColors.income : AppColors.expense;
           
           final accountName = accountsAsync.maybeWhen(
-            data: (accounts) => accounts.firstWhere((a) => a.uuid == tx.accountId, orElse: () => widgetPlaceholderAccount()).name,
+            data: (accounts) => accounts.firstWhere((a) => a.uuid == tx.accountId, orElse: widgetPlaceholderAccount).name,
             orElse: () => '...',
           );
 

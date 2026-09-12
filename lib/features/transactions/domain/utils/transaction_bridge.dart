@@ -1,6 +1,6 @@
-import '../repositories/transaction_api.dart';
-import '../repositories/transaction_repository.dart';
-import '../entities/transaction_dto.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_api.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_dto.dart';
 
 class TransactionBridge implements TransactionApi {
   final TransactionRepository _repository;

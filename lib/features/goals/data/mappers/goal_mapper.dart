@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/goal_model.dart';
-import '../../domain/entities/goal_entity.dart';
+import 'package:fintrack/core/database/isar/collections/goal_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
 
 class GoalMapper {
   static GoalEntity toEntity(GoalModel model) {

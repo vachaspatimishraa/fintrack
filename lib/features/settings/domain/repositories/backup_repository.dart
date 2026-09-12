@@ -1,4 +1,4 @@
-import '../entities/backup_history_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/backup_history_entity.dart';
 
 abstract class BackupRepository {
   Future<void> createManualBackup();

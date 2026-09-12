@@ -1,8 +1,8 @@
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/ai_insight_data.dart';
-import 'pattern_detection_service.dart';
-import 'forecast_service.dart';
-import 'ai_recommendation_engine.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/pattern_detection_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/forecast_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/ai_recommendation_engine.dart';
 
 class AIInsightEngine {
   const AIInsightEngine._();

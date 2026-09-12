@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/routes.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../../accounts/presentation/screens/account_list_screen.dart';
-import '../../../accounts/presentation/screens/create_account_screen.dart';
-import '../../../transactions/providers/transaction_provider.dart';
-import '../../../transactions/presentation/screens/add_edit_transaction_screen.dart';
-import '../../../transactions/presentation/controllers/transaction_controller.dart';
-import '../../../auth/providers/auth_provider.dart';
-import '../../domain/models/dashboard_model.dart';
-import '../../domain/models/home_state.dart';
-import '../../providers/home_provider.dart';
-import '../controllers/home_controller.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../../../core/constants/colors.dart';
-import '../../../../core/constants/app_categories.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../../../transactions/presentation/screens/transaction_details_screen.dart';
-import '../../../transactions/presentation/widgets/undo_delete_snackbar.dart';
-import '../widgets/app_navigation_drawer.dart';
-import '../../../../core/utils/translations.dart';
-import '../../../settings/providers/settings_provider.dart';
-import '../../../accounts/presentation/controllers/account_controller.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/constants/routes.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/accounts/presentation/screens/account_list_screen.dart';
+import 'package:fintrack/features/accounts/presentation/screens/create_account_screen.dart';
+import 'package:fintrack/features/transactions/presentation/screens/add_edit_transaction_screen.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_controller.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/home/domain/models/dashboard_model.dart';
+import 'package:fintrack/features/home/domain/models/home_state.dart';
+import 'package:fintrack/features/home/providers/home_provider.dart';
+import 'package:fintrack/features/home/presentation/controllers/home_controller.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/core/constants/colors.dart';
+import 'package:fintrack/core/constants/app_categories.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/presentation/screens/transaction_details_screen.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/undo_delete_snackbar.dart';
+import 'package:fintrack/features/home/presentation/widgets/app_navigation_drawer.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/accounts/presentation/controllers/account_controller.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/services/permission_service.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -34,11 +33,44 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class DashboardTab extends ConsumerWidget {
+class DashboardTab extends ConsumerStatefulWidget {
   const DashboardTab({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DashboardTab> createState() => _DashboardTabState();
+}
+
+class _DashboardTabState extends ConsumerState<DashboardTab> {
+  bool _hasCheckedPostFrame = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _onInitialFrame());
+  }
+
+  Future<void> _onInitialFrame() async {
+    if (_hasCheckedPostFrame || !mounted) return;
+    _hasCheckedPostFrame = true;
+
+    final authState = ref.read(authProvider);
+    if (authState.status == AuthStatus.authenticated) {
+      final hasGuestData = await ref
+          .read(authProvider.notifier)
+          .hasGuestData();
+      final promptShown = ref.read(migrationPromptShownProvider);
+      if (hasGuestData && !promptShown && mounted) {
+        ref.read(migrationPromptShownProvider.notifier).state = true;
+        _showMigrationDialog(context, ref);
+      }
+    }
+    if (mounted) {
+      await AppPermissionService.promptInitialPermissions(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final homeState = ref.watch(homeStateProvider);
     final homeController = ref.read(homeControllerProvider);
     final accountsAsync = ref.watch(accountsStreamProvider);
@@ -50,27 +82,9 @@ class DashboardTab extends ConsumerWidget {
             .read(authProvider.notifier)
             .hasGuestData();
         final promptShown = ref.read(migrationPromptShownProvider);
-        if (hasGuestData && !promptShown) {
+        if (hasGuestData && !promptShown && mounted) {
           ref.read(migrationPromptShownProvider.notifier).state = true;
-          if (context.mounted) {
-            _showMigrationDialog(context, ref);
-          }
-        }
-      }
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final authState = ref.read(authProvider);
-      if (authState.status == AuthStatus.authenticated) {
-        final hasGuestData = await ref
-            .read(authProvider.notifier)
-            .hasGuestData();
-        final promptShown = ref.read(migrationPromptShownProvider);
-        if (hasGuestData && !promptShown) {
-          ref.read(migrationPromptShownProvider.notifier).state = true;
-          if (context.mounted) {
-            _showMigrationDialog(context, ref);
-          }
+          _showMigrationDialog(context, ref);
         }
       }
     });
@@ -98,7 +112,7 @@ class DashboardTab extends ConsumerWidget {
                 // 3. Main Dashboard content (Scrollable transaction list + Static summary cards)
                 Expanded(
                   child: RefreshIndicator.adaptive(
-                    onRefresh: () => homeController.refreshDashboard(),
+                    onRefresh: homeController.refreshDashboard,
                     child: CustomScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       slivers: [
@@ -215,16 +229,9 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
         },
         tooltip: context.translate('open_navigation_drawer'),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset('assets/images/logo.png', height: 24),
-          const SizedBox(width: 8),
-          Text(
-            context.translate('app_title'),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
+      title: Text(
+        context.translate('app_title'),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       actions: [
         // Add Button
@@ -385,7 +392,7 @@ class SyncIndicator extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.4),
+              color: color.withValues(alpha: 0.4),
               spreadRadius: 2,
               blurRadius: 4,
             ),
@@ -616,7 +623,7 @@ class CardWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
       decoration: BoxDecoration(
         color: isActive
-            ? color.withOpacity(0.15)
+            ? color.withValues(alpha: 0.15)
             : theme.colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
@@ -625,8 +632,8 @@ class CardWidget extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity(
-              (theme.brightness == Brightness.dark) ? 0.2 : 0.02,
+            color: theme.colorScheme.shadow.withValues(
+              alpha: (theme.brightness == Brightness.dark) ? 0.2 : 0.02,
             ),
             blurRadius: 4,
             offset: const Offset(0, 2),
@@ -648,7 +655,7 @@ class CardWidget extends StatelessWidget {
           // Animated Counter using TweenAnimationBuilder
           TweenAnimationBuilder<double>(
             duration: const Duration(milliseconds: 250),
-            tween: Tween<double>(begin: 0, end: amount),
+            tween: Tween<double>(end: amount),
             builder: (context, val, child) {
               return Text(
                 AppFormatter.formatCurrency(val),
@@ -714,7 +721,6 @@ class TransactionTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isIncome = transaction.type == 'income';
-    final repo = ref.read(transactionRepositoryProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
     final primaryColor = isIncome ? colorScheme.primary : colorScheme.error;
@@ -740,7 +746,7 @@ class TransactionTile extends ConsumerWidget {
             children: [
               // Leading Category Icon
               CircleAvatar(
-                backgroundColor: primaryColor.withOpacity(0.1),
+                backgroundColor: primaryColor.withValues(alpha: 0.1),
                 child: Icon(
                   AppCategories.getIcon(transaction.category),
                   color: primaryColor,
@@ -886,13 +892,10 @@ class EmptyTransactionView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Opacity(
-              opacity: 0.4,
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: 80,
-                width: 80,
-              ),
+            Icon(
+              Icons.receipt_long_outlined,
+              size: 72,
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
             ),
             const SizedBox(height: 16),
             Text(
@@ -1021,11 +1024,6 @@ class BottomActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentAccountUuid = ref.watch(currentAccountProvider);
-    final settingsAsync = ref.watch(settingsProvider);
-    final currency = settingsAsync.maybeWhen(
-      data: (s) => s.currency,
-      orElse: () => 'USD',
-    );
 
     return Material(
       elevation: 8,

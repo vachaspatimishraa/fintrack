@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../budget/providers/budget_provider.dart';
-import '../../providers/custom_report_provider.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
 
 class BudgetFilterSheet extends ConsumerWidget {
   const BudgetFilterSheet({super.key});

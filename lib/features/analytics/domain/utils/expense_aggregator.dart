@@ -1,6 +1,6 @@
 import 'dart:math';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/expense_data.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
 
 class ExpenseAggregator {
   /// Aggregate expense data based on time filter
@@ -123,8 +123,8 @@ class ExpenseAggregator {
     List<TransactionEntity> currentPeriod,
     List<TransactionEntity> previousPeriod,
   ) {
-    double currentTotal = currentPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
-    double previousTotal = previousPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
+    final double currentTotal = currentPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
+    final double previousTotal = previousPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
 
     double growthPercentage = 0.0;
     if (previousTotal > 0) {
@@ -423,7 +423,7 @@ class ExpenseAggregator {
       dailyExpenses[dayKey] = (dailyExpenses[dayKey] ?? 0) + tx.amount;
     }
 
-    final maxAmount = dailyExpenses.values.reduce((a, b) => max(a, b));
+    final maxAmount = dailyExpenses.values.reduce(max);
 
     return dailyExpenses.entries
         .map((e) => SpendingHeatmapData(

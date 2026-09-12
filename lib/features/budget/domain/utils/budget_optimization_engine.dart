@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
 
 class BudgetOptimizationEngine {
   /// Efficiently filters and sorts a large list of budgets.

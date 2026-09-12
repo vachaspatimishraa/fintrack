@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/budget_history_record.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_history_record.dart';
 
 class RecentActivityTimeline extends StatelessWidget {
   final List<dynamic> activity;

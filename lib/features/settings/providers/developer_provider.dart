@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../data/repositories/developer_repository_impl.dart';
-import '../domain/repositories/developer_repository.dart';
-import 'settings_provider.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/settings/data/repositories/developer_repository_impl.dart';
+import 'package:fintrack/features/settings/domain/repositories/developer_repository.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
 
 final developerRepositoryProvider = Provider<DeveloperRepository>((ref) {
   final isarService = ref.watch(isarInitializationServiceProvider);

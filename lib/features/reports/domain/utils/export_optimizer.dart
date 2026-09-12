@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'report_performance_service.dart';
+import 'package:fintrack/features/reports/domain/utils/report_performance_service.dart';
 
 class ExportOptimizer {
   const ExportOptimizer._();

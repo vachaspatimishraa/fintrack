@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../accounts/providers/account_provider.dart';
-import '../../transactions/providers/transaction_provider.dart';
-import '../../sync/providers/sync_provider.dart';
-import '../../transactions/domain/entities/transaction_entity.dart';
-import '../domain/models/dashboard_model.dart';
-import '../domain/models/home_state.dart';
-import '../../../core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/home/domain/models/dashboard_model.dart';
+import 'package:fintrack/features/home/domain/models/home_state.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
 
 class HomeStateNotifier extends StateNotifier<HomeState> {
   final Ref _ref;
@@ -17,6 +17,15 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
 
   HomeStateNotifier(this._ref) : super(const HomeState(isLoading: true)) {
     _init();
+  }
+
+  Timer? _debounceTimer;
+
+  void _scheduleLoadDashboardData() {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 35), () {
+      _loadDashboardData();
+    });
   }
 
   void _init() {
@@ -29,14 +38,14 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
     _transactionsSubscription = _ref.listen<AsyncValue<List<TransactionEntity>>>(
       transactionsStreamProvider,
       (previous, next) {
-        _loadDashboardData();
+        _scheduleLoadDashboardData();
       },
     );
 
     // Listen to accounts stream to update dashboard if account balance changes
     final accountsStream = _ref.read(allAccountsStreamProvider.stream);
     _accountsSubscription = accountsStream.listen((_) {
-      _loadDashboardData();
+      _scheduleLoadDashboardData();
     });
 
     // Listen to sync progress status
@@ -71,7 +80,9 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
       return;
     }
 
-    state = state.copyWith(isLoading: true);
+    if (state.dashboard == null) {
+      state = state.copyWith(isLoading: true);
+    }
 
     try {
       final repository = _ref.read(transactionRepositoryProvider);
@@ -137,7 +148,7 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
 
       // Filter list shown in Dashboard (Recent transactions)
       // If a type filter is selected (Income/Expense card tapped), apply it
-      var recentTx = accountTxList.where((tx) {
+      final recentTx = accountTxList.where((tx) {
         // Date check
         if (tx.date.isBefore(activeRange.start) || tx.date.isAfter(activeRange.end)) {
           return false;
@@ -260,6 +271,7 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _transactionsSubscription?.close();
     _accountsSubscription?.cancel();
     _syncSubscription?.cancel();

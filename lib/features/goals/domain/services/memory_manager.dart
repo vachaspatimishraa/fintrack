@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/goal_provider.dart';
+import 'package:fintrack/features/goals/providers/goal_provider.dart';
 
 class MemoryManager {
   static void clearGoalCache(Ref ref) {

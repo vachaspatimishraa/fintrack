@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../home/providers/home_provider.dart';
-import '../../providers/transaction_provider.dart';
-import 'transaction_list_controller.dart';
+import 'package:fintrack/features/home/providers/home_provider.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_list_controller.dart';
 
 class SelectionState {
   final Set<String> selectedUuids;

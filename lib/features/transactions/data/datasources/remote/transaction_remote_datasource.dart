@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../domain/entities/transaction_entity.dart';
-import '../../mappers/transaction_mapper.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/data/mappers/transaction_mapper.dart';
 
 class TransactionRemoteDataSource {
   final SupabaseClient _supabase;
@@ -13,10 +13,10 @@ class TransactionRemoteDataSource {
       final payload = TransactionMapper.toJson(transaction);
       await _supabase.from('transactions').upsert(payload);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -25,10 +25,10 @@ class TransactionRemoteDataSource {
     try {
       await _supabase.from('transactions').delete().eq('id', uuid);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -45,20 +45,20 @@ class TransactionRemoteDataSource {
             try {
               return TransactionMapper.fromJson(json as Map<String, dynamic>);
             } catch (e, stack) {
-              debugPrint("========== MAPPING ERROR ==========");
+              debugPrint('========== MAPPING ERROR ==========');
               debugPrint(e.toString());
               debugPrintStack(stackTrace: stack);
-              debugPrint("===================================");
+              debugPrint('===================================');
               rethrow;
             }
           })
           .whereType<TransactionEntity>()
           .toList();
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/formatter.dart';
+import 'package:fintrack/core/utils/formatter.dart';
 
 class SyncStatusCard extends StatelessWidget {
   final bool isSyncing;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/budget_entity.dart';
-import 'budget_card.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_card.dart';
 
 class CategoryBudgetGrid extends StatelessWidget {
   final List<BudgetEntity> budgets;

@@ -1,9 +1,9 @@
 import 'package:uuid/uuid.dart';
-import '../entities/budget_entity.dart';
-import '../entities/budget_recommendation_entity.dart';
-import '../repositories/budget_repository.dart';
-import '../repositories/recommendation_repository.dart';
-import 'budget_health_calculator.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_recommendation_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/budget/domain/repositories/recommendation_repository.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_health_calculator.dart';
 
 class BudgetRecommendationEngine {
   final BudgetRepository _budgetRepository;

@@ -1,7 +1,7 @@
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/spending_trend_data.dart';
-import '../../domain/repositories/spending_trend_repository.dart';
-import '../../domain/utils/trend_engine.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/spending_trend_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/trend_engine.dart';
 
 class SpendingTrendRepositoryImpl implements SpendingTrendRepository {
   final TransactionRepository _transactionRepository;

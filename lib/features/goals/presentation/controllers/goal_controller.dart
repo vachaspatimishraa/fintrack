@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/goal_entity.dart';
-import '../../domain/repositories/goal_repository.dart';
-import '../../providers/goal_provider.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
+import 'package:fintrack/features/goals/providers/goal_provider.dart';
 
 /// Controller for orchestrating goal-related user interactions.
 /// 
@@ -35,4 +35,4 @@ class GoalController {
   }
 }
 
-final goalControllerProvider = Provider<GoalController>((ref) => GoalController(ref));
+final goalControllerProvider = Provider<GoalController>(GoalController.new);

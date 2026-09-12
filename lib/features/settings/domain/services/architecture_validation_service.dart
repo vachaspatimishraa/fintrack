@@ -1,4 +1,4 @@
-import '../../presentation/controllers/settings_controller.dart';
+import 'package:fintrack/features/settings/presentation/controllers/settings_controller.dart';
 
 /// Service to validate the architectural integrity of the Settings Module.
 /// 

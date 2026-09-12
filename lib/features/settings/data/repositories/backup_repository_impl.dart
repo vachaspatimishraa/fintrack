@@ -1,10 +1,10 @@
 import 'package:isar/isar.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../core/database/isar/collections/backup_history_model.dart';
-import '../../domain/entities/backup_history_entity.dart';
-import '../../domain/repositories/backup_repository.dart';
-import '../mappers/backup_history_mapper.dart';
-import '../../../sync/providers/sync_provider.dart';
+import 'package:fintrack/core/database/isar/collections/backup_history_model.dart';
+import 'package:fintrack/features/settings/domain/entities/backup_history_entity.dart';
+import 'package:fintrack/features/settings/domain/repositories/backup_repository.dart';
+import 'package:fintrack/features/settings/data/mappers/backup_history_mapper.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BackupRepositoryImpl implements BackupRepository {
@@ -37,7 +37,7 @@ class BackupRepositoryImpl implements BackupRepository {
   @override
   Future<List<BackupHistoryEntity>> getBackupHistory() async {
     final models = await _isar.backupHistoryModels.where().sortByCreatedAtDesc().findAll();
-    return models.map((m) => BackupHistoryMapper.toEntity(m)).toList();
+    return models.map(BackupHistoryMapper.toEntity).toList();
   }
 
   @override
@@ -46,7 +46,7 @@ class BackupRepositoryImpl implements BackupRepository {
         .where()
         .sortByCreatedAtDesc()
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => BackupHistoryMapper.toEntity(m)).toList());
+        .map((models) => models.map(BackupHistoryMapper.toEntity).toList());
   }
 
   @override

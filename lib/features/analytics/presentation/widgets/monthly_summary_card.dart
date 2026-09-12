@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/monthly_report_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/monthly_report_data.dart';
 
 class MonthlySummaryCard extends StatelessWidget {
   final MonthlySummary summary;

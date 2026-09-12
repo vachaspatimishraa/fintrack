@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/income_data.dart';
-import '../../domain/repositories/income_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/income_repository.dart';
 
 /// Controller for managing income analytics business logic
 class IncomeController {

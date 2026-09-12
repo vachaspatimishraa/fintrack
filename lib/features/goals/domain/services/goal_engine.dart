@@ -1,5 +1,5 @@
-import '../entities/goal_progress_model.dart';
-import '../entities/goal_forecast_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_progress_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_forecast_model.dart';
 
 /// Core engine for calculating goal progress, forecasts and achievements.
 /// 

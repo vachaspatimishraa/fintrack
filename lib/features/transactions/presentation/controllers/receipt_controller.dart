@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/database/isar/collections/receipt_model.dart';
-import '../../providers/transaction_provider.dart';
+import 'package:fintrack/core/database/isar/collections/receipt_model.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
 
 class ReceiptController {
   final Ref _ref;

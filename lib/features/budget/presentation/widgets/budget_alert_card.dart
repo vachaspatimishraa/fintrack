@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/budget_alert_entity.dart';
-import '../controllers/budget_alert_controller.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
+import 'package:fintrack/features/budget/presentation/controllers/budget_alert_controller.dart';
 
 class BudgetAlertCard extends ConsumerWidget {
   final BudgetAlertEntity alert;

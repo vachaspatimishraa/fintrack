@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../../domain/repositories/budget_repository.dart';
-import '../../providers/budget_provider.dart';
-import '../../domain/utils/budget_validator.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_validator.dart';
 
 /// Controller handling UI-triggered budget operations.
 /// 
@@ -62,4 +62,4 @@ class BudgetController {
   }
 }
 
-final budgetControllerProvider = Provider<BudgetController>((ref) => BudgetController(ref));
+final budgetControllerProvider = Provider<BudgetController>(BudgetController.new);

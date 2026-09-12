@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/settings_provider.dart';
-import '../../domain/entities/settings_entity.dart';
-import '../controllers/settings_controller.dart';
-import '../controllers/backup_controller.dart';
-import '../../../sync/providers/sync_provider.dart';
-import 'backup_history_screen.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:fintrack/features/settings/presentation/controllers/backup_controller.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/settings/presentation/screens/backup_history_screen.dart';
 
-import '../widgets/sync_status_card.dart';
+import 'package:fintrack/features/settings/presentation/widgets/sync_status_card.dart';
 
 class BackupSettingsScreen extends ConsumerWidget {
   const BackupSettingsScreen({super.key});

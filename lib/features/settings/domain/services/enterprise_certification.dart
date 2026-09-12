@@ -1,5 +1,5 @@
-import 'architecture_validation_service.dart';
-import 'offline_compliance_checker.dart';
+import 'package:fintrack/features/settings/domain/services/architecture_validation_service.dart';
+import 'package:fintrack/features/settings/domain/services/offline_compliance_checker.dart';
 
 /// Certification service to determine if the module is production-ready.
 class EnterpriseCertification {

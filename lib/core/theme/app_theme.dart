@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'light_theme.dart';
-import 'dark_theme.dart';
+import 'package:fintrack/core/theme/light_theme.dart';
+import 'package:fintrack/core/theme/dark_theme.dart';
 
 class AppTheme {
   const AppTheme._();

@@ -1,4 +1,4 @@
-import '../domain/utils/budget_performance_service.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_performance_service.dart';
 
 /// Performance benchmark suite for the Budget Module.
 /// 

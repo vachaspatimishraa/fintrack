@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/income_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
 
 /// Widget to display comprehensive income statistics
 class IncomeStatisticsCard extends ConsumerWidget {

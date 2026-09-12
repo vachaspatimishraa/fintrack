@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../../../core/constants/app_categories.dart';
-import '../controllers/transaction_list_controller.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/core/constants/app_categories.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/transaction_list_controller.dart';
 
 class FilterBottomSheet extends ConsumerStatefulWidget {
   const FilterBottomSheet({super.key});

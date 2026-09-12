@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/developer_provider.dart';
-import '../../providers/settings_provider.dart';
-import '../controllers/developer_controller.dart';
+import 'package:fintrack/features/settings/providers/developer_provider.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/presentation/controllers/developer_controller.dart';
 
-import 'log_viewer_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/log_viewer_screen.dart';
 
 class DeveloperOptionsScreen extends ConsumerWidget {
   const DeveloperOptionsScreen({super.key});
@@ -111,13 +111,13 @@ class DeveloperOptionsScreen extends ConsumerWidget {
           ListTile(
             leading: const Icon(Icons.cleaning_services_outlined),
             title: const Text('Clear Application Cache'),
-            onTap: () => controller.clearCache(),
+            onTap: controller.clearCache,
           ),
           const Divider(height: 1),
           ListTile(
             leading: const Icon(Icons.sync_disabled),
             title: const Text('Reset Sync Queue'),
-            onTap: () => controller.resetSyncQueue(),
+            onTap: controller.resetSyncQueue,
           ),
           const Divider(height: 1),
           ListTile(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../providers/category_provider.dart';
-import '../widgets/skeleton_loaders.dart';
-import '../widgets/banners.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/providers/category_provider.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_loaders.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/banners.dart';
 
 /// Detailed screen for a specific category
 class CategoryDetailsScreen extends ConsumerWidget {
@@ -36,7 +36,7 @@ class CategoryDetailsScreen extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     border: Border(
                       bottom: BorderSide(
                         color: colorScheme.outline,
@@ -232,7 +232,7 @@ class CategoryDetailsScreen extends ConsumerWidget {
                                             vertical: 4,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: color.withOpacity(0.1),
+                                            color: color.withValues(alpha: 0.1),
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                           ),
@@ -267,7 +267,7 @@ class CategoryDetailsScreen extends ConsumerWidget {
           return ErrorBanner(
             message: error.toString(),
             onRetry: () {
-              ref.refresh(categoryDetailsProvider(categoryName));
+              ref.invalidate(categoryDetailsProvider(categoryName));
             },
           );
         },

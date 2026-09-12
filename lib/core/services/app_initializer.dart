@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/environment.dart';
-import '../config/supabase_config_service.dart';
-import '../database/isar_initialization_service.dart';
+import 'package:fintrack/core/config/environment.dart';
+import 'package:fintrack/core/config/supabase_config_service.dart';
+import 'package:fintrack/core/database/isar_initialization_service.dart';
 
 class AppInitializer {
   final IsarInitializationService _isarService;
@@ -24,11 +24,11 @@ class AppInitializer {
       await _supabaseService.initialize().timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          throw TimeoutException("Supabase initialization timed out.");
+          throw TimeoutException('Supabase initialization timed out.');
         },
       );
     } catch (e) {
-      throw Exception("Supabase initialization failed: $e");
+      throw Exception('Supabase initialization failed: $e');
     }
 
     await _isarService.initialize();

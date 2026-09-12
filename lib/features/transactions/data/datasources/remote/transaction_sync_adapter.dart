@@ -1,5 +1,5 @@
-import '../../../domain/entities/transaction_entity.dart';
-import '../../mappers/transaction_mapper.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/data/mappers/transaction_mapper.dart';
 
 class TransactionSyncAdapter {
   static Map<String, dynamic> toSupabasePayload(TransactionEntity entity) {

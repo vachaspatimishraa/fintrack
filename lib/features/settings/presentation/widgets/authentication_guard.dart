@@ -1,12 +1,12 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/translations.dart';
-import '../../providers/security_provider.dart';
-import '../../providers/settings_provider.dart';
-import '../../domain/services/screenshot_protection_service.dart';
-import '../../../auth/providers/auth_provider.dart';
-import '../../domain/services/biometric_service.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/settings/providers/security_provider.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/domain/services/screenshot_protection_service.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/settings/domain/services/biometric_service.dart';
 
 class AuthenticationGuard extends ConsumerStatefulWidget {
   final Widget child;

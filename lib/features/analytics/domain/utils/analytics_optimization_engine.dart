@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'analytics_performance_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/analytics_performance_service.dart';
 
 class AnalyticsOptimizationEngine {
   const AnalyticsOptimizationEngine._();

@@ -1,20 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../../sync/providers/sync_provider.dart';
-import '../data/datasources/local/budget_local_datasource.dart';
-import '../data/datasources/remote/budget_remote_datasource.dart';
-import '../data/repositories/budget_repository_impl.dart';
-import '../domain/entities/budget_entity.dart';
-import '../domain/entities/budget_alert_entity.dart';
-import '../domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/budget/data/datasources/local/budget_local_datasource.dart';
+import 'package:fintrack/features/budget/data/datasources/remote/budget_remote_datasource.dart';
+import 'package:fintrack/features/budget/data/repositories/budget_repository_impl.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
 
-import '../domain/repositories/budget_alert_repository.dart';
-import '../data/repositories/budget_alert_repository_impl.dart';
-import '../data/datasources/local/budget_alert_local_datasource.dart';
-import '../domain/utils/budget_dashboard_engine.dart';
-import '../domain/entities/budget_dashboard_data.dart';
-import 'budget_analytics_provider.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_alert_repository.dart';
+import 'package:fintrack/features/budget/data/repositories/budget_alert_repository_impl.dart';
+import 'package:fintrack/features/budget/data/datasources/local/budget_alert_local_datasource.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_dashboard_engine.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_dashboard_data.dart';
+import 'package:fintrack/features/budget/providers/budget_analytics_provider.dart';
 
 final budgetLocalDatasourceProvider = Provider<BudgetLocalDatasource>((ref) {
   final isarService = ref.watch(isarInitializationServiceProvider);

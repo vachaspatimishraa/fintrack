@@ -14,10 +14,10 @@ class AccountRemoteDataSource {
           .eq('user_id', userId);
       return List<Map<String, dynamic>>.from(response as List? ?? []);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -26,10 +26,10 @@ class AccountRemoteDataSource {
     try {
       await _supabase.from('accounts').upsert(jsonPayload);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -41,10 +41,10 @@ class AccountRemoteDataSource {
         'updated_at': DateTime.now().toIso8601String(),
       }).eq('id', uuid);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }

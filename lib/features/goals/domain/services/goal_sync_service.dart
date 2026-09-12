@@ -1,4 +1,4 @@
-import '../repositories/goal_repository.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
 
 class GoalSyncService {
   final GoalRepository _repository;

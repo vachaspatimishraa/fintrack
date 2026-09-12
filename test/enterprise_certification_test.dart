@@ -34,13 +34,13 @@ void main() {
       const badContent = "final supabase_key = 'abcdef12345';";
       expect(secVal.validateSecrets(badContent), false);
 
-      const goodContent = "final key = ref.watch(provider);";
+      const goodContent = 'final key = ref.watch(provider);';
       expect(secVal.validateSecrets(goodContent), true);
     });
 
     test('detects raw financial values printed inside logs', () {
-      expect(secVal.validateLogPrivacy("User generated report with ₹2500 deficit"), false);
-      expect(secVal.validateLogPrivacy("User generated report completed successfully"), true);
+      expect(secVal.validateLogPrivacy('User generated report with ₹2500 deficit'), false);
+      expect(secVal.validateLogPrivacy('User generated report completed successfully'), true);
     });
   });
 
@@ -69,10 +69,10 @@ void main() {
     const offlineVal = OfflineComplianceChecker();
 
     test('rejects network fetch requests in repository implementations', () {
-      const badRepo = "final res = await http.get(Uri.parse(url));";
+      const badRepo = 'final res = await http.get(Uri.parse(url));';
       expect(offlineVal.isOfflineCompliant(badRepo), false);
 
-      const goodRepo = "final list = await _transactionRepository.getTransactions();";
+      const goodRepo = 'final list = await _transactionRepository.getTransactions();';
       expect(offlineVal.isOfflineCompliant(goodRepo), true);
     });
   });

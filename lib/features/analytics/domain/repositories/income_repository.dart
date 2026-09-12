@@ -1,4 +1,4 @@
-import '../entities/income_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
 
 abstract class IncomeRepository {
   Future<IncomeReport> getIncomeReport(String filter);

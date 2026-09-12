@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../providers/cash_flow_provider.dart';
-import '../widgets/cash_flow_chart.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/providers/cash_flow_provider.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/cash_flow_chart.dart';
 
 class CashFlowScreen extends ConsumerWidget {
   const CashFlowScreen({super.key});

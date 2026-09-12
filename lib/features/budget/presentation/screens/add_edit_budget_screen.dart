@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../controllers/budget_controller.dart';
-import '../../../../core/constants/app_categories.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/presentation/controllers/budget_controller.dart';
+import 'package:fintrack/core/constants/app_categories.dart';
 
 class AddEditBudgetScreen extends ConsumerStatefulWidget {
   final BudgetEntity? budget;
@@ -28,7 +28,6 @@ class _AddEditBudgetScreenState extends ConsumerState<AddEditBudgetScreen> {
   late DateTime _startDate;
   late DateTime _endDate;
   late bool _rolloverEnabled;
-  late double _alertThreshold;
   
   bool _isSaving = false;
 
@@ -46,7 +45,6 @@ class _AddEditBudgetScreenState extends ConsumerState<AddEditBudgetScreen> {
     _startDate = b?.startDate ?? DateTime(DateTime.now().year, DateTime.now().month, 1);
     _endDate = b?.endDate ?? DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
     _rolloverEnabled = b?.rolloverEnabled ?? false;
-    _alertThreshold = b?.alertThreshold ?? 80.0;
   }
 
   @override

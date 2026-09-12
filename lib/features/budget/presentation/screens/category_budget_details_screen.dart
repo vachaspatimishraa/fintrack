@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../providers/budget_provider.dart';
-import '../widgets/category_budget_progress_ring.dart';
-import '../widgets/category_budget_statistics_card.dart';
-import 'add_edit_budget_screen.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/category_budget_progress_ring.dart';
+import 'package:fintrack/features/budget/presentation/widgets/category_budget_statistics_card.dart';
+import 'package:fintrack/features/budget/presentation/screens/add_edit_budget_screen.dart';
 
 class CategoryBudgetDetailsScreen extends ConsumerWidget {
   final String budgetUuid;

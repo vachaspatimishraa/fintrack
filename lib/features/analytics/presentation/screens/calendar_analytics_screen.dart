@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/calendar_provider.dart';
-import '../widgets/banners.dart';
-import '../widgets/calendar_heatmap.dart';
-import '../widgets/calendar_filter_sheet.dart';
-import '../widgets/daily_timeline.dart';
-import '../widgets/day_summary_card.dart';
-import '../widgets/financial_calendar.dart';
-import '../widgets/month_statistics_card.dart';
-import '../widgets/skeleton_calendar.dart';
+import 'package:fintrack/features/analytics/providers/calendar_provider.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/banners.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/calendar_heatmap.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/calendar_filter_sheet.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/daily_timeline.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/day_summary_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/financial_calendar.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/month_statistics_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_calendar.dart';
 
 class CalendarAnalyticsScreen extends ConsumerWidget {
   const CalendarAnalyticsScreen({super.key});

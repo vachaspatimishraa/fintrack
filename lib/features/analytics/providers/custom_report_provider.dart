@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/entities/custom_report_data.dart';
-import '../presentation/controllers/custom_report_controller.dart';
-import 'analytics_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/custom_report_controller.dart';
+import 'package:fintrack/features/analytics/providers/analytics_provider.dart';
 
 final customReportFilterProvider = StateProvider<CustomReportFilter>((ref) {
   return CustomReportFilter.empty();

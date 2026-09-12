@@ -1,4 +1,4 @@
-import '../entities/app_information_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/app_information_entity.dart';
 
 abstract class AboutRepository {
   Future<AppInformationEntity> loadAppInformation();

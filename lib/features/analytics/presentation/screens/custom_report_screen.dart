@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/custom_report_provider.dart';
-import '../controllers/custom_report_controller.dart';
-import '../widgets/date_range_picker.dart';
-import '../widgets/filter_panel.dart';
-import '../widgets/custom_report_builder.dart';
-import '../widgets/account_filter_sheet.dart';
-import '../widgets/category_filter_sheet.dart';
-import '../widgets/budget_filter_sheet.dart';
-import '../widgets/custom_offline_banner.dart';
-import 'report_preview_screen.dart';
-import 'saved_reports_screen.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/custom_report_controller.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/date_range_picker.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/filter_panel.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/custom_report_builder.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/account_filter_sheet.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_filter_sheet.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/budget_filter_sheet.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/custom_offline_banner.dart';
+import 'package:fintrack/features/analytics/presentation/screens/report_preview_screen.dart';
+import 'package:fintrack/features/analytics/presentation/screens/saved_reports_screen.dart';
 
 class CustomReportScreen extends ConsumerStatefulWidget {
   const CustomReportScreen({super.key});
@@ -79,7 +79,7 @@ class _CustomReportScreenState extends ConsumerState<CustomReportScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => controller.clearFilters(),
+            onPressed: controller.clearFilters,
             tooltip: 'Clear Filters',
           ),
         ],

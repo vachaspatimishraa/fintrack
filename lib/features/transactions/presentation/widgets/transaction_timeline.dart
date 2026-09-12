@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/transaction_entity.dart';
-import 'sticky_date_header.dart';
-import 'transaction_tile.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/sticky_date_header.dart';
+import 'package:fintrack/features/transactions/presentation/widgets/transaction_tile.dart';
 
 class TransactionTimeline extends StatelessWidget {
   final List<TransactionEntity> transactions;

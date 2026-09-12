@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../screens/add_edit_budget_screen.dart';
-import '../screens/budget_analytics_screen.dart';
-import '../screens/budget_history_screen.dart';
-import '../screens/budget_recommendation_screen.dart';
+import 'package:fintrack/features/budget/presentation/screens/add_edit_budget_screen.dart';
+import 'package:fintrack/features/budget/presentation/screens/budget_analytics_screen.dart';
+import 'package:fintrack/features/budget/presentation/screens/budget_history_screen.dart';
+import 'package:fintrack/features/budget/presentation/screens/budget_recommendation_screen.dart';
 
 class QuickActionPanel extends StatelessWidget {
   const QuickActionPanel({super.key});

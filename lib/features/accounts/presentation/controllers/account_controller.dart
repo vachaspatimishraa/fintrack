@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../home/providers/home_provider.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../../../transactions/providers/transaction_provider.dart';
-import '../../providers/account_provider.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/home/providers/home_provider.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
 
 class AccountController {
   final Ref _ref;
@@ -31,8 +30,6 @@ class AccountController {
     }
 
     final repository = _ref.read(accountRepositoryProvider);
-    final activeAccounts = await repository.getAccounts();
-    final isFirst = activeAccounts.isEmpty;
     final isNew = account.uuid.isEmpty;
 
     account.name = trimmedName;
@@ -138,4 +135,4 @@ class AccountController {
   }
 }
 
-final accountControllerProvider = Provider<AccountController>((ref) => AccountController(ref));
+final accountControllerProvider = Provider<AccountController>(AccountController.new);

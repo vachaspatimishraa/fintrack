@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import '../../../../../core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
 
 class BudgetAlertLocalDatasource {
   final Isar _isar;

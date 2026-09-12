@@ -1,4 +1,4 @@
-import '../../../../core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
 
 abstract class AccountRepository {
   Stream<List<AccountModel>> watchAccounts();

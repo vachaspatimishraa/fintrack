@@ -1,4 +1,4 @@
-import 'connectivity_service.dart';
+import 'package:fintrack/core/network/connectivity_service.dart';
 
 class NetworkInfo {
   final ConnectivityService _connectivityService = ConnectivityService();

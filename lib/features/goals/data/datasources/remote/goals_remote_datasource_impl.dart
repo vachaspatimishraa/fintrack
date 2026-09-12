@@ -1,10 +1,10 @@
-import '../../../domain/repositories/goals_remote_datasource.dart';
+import 'package:fintrack/features/goals/domain/repositories/goals_remote_datasource.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GoalsRemoteDatasourceImpl implements GoalsRemoteDatasource {
-  final SupabaseClient _supabase;
+  final SupabaseClient supabase;
 
-  GoalsRemoteDatasourceImpl(this._supabase);
+  GoalsRemoteDatasourceImpl(this.supabase);
 
   @override
   Future<void> uploadGoals() async {

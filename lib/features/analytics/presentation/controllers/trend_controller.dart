@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/entities/spending_trend_data.dart';
-import '../../domain/repositories/spending_trend_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/spending_trend_repository.dart';
 
 class TrendController {
   final SpendingTrendRepository _repository;

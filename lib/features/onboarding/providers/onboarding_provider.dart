@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
 
 final onboardingProvider = StateNotifierProvider<OnboardingNotifier, bool>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);

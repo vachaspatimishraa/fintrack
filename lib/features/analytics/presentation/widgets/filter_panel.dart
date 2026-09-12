@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/custom_report_provider.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
 
 class FilterPanel extends ConsumerStatefulWidget {
   const FilterPanel({super.key});

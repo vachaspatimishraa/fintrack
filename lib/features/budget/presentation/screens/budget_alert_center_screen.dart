@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/budget_provider.dart';
-import '../widgets/budget_alert_card.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_alert_card.dart';
 
 class BudgetAlertCenterScreen extends ConsumerWidget {
   const BudgetAlertCenterScreen({super.key});

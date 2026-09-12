@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../auth/providers/auth_provider.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../data/repositories/recommendation_repository_impl.dart';
-import '../domain/entities/budget_recommendation_entity.dart';
-import '../domain/repositories/recommendation_repository.dart';
-import '../domain/utils/budget_recommendation_engine.dart';
-import 'budget_provider.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/budget/data/repositories/recommendation_repository_impl.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_recommendation_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/recommendation_repository.dart';
+import 'package:fintrack/features/budget/domain/utils/budget_recommendation_engine.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
 
 final recommendationRepositoryProvider = Provider<RecommendationRepository>((ref) {
   final isarService = ref.watch(isarInitializationServiceProvider);

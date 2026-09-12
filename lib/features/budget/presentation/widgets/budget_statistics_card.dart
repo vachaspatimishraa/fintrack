@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/budget_statistics.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_statistics.dart';
 
 class BudgetStatisticsCard extends StatelessWidget {
   final BudgetStatistics statistics;

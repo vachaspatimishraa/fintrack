@@ -1,4 +1,4 @@
-import 'env.dart';
+import 'package:fintrack/core/config/env.dart';
 
 class SupabaseConfig {
   const SupabaseConfig._();

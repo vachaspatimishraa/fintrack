@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/income_repository_impl.dart';
-import '../domain/entities/income_data.dart';
-import '../domain/repositories/income_repository.dart';
-import '../presentation/controllers/income_controller.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/income_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/income_repository.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/income_controller.dart';
 
 final incomeTimeFilterProvider = StateProvider<String>((ref) => '30days');
 
@@ -29,7 +29,7 @@ final incomeInsightsProvider = Provider<List<String>>((ref) {
   final controller = ref.watch(incomeControllerProvider);
 
   return reportAsync.when(
-    data: (report) => controller.generateInsights(report),
+    data: controller.generateInsights,
     loading: () => [],
     error: (err, stack) => [],
   );

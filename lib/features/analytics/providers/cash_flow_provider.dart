@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/cash_flow_repository_impl.dart';
-import '../domain/entities/cash_flow_data.dart';
-import '../domain/repositories/cash_flow_repository.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/cash_flow_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/cash_flow_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/cash_flow_repository.dart';
 
 final cashFlowTimeFilterProvider = StateProvider<String>((ref) => '30days');
 

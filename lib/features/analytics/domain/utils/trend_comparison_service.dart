@@ -1,5 +1,5 @@
-import '../entities/spending_trend_data.dart';
-import 'velocity_calculator.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/velocity_calculator.dart';
 
 class TrendComparisonService {
   const TrendComparisonService._();

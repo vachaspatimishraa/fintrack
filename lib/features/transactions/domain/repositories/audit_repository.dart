@@ -1,4 +1,4 @@
-import '../entities/audit_log_model.dart';
+import 'package:fintrack/features/transactions/domain/entities/audit_log_model.dart';
 
 abstract class AuditRepository {
   Future<void> saveAuditLog(AuditLog log);

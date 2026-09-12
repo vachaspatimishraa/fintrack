@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/trend_provider.dart';
-import '../widgets/banners.dart';
-import '../widgets/forecast_card.dart';
-import '../widgets/moving_average_card.dart';
-import '../widgets/peak_spending_card.dart';
-import '../widgets/recommendation_card.dart';
-import '../widgets/skeleton_trend_chart.dart';
-import '../widgets/trend_chart.dart';
-import '../widgets/trend_summary_card.dart';
+import 'package:fintrack/features/analytics/providers/trend_provider.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/banners.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/forecast_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/moving_average_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/peak_spending_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/recommendation_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_trend_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/trend_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/trend_summary_card.dart';
 
 class SpendingTrendScreen extends ConsumerWidget {
   const SpendingTrendScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'monthly_report_provider.dart';
+import 'package:fintrack/features/analytics/providers/monthly_report_provider.dart';
 
 final monthlySavingsOnlyProvider = Provider<double>((ref) {
   final reportAsync = ref.watch(monthlyReportProvider);

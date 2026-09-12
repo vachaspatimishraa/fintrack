@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/entities/ai_insight_data.dart';
-import '../presentation/controllers/ai_insight_controller.dart';
-import 'analytics_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/ai_insight_controller.dart';
+import 'package:fintrack/features/analytics/providers/analytics_provider.dart';
 
 final aiInsightsProvider = StreamProvider<AIInsightsReport>((ref) {
   final repository = ref.watch(analyticsRepositoryProvider);

@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/weekly_report_data.dart';
-import 'weekly_comparison_service.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/weekly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/weekly_comparison_service.dart';
 
 class WeeklyAggregator {
   const WeeklyAggregator._();

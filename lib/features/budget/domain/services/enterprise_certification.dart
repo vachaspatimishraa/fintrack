@@ -1,5 +1,5 @@
-import 'architecture_validation_service.dart';
-import 'offline_compliance_checker.dart';
+import 'package:fintrack/features/budget/domain/services/architecture_validation_service.dart';
+import 'package:fintrack/features/budget/domain/services/offline_compliance_checker.dart';
 
 /// Certification authority for the Budget Module.
 /// 
@@ -39,6 +39,6 @@ class EnterpriseCertification {
       'generateAlerts',
       'generateRecommendations',
     ];
-    return features.every((f) => OfflineComplianceChecker.verifyOfflineCapability(f));
+    return features.every(OfflineComplianceChecker.verifyOfflineCapability);
   }
 }

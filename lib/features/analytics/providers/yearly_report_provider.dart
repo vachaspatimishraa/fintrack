@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/entities/yearly_report_data.dart';
-import '../presentation/controllers/yearly_report_controller.dart';
-import 'analytics_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/yearly_report_data.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/yearly_report_controller.dart';
+import 'package:fintrack/features/analytics/providers/analytics_provider.dart';
 
 final selectedYearProvider = StateProvider<DateTime>((ref) {
   return DateTime.now();

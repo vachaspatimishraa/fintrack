@@ -1,6 +1,6 @@
 import 'dart:math';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/category_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/category_data.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class CategoryAggregator {
   /// Aggregate category data based on time filter
@@ -99,12 +99,6 @@ class CategoryAggregator {
     if (smallestAmount == double.infinity) {
       smallestAmount = 0;
     }
-
-    final avgPerDay = filteredTx.isNotEmpty
-        ? (totalAmount / _getDateRangeInDays(filteredTx)).ceil()
-        : 0;
-    final avgPerWeek = (avgPerDay * 7).ceil();
-    final avgPerMonth = (avgPerDay * 30).ceil();
 
     // Build trends
     final trends = _buildCategoryTrends(filteredTx, categoryName);
@@ -441,7 +435,7 @@ class CategoryAggregator {
   }
 
   /// Get date range in days
-  static int _getDateRangeInDays(List<TransactionEntity> transactions) {
+  static int getDateRangeInDays(List<TransactionEntity> transactions) {
     if (transactions.isEmpty) return 1;
 
     final dates = transactions.map((tx) => tx.date).toSet();

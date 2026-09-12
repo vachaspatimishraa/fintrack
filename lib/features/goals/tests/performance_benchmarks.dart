@@ -1,6 +1,7 @@
+// ignore_for_file: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
-import '../domain/utils/goal_optimization_engine.dart';
-import '../domain/entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/utils/goal_optimization_engine.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
 
 void main() {
   group('Goals Module Performance Benchmarks', () {

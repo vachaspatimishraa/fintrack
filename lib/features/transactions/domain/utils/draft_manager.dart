@@ -3,34 +3,56 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class DraftManager {
-  static Future<String> _getDraftPath() async {
-    final dir = await getApplicationDocumentsDirectory();
-    return '${dir.path}/transaction_draft.json';
+  static Map<String, dynamic>? _memoryDraft;
+  static String? _cachedDraftPath;
+
+  static Future<String?> _getDraftPath() async {
+    if (_cachedDraftPath != null) return _cachedDraftPath;
+    try {
+      final dir = await getApplicationDocumentsDirectory().timeout(
+        const Duration(milliseconds: 500),
+      );
+      _cachedDraftPath = '${dir.path}/transaction_draft.json';
+      return _cachedDraftPath;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<void> saveDraft(Map<String, dynamic> draftJson) async {
+    _memoryDraft = draftJson;
     try {
-      final file = File(await _getDraftPath());
-      await file.writeAsString(jsonEncode(draftJson));
+      final path = await _getDraftPath();
+      if (path != null) {
+        final file = File(path);
+        await file.writeAsString(jsonEncode(draftJson));
+      }
     } catch (_) {}
   }
 
   static Future<Map<String, dynamic>?> loadDraft() async {
     try {
-      final file = File(await _getDraftPath());
-      if (await file.exists()) {
-        final content = await file.readAsString();
-        return jsonDecode(content) as Map<String, dynamic>;
+      final path = await _getDraftPath();
+      if (path != null) {
+        final file = File(path);
+        if (await file.exists()) {
+          final content = await file.readAsString();
+          return jsonDecode(content) as Map<String, dynamic>;
+        }
       }
     } catch (_) {}
-    return null;
+    return _memoryDraft;
   }
 
   static Future<void> clearDraft() async {
+    _memoryDraft = null;
     try {
-      final file = File(await _getDraftPath());
-      if (await file.exists()) {
-        await file.delete();
+      final path = await _getDraftPath();
+      if (path != null) {
+        final file = File(path);
+        if (await file.exists()) {
+          await file.delete();
+        }
       }
     } catch (_) {}
   }

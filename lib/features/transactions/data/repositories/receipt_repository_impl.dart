@@ -2,33 +2,31 @@ import 'dart:io';
 import 'package:isar/isar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:path/path.dart' as p;
-import '../../../../core/database/isar/collections/receipt_model.dart';
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../domain/repositories/receipt_repository.dart';
-import '../../domain/utils/image_validator.dart';
-import '../../domain/utils/receipt_compression_service.dart';
-import '../../domain/utils/receipt_cache_service.dart';
-import '../../domain/utils/receipt_storage_service.dart';
-import '../../../../core/services/sync_service.dart';
+import 'package:fintrack/core/database/isar/collections/receipt_model.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/features/transactions/domain/repositories/receipt_repository.dart';
+import 'package:fintrack/features/transactions/domain/utils/image_validator.dart';
+import 'package:fintrack/features/transactions/domain/utils/receipt_compression_service.dart';
+import 'package:fintrack/features/transactions/domain/utils/receipt_cache_service.dart';
+import 'package:fintrack/features/transactions/domain/utils/receipt_storage_service.dart';
+import 'package:fintrack/core/services/sync_service.dart';
 
 class ReceiptRepositoryImpl implements ReceiptRepository {
   final Isar _isar;
   final SupabaseClient _supabase;
   final SyncService _syncService;
-  final ReceiptCacheService _cacheService;
+  final ReceiptCacheService cacheService;
   final ReceiptStorageService _storageService;
 
   ReceiptRepositoryImpl({
     required Isar isar,
     required SupabaseClient supabase,
     required SyncService syncService,
-    required ReceiptCacheService cacheService,
+    required this.cacheService,
     required ReceiptStorageService storageService,
   })  : _isar = isar,
         _supabase = supabase,
         _syncService = syncService,
-        _cacheService = cacheService,
         _storageService = storageService;
 
   @override
@@ -85,31 +83,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
     final compressed = await ReceiptCompressionService.compress(file);
     final uuid = const Uuid().v4();
-    final ext = p.extension(file.path);
-    final cleanExt = ext.isNotEmpty ? ext : '.jpg';
-    final fileName = '$transactionId-$uuid';
-
-    final cachedFile = await _cacheService.getOrDownload(
-      localPath: null,
-      cloudUrl: null,
-      fileName: fileName,
-    );
-
-    // Save locally
-    final localDocDir = await _cacheService.getOrDownload(
-      localPath: null,
-      cloudUrl: null,
-      fileName: fileName,
-    );
-
-    // Copy to persistent doc receipts path
-    final path = await _isar.writeTxn(() async {
-      return ''; // fallback placeholder, let's copy to doc receipts dir
-    });
-
-    final dir = await _cacheService.getOrDownload(localPath: null, cloudUrl: null, fileName: fileName);
-    // Since we picked it, let's save the file locally using local documents path
-    final localPath = file.path; // temporary placeholder path
+    final localPath = file.path;
 
     final size = await compressed.length();
     final receipt = ReceiptModel()

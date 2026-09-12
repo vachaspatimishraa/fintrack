@@ -1,16 +1,16 @@
 import 'package:isar/isar.dart';
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../datasources/local/transaction_local_datasource.dart';
-import '../datasources/remote/transaction_remote_datasource.dart';
-import '../mappers/transaction_mapper.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/entities/transaction_query_filter.dart';
-import '../../domain/repositories/transaction_repository.dart';
-import '../../domain/entities/transaction_event_bus.dart';
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../../core/services/sync_service.dart';
+import 'package:fintrack/features/transactions/data/datasources/local/transaction_local_datasource.dart';
+import 'package:fintrack/features/transactions/data/datasources/remote/transaction_remote_datasource.dart';
+import 'package:fintrack/features/transactions/data/mappers/transaction_mapper.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_query_filter.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_event_bus.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/services/sync_service.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
   final TransactionLocalDatasource _localDatasource;
@@ -39,7 +39,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   Stream<List<TransactionEntity>> watchTransactions() {
     final userId = _supabase.auth.currentUser?.id;
     return _localDatasource.watchTransactions(userId).map(
-          (models) => models.map((m) => TransactionMapper.toEntity(m)).toList(),
+          (models) => models.map(TransactionMapper.toEntity).toList(),
         );
   }
 
@@ -62,7 +62,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         .sortByDateDesc()
         .limit(limit)
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => TransactionMapper.toEntity(m)).toList());
+        .map((models) => models.map(TransactionMapper.toEntity).toList());
   }
 
   @override
@@ -74,7 +74,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         .categoryEqualTo(category)
         .isDeletedEqualTo(false)
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => TransactionMapper.toEntity(m)).toList());
+        .map((models) => models.map(TransactionMapper.toEntity).toList());
   }
 
   @override
@@ -88,7 +88,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         .dateBetween(startOfDay, endOfDay)
         .isDeletedEqualTo(false)
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => TransactionMapper.toEntity(m)).toList());
+        .map((models) => models.map(TransactionMapper.toEntity).toList());
   }
 
   @override
@@ -99,7 +99,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         .userIdEqualTo(userId)
         .isDeletedEqualTo(true)
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => TransactionMapper.toEntity(m)).toList());
+        .map((models) => models.map(TransactionMapper.toEntity).toList());
   }
 
   @override
@@ -110,14 +110,14 @@ class TransactionRepositoryImpl implements TransactionRepository {
         .userIdEqualTo(userId)
         .isSyncedEqualTo(false)
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => TransactionMapper.toEntity(m)).toList());
+        .map((models) => models.map(TransactionMapper.toEntity).toList());
   }
 
   @override
   Future<List<TransactionEntity>> getTransactions() async {
     final userId = _supabase.auth.currentUser?.id;
     final models = await _localDatasource.getTransactions(userId);
-    return models.map((m) => TransactionMapper.toEntity(m)).toList();
+    return models.map(TransactionMapper.toEntity).toList();
   }
 
   @override
@@ -319,7 +319,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
           .sortByDateDesc()
           .findAll();
     }
-    return models.map((m) => TransactionMapper.toEntity(m)).toList();
+    return models.map(TransactionMapper.toEntity).toList();
   }
 
   @override
@@ -335,6 +335,6 @@ class TransactionRepositoryImpl implements TransactionRepository {
       offset: offset,
       queryFilter: queryFilter,
     );
-    return models.map((m) => TransactionMapper.toEntity(m)).toList();
+    return models.map(TransactionMapper.toEntity).toList();
   }
 }

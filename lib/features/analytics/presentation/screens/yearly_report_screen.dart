@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/yearly_report_provider.dart';
-import '../../domain/entities/yearly_report_data.dart';
-import '../controllers/yearly_report_controller.dart';
-import '../widgets/yearly_summary_card.dart';
-import '../widgets/yearly_statistics_card.dart';
-import '../widgets/monthly_breakdown_chart.dart';
-import '../widgets/budget_performance_card.dart';
-import '../widgets/category_distribution_chart.dart';
-import '../widgets/financial_health_card.dart';
-import '../widgets/annual_insights_card.dart';
-import '../widgets/skeleton_yearly_report.dart';
-import '../widgets/yearly_offline_banner.dart';
+import 'package:fintrack/features/analytics/providers/yearly_report_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/yearly_report_data.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/yearly_report_controller.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/yearly_summary_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/yearly_statistics_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_breakdown_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/budget_performance_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_distribution_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/financial_health_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/annual_insights_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_yearly_report.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/yearly_offline_banner.dart';
 
 class YearlyReportScreen extends ConsumerStatefulWidget {
   const YearlyReportScreen({super.key});
@@ -33,8 +33,6 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
     final selectedYear = ref.watch(selectedYearProvider);
     final reportAsync = ref.watch(yearlyReportProvider);
     final controller = ref.watch(yearlyReportControllerProvider);
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Yearly Report'),
@@ -42,14 +40,14 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              reportAsync.whenData((report) => controller.shareReport(report));
+              reportAsync.whenData(controller.shareReport);
             },
             tooltip: 'Share Report',
           ),
           IconButton(
             icon: const Icon(Icons.picture_as_pdf_outlined),
             onPressed: () {
-              reportAsync.whenData((report) => controller.exportPDF(report));
+              reportAsync.whenData(controller.exportPDF);
             },
             tooltip: 'Export as PDF',
           ),
@@ -152,7 +150,7 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
     final theme = Theme.of(context);
     return Card(
       elevation: 0,
-      color: theme.colorScheme.primaryContainer.withOpacity(0.24),
+      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -219,7 +217,7 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
             Icon(
               Icons.calendar_today_outlined,
               size: 80,
-              color: theme.colorScheme.primary.withOpacity(0.4),
+              color: theme.colorScheme.primary.withValues(alpha: 0.4),
             ),
             const SizedBox(height: 24),
             Text(
@@ -261,7 +259,7 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
             Icon(
               Icons.error_outline_outlined,
               size: 80,
-              color: theme.colorScheme.error.withOpacity(0.6),
+              color: theme.colorScheme.error.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 24),
             Text(
@@ -315,7 +313,7 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: BorderSide(
-          color: theme.colorScheme.outlineVariant.withOpacity(0.3),
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
         ),
       ),
       child: Padding(
@@ -376,7 +374,6 @@ class _ExportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return OutlinedButton.icon(
       icon: Icon(icon, size: 18),
       label: Text(label),

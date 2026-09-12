@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../core/database/isar/collections/sync_queue_item.dart';
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../../../core/services/sync_service.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/utils/conflict_resolver.dart';
-import '../datasources/remote/transaction_sync_adapter.dart';
+import 'package:fintrack/core/database/isar/collections/sync_queue_item.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/core/services/sync_service.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/utils/conflict_resolver.dart';
+import 'package:fintrack/features/transactions/data/datasources/remote/transaction_sync_adapter.dart';
 
 class SyncCoordinator {
   final Isar _isar;

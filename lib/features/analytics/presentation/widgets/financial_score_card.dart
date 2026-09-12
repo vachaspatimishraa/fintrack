@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/monthly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/monthly_report_data.dart';
 
 class FinancialScoreCard extends StatelessWidget {
   final MonthlyScore score;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../providers/custom_report_provider.dart';
+import 'package:fintrack/features/analytics/providers/custom_report_provider.dart';
 
 class CustomDateRangePicker extends ConsumerWidget {
   const CustomDateRangePicker({super.key});

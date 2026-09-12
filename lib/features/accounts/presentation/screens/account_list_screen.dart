@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/routes.dart';
-import '../../../../core/utils/translations.dart';
-import '../../providers/account_provider.dart';
-import '../../providers/account_search_provider.dart';
-import '../../providers/account_sort_provider.dart';
-import '../../providers/account_filter_provider.dart';
-import '../../providers/account_pagination_provider.dart';
-import '../controllers/account_controller.dart';
-import '../widgets/empty_account_view.dart';
-import '../widgets/account_card.dart';
-import '../widgets/rename_account_dialog.dart';
-import '../widgets/archive_account_dialog.dart';
-import '../widgets/delete_account_dialog.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/constants/routes.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_search_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_sort_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_filter_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_pagination_provider.dart';
+import 'package:fintrack/features/accounts/presentation/controllers/account_controller.dart';
+import 'package:fintrack/features/accounts/presentation/widgets/empty_account_view.dart';
+import 'package:fintrack/features/accounts/presentation/widgets/account_card.dart';
+import 'package:fintrack/features/accounts/presentation/widgets/rename_account_dialog.dart';
+import 'package:fintrack/features/accounts/presentation/widgets/archive_account_dialog.dart';
+import 'package:fintrack/features/accounts/presentation/widgets/delete_account_dialog.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
 
 class AccountListScreen extends ConsumerWidget {
   const AccountListScreen({super.key});

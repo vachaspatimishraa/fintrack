@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/translations.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../controllers/account_controller.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/accounts/presentation/controllers/account_controller.dart';
 
 class DeleteAccountDialog extends ConsumerWidget {
   final AccountModel account;

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/constants/app_categories.dart';
-import '../../../../core/utils/category_emoji_helper.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../controllers/selection_controller.dart';
-import '../screens/transaction_details_screen.dart';
+import 'package:fintrack/core/utils/category_emoji_helper.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/presentation/controllers/selection_controller.dart';
+import 'package:fintrack/features/transactions/presentation/screens/transaction_details_screen.dart';
 
 class TransactionTile extends ConsumerWidget {
   final TransactionEntity transaction;

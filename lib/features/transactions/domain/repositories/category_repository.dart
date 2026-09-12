@@ -1,4 +1,4 @@
-import '../../../../core/database/isar/collections/category_model.dart';
+import 'package:fintrack/core/database/isar/collections/category_model.dart';
 
 abstract class CategoryRepository {
   Stream<List<CategoryModel>> watchCategories();

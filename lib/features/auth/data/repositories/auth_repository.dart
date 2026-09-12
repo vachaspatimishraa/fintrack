@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../core/services/auth_service.dart';
+import 'package:fintrack/core/services/auth_service.dart';
 
 class AuthRepository {
   final AuthService _authService;

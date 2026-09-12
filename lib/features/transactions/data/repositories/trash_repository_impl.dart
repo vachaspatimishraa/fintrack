@@ -1,6 +1,6 @@
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/repositories/transaction_repository.dart';
-import '../../domain/repositories/trash_repository.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/transactions/domain/repositories/trash_repository.dart';
 
 class TrashRepositoryImpl implements TrashRepository {
   final TransactionRepository _transactionRepository;

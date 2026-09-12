@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/entities/weekly_report_data.dart';
-import '../../domain/repositories/weekly_report_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/weekly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/weekly_report_repository.dart';
 
 class WeeklyReportController {
   final WeeklyReportRepository _repository;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/cash_flow_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/cash_flow_data.dart';
 
 class CashFlowChart extends StatelessWidget {
   final CashFlowReport report;

@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/spending_trend_data.dart';
-import 'momentum_calculator.dart';
-import 'moving_average_calculator.dart';
-import 'trend_comparison_service.dart';
-import 'velocity_calculator.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/momentum_calculator.dart';
+import 'package:fintrack/features/analytics/domain/utils/moving_average_calculator.dart';
+import 'package:fintrack/features/analytics/domain/utils/trend_comparison_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/velocity_calculator.dart';
 
 class TrendEngine {
   const TrendEngine._();

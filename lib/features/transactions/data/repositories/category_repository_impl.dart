@@ -1,10 +1,10 @@
 import 'package:isar/isar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../core/database/isar/collections/category_model.dart';
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../domain/repositories/category_repository.dart';
-import '../../../../core/services/sync_service.dart';
+import 'package:fintrack/core/database/isar/collections/category_model.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/features/transactions/domain/repositories/category_repository.dart';
+import 'package:fintrack/core/services/sync_service.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
   final Isar _isar;

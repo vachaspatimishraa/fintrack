@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../mappers/account_mapper.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/accounts/data/mappers/account_mapper.dart';
 
 class AccountSyncAdapter {
   static Map<String, dynamic> toRemotePayload(AccountModel model, String userId) {

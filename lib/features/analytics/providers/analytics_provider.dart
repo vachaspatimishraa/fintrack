@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/analytics_repository_impl.dart';
-import '../domain/entities/analytics_state.dart';
-import '../domain/repositories/analytics_repository.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/analytics_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/analytics_state.dart';
+import 'package:fintrack/features/analytics/domain/repositories/analytics_repository.dart';
 
-import '../../budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
 
 final analyticsRepositoryProvider = Provider<AnalyticsRepository>((ref) {
   final transactionRepo = ref.watch(transactionRepositoryProvider);

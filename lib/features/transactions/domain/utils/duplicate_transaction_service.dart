@@ -1,5 +1,5 @@
 import 'package:uuid/uuid.dart';
-import '../entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class DuplicateTransactionService {
   static TransactionEntity duplicate(TransactionEntity original) {

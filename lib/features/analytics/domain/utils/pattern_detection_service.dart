@@ -1,5 +1,5 @@
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/ai_insight_data.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
 
 class PatternDetectionService {
   const PatternDetectionService._();

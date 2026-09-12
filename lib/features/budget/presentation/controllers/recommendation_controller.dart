@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/repositories/recommendation_repository.dart';
-import '../../providers/recommendation_provider.dart';
+import 'package:fintrack/features/budget/domain/repositories/recommendation_repository.dart';
+import 'package:fintrack/features/budget/providers/recommendation_provider.dart';
 
 class RecommendationController {
   final Ref _ref;
@@ -22,4 +22,4 @@ class RecommendationController {
   }
 }
 
-final recommendationControllerProvider = Provider<RecommendationController>((ref) => RecommendationController(ref));
+final recommendationControllerProvider = Provider<RecommendationController>(RecommendationController.new);

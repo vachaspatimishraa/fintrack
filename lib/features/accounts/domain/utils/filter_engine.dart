@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../providers/account_filter_provider.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/features/accounts/providers/account_filter_provider.dart';
 
 class FilterEngine {
   static List<AccountModel> filter({

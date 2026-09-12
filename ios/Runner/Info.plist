@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>FinTrack requires camera access to capture and attach receipt photos to your transactions.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>FinTrack requires photo library access to upload receipt images and export financial statements.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>FinTrack uses your location to automatically tag transactions with where the expense occurred.</string>
 </dict>
 </plist>

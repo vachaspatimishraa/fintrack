@@ -1,8 +1,8 @@
 import 'package:isar/isar.dart';
-import '../../../../core/database/isar/collections/budget_recommendation_model.dart';
-import '../../domain/entities/budget_recommendation_entity.dart';
-import '../../domain/repositories/recommendation_repository.dart';
-import '../mappers/budget_recommendation_mapper.dart';
+import 'package:fintrack/core/database/isar/collections/budget_recommendation_model.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_recommendation_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/recommendation_repository.dart';
+import 'package:fintrack/features/budget/data/mappers/budget_recommendation_mapper.dart';
 
 class RecommendationRepositoryImpl implements RecommendationRepository {
   final Isar _isar;
@@ -17,7 +17,7 @@ class RecommendationRepositoryImpl implements RecommendationRepository {
         .appliedEqualTo(false)
         .sortByCreatedAtDesc()
         .watch(fireImmediately: true)
-        .map((models) => models.map((m) => BudgetRecommendationMapper.toEntity(m)).toList());
+        .map((models) => models.map(BudgetRecommendationMapper.toEntity).toList());
   }
 
   @override
@@ -28,7 +28,7 @@ class RecommendationRepositoryImpl implements RecommendationRepository {
         .appliedEqualTo(false)
         .sortByCreatedAtDesc()
         .findAll();
-    return models.map((m) => BudgetRecommendationMapper.toEntity(m)).toList();
+    return models.map(BudgetRecommendationMapper.toEntity).toList();
   }
 
   @override

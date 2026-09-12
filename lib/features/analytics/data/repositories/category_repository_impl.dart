@@ -1,7 +1,7 @@
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/category_data.dart';
-import '../../domain/repositories/category_repository.dart';
-import '../../domain/utils/category_aggregator.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/category_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/category_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/category_aggregator.dart';
 
 /// Implementation of category repository
 class CategoryRepositoryImpl implements CategoryRepository {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/monthly_report_provider.dart';
-import '../../domain/entities/monthly_report_data.dart';
-import '../controllers/monthly_report_controller.dart';
-import '../widgets/monthly_summary_card.dart';
-import '../widgets/monthly_statistics_card.dart';
-import '../widgets/monthly_trend_chart.dart';
-import '../widgets/monthly_budget_card.dart';
-import '../widgets/category_breakdown_chart.dart';
-import '../widgets/financial_score_card.dart';
-import '../widgets/monthly_recommendation_card.dart';
-import '../widgets/skeleton_monthly_report.dart';
-import '../widgets/monthly_offline_banner.dart';
+import 'package:fintrack/features/analytics/providers/monthly_report_provider.dart';
+import 'package:fintrack/features/analytics/domain/entities/monthly_report_data.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/monthly_report_controller.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_summary_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_statistics_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_trend_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_budget_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/category_breakdown_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/financial_score_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_recommendation_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_monthly_report.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/monthly_offline_banner.dart';
 
 class MonthlyReportScreen extends ConsumerStatefulWidget {
   const MonthlyReportScreen({super.key});
@@ -33,8 +33,6 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
     final selectedMonth = ref.watch(selectedMonthProvider);
     final reportAsync = ref.watch(monthlyReportProvider);
     final controller = ref.watch(monthlyReportControllerProvider);
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Monthly Report'),
@@ -42,14 +40,14 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              reportAsync.whenData((report) => controller.shareReport(report));
+              reportAsync.whenData(controller.shareReport);
             },
             tooltip: 'Share Report',
           ),
           IconButton(
             icon: const Icon(Icons.picture_as_pdf_outlined),
             onPressed: () {
-              reportAsync.whenData((report) => controller.exportPDF(report));
+              reportAsync.whenData(controller.exportPDF);
             },
             tooltip: 'Export as PDF',
           ),
@@ -152,7 +150,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
     final theme = Theme.of(context);
     return Card(
       elevation: 0,
-      color: theme.colorScheme.primaryContainer.withOpacity(0.24),
+      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -219,7 +217,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
             Icon(
               Icons.calendar_today_outlined,
               size: 80,
-              color: theme.colorScheme.primary.withOpacity(0.4),
+              color: theme.colorScheme.primary.withValues(alpha: 0.4),
             ),
             const SizedBox(height: 24),
             Text(
@@ -261,7 +259,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
             Icon(
               Icons.error_outline_outlined,
               size: 80,
-              color: theme.colorScheme.error.withOpacity(0.6),
+              color: theme.colorScheme.error.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 24),
             Text(
@@ -315,7 +313,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: BorderSide(
-          color: theme.colorScheme.outlineVariant.withOpacity(0.3),
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
         ),
       ),
       child: Padding(
@@ -376,7 +374,6 @@ class _ExportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return OutlinedButton.icon(
       icon: Icon(icon, size: 18),
       label: Text(label),

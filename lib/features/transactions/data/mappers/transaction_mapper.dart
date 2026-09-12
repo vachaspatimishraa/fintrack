@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/transaction_model.dart';
-import '../../domain/entities/transaction_entity.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class TransactionMapper {
   static TransactionEntity toEntity(TransactionModel model) {

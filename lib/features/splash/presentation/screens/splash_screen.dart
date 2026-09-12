@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/constants/colors.dart';
-import '../controllers/splash_controller.dart';
+import 'package:fintrack/core/constants/colors.dart';
+import 'package:fintrack/features/splash/presentation/controllers/splash_controller.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});

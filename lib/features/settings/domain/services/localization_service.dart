@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../entities/settings_entity.dart';
-import '../entities/language_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/entities/language_entity.dart';
 
 class LocalizationService {
   static Locale getLocale(SettingsEntity settings) {

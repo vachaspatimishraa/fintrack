@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/repositories/budget_alert_repository.dart';
-import '../../providers/budget_provider.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_alert_repository.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
 
 class BudgetAlertController {
   final Ref _ref;
@@ -22,4 +22,4 @@ class BudgetAlertController {
   }
 }
 
-final budgetAlertControllerProvider = Provider<BudgetAlertController>((ref) => BudgetAlertController(ref));
+final budgetAlertControllerProvider = Provider<BudgetAlertController>(BudgetAlertController.new);

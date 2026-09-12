@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/utils/translations.dart';
-import '../controllers/settings_controller.dart';
-import '../../providers/settings_provider.dart';
-import '../../domain/entities/settings_entity.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 class SecuritySettingsScreen extends ConsumerStatefulWidget {
   const SecuritySettingsScreen({super.key});

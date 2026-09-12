@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
 
 class GoalOptimizationEngine {
   /// Efficiently filters and sorts a large list of goals.

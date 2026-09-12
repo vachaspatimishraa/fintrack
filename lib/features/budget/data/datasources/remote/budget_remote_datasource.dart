@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../domain/entities/budget_entity.dart';
-import '../../../domain/entities/budget_api_contract.dart';
-import '../../mappers/budget_mapper.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_api_contract.dart';
+import 'package:fintrack/features/budget/data/mappers/budget_mapper.dart';
 
 /// Contract-compliant remote datasource for Budget synchronization.
 class BudgetRemoteDataSource {
@@ -16,10 +16,10 @@ class BudgetRemoteDataSource {
        final payload = BudgetMapper.toJson(budget);
        await _supabase.from(BudgetApiContract.tableBudgets).upsert(payload);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -37,20 +37,20 @@ class BudgetRemoteDataSource {
             try {
               return BudgetMapper.fromJson(json as Map<String, dynamic>);
             } catch (e, stack) {
-              debugPrint("========== MAPPING ERROR ==========");
+              debugPrint('========== MAPPING ERROR ==========');
               debugPrint(e.toString());
               debugPrintStack(stackTrace: stack);
-              debugPrint("===================================");
+              debugPrint('===================================');
               rethrow;
             }
           })
           .whereType<BudgetEntity>()
           .toList();
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -63,10 +63,10 @@ class BudgetRemoteDataSource {
         'deleted_at': DateTime.now().toIso8601String(),
       }).eq(BudgetApiContract.fId, uuid);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }
@@ -79,10 +79,10 @@ class BudgetRemoteDataSource {
         'deleted_at': null,
       }).eq(BudgetApiContract.fId, uuid);
     } catch (e, stack) {
-      debugPrint("========== REMOTE DATASOURCE ERROR ==========");
+      debugPrint('========== REMOTE DATASOURCE ERROR ==========');
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
-      debugPrint("=============================================");
+      debugPrint('=============================================');
       rethrow;
     }
   }

@@ -5,6 +5,7 @@ import 'package:fintrack/features/transactions/domain/entities/transaction_entit
 void main() {
   group('Income Analytics Engine & Aggregator Tests', () {
     test('IncomeAggregator sums values and calculates period growth correctly', () {
+      final now = DateTime.now();
       final list = [
         TransactionEntity(
           uuid: 'tx-1',
@@ -21,9 +22,9 @@ void main() {
           isDeleted: false,
           isSynced: false,
           isRecurring: false,
-          date: DateTime(2026, 7, 1),
-          createdAt: DateTime(2026, 7, 1),
-          updatedAt: DateTime(2026, 7, 1),
+          date: now.subtract(const Duration(days: 2)),
+          createdAt: now.subtract(const Duration(days: 2)),
+          updatedAt: now.subtract(const Duration(days: 2)),
           syncVersion: 1,
         ),
         TransactionEntity(
@@ -41,9 +42,9 @@ void main() {
           isDeleted: false,
           isSynced: false,
           isRecurring: false,
-          date: DateTime(2026, 7, 2),
-          createdAt: DateTime(2026, 7, 2),
-          updatedAt: DateTime(2026, 7, 2),
+          date: now.subtract(const Duration(days: 1)),
+          createdAt: now.subtract(const Duration(days: 1)),
+          updatedAt: now.subtract(const Duration(days: 1)),
           syncVersion: 1,
         ),
       ];

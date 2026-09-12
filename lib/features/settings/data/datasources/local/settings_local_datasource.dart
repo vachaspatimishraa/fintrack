@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import '../../../../../core/database/isar/collections/settings_model.dart';
+import 'package:fintrack/core/database/isar/collections/settings_model.dart';
 
 /// Datasource for persistent application preferences.
 /// 

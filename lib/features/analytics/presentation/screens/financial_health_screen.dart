@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/financial_health_provider.dart';
-import '../widgets/health_score_card.dart';
-import '../widgets/health_breakdown_card.dart';
-import '../widgets/health_trend_chart.dart';
-import '../widgets/strength_card.dart';
-import '../widgets/weakness_card.dart';
-import '../widgets/recommendation_card.dart';
-import '../widgets/health_offline_banner.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/health_breakdown_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/health_offline_banner.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/health_score_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/health_trend_chart.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/recommendation_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/strength_card.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/weakness_card.dart';
+import 'package:fintrack/features/analytics/providers/financial_health_provider.dart';
 
 class FinancialHealthScreen extends ConsumerStatefulWidget {
   const FinancialHealthScreen({super.key});
@@ -23,7 +23,6 @@ class _FinancialHealthScreenState extends ConsumerState<FinancialHealthScreen> {
   Widget build(BuildContext context) {
     final healthAsync = ref.watch(financialHealthProvider);
     final controller = ref.watch(financialHealthControllerProvider);
-    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +30,7 @@ class _FinancialHealthScreenState extends ConsumerState<FinancialHealthScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => controller.refresh(),
+            onPressed: controller.refresh,
             tooltip: 'Recalculate Health',
           ),
         ],
@@ -142,7 +141,7 @@ class _FinancialHealthScreenState extends ConsumerState<FinancialHealthScreen> {
             Icon(
               Icons.healing_outlined,
               size: 80,
-              color: theme.colorScheme.primary.withOpacity(0.4),
+              color: theme.colorScheme.primary.withValues(alpha: 0.4),
             ),
             const SizedBox(height: 24),
             Text(
@@ -184,7 +183,7 @@ class _FinancialHealthScreenState extends ConsumerState<FinancialHealthScreen> {
             Icon(
               Icons.error_outline_outlined,
               size: 80,
-              color: theme.colorScheme.error.withOpacity(0.6),
+              color: theme.colorScheme.error.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 24),
             Text(

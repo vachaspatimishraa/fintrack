@@ -1,4 +1,4 @@
-import '../entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
 
 class BudgetForecastService {
   static double calculateLinearForecast(BudgetEntity budget) {

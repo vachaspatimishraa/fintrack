@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../../domain/repositories/budget_repository.dart';
-import '../../providers/budget_provider.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
 
 class CategoryBudgetController {
   final Ref _ref;
@@ -47,4 +47,4 @@ class CategoryBudgetController {
   }
 }
 
-final categoryBudgetControllerProvider = Provider<CategoryBudgetController>((ref) => CategoryBudgetController(ref));
+final categoryBudgetControllerProvider = Provider<CategoryBudgetController>(CategoryBudgetController.new);

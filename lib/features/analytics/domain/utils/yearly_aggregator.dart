@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import '../../../budget/domain/entities/budget_entity.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/yearly_report_data.dart';
-import 'year_comparison_service.dart';
-import 'yearly_analytics_engine.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/yearly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/year_comparison_service.dart';
+import 'package:fintrack/features/analytics/domain/utils/yearly_analytics_engine.dart';
 
 class YearlyAggregator {
   const YearlyAggregator._();

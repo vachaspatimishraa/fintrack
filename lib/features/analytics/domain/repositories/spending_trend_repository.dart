@@ -1,4 +1,4 @@
-import '../entities/spending_trend_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/spending_trend_data.dart';
 
 abstract class SpendingTrendRepository {
   Future<SpendingTrendReport> getSpendingTrend(String timeFilter);

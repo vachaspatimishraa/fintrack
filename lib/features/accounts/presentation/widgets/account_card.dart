@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/database/isar/collections/account_model.dart';
-import '../../../../core/utils/formatter.dart';
-import 'current_account_badge.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/accounts/presentation/widgets/current_account_badge.dart';
 
 class AccountCard extends StatelessWidget {
   final AccountModel account;

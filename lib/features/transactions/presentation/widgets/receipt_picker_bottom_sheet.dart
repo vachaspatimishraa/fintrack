@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../domain/utils/camera_service.dart';
-import '../../domain/utils/gallery_service.dart';
+import 'package:fintrack/features/transactions/domain/utils/camera_service.dart';
+import 'package:fintrack/features/transactions/domain/utils/gallery_service.dart';
 
 class ReceiptPickerBottomSheet extends StatelessWidget {
   final Function(File file) onFilePicked;

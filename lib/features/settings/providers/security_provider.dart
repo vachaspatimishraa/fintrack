@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/services/session_manager.dart';
-import '../domain/services/biometric_service.dart';
-import '../domain/services/secure_storage_service.dart';
-import '../providers/settings_provider.dart';
-import '../../auth/providers/auth_provider.dart';
-import '../../settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/services/session_manager.dart';
+import 'package:fintrack/features/settings/domain/services/biometric_service.dart';
+import 'package:fintrack/features/settings/domain/services/secure_storage_service.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
 
 final sessionManagerProvider = Provider<SessionManager>((ref) {
   final storage = ref.watch(secureStorageServiceProvider);

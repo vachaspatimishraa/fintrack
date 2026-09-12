@@ -1,6 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constants/colors.dart';
+import 'package:fintrack/core/constants/colors.dart';
 
 class DynamicColorService {
   static Future<ColorScheme?> getDynamicColorScheme(Brightness brightness) async {

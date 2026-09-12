@@ -1,5 +1,5 @@
-import '../entities/budget_entity.dart';
-import '../entities/budget_statistics.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_statistics.dart';
 
 /// Repository responsible for managing spending limits and budget lifecycles.
 /// 

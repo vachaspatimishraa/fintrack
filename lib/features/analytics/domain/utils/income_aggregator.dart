@@ -1,6 +1,6 @@
 import 'dart:math';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../entities/income_data.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
 
 class IncomeAggregator {
   /// Aggregate income data based on time filter
@@ -101,8 +101,8 @@ class IncomeAggregator {
     List<TransactionEntity> currentPeriod,
     List<TransactionEntity> previousPeriod,
   ) {
-    double currentTotal = currentPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
-    double previousTotal = previousPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
+    final double currentTotal = currentPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
+    final double previousTotal = previousPeriod.fold(0.0, (sum, tx) => sum + tx.amount);
 
     double growthPercentage = 0.0;
     if (previousTotal > 0) {

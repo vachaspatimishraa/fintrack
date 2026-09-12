@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/repositories/backup_repository.dart';
-import '../../providers/backup_provider.dart';
+import 'package:fintrack/features/settings/domain/repositories/backup_repository.dart';
+import 'package:fintrack/features/settings/providers/backup_provider.dart';
 
 class BackupController {
   final Ref _ref;
@@ -26,4 +26,4 @@ class BackupController {
   }
 }
 
-final backupControllerProvider = Provider<BackupController>((ref) => BackupController(ref));
+final backupControllerProvider = Provider<BackupController>(BackupController.new);

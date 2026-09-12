@@ -1,4 +1,4 @@
-import '../entities/calendar_analytics_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
 
 class HeatmapCalculator {
   const HeatmapCalculator._();

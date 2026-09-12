@@ -1,7 +1,7 @@
-import '../../domain/entities/budget_alert_entity.dart';
-import '../../domain/repositories/budget_alert_repository.dart';
-import '../datasources/local/budget_alert_local_datasource.dart';
-import '../mappers/budget_alert_mapper.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_alert_repository.dart';
+import 'package:fintrack/features/budget/data/datasources/local/budget_alert_local_datasource.dart';
+import 'package:fintrack/features/budget/data/mappers/budget_alert_mapper.dart';
 
 class BudgetAlertRepositoryImpl implements BudgetAlertRepository {
   final BudgetAlertLocalDatasource _localDatasource;
@@ -11,21 +11,21 @@ class BudgetAlertRepositoryImpl implements BudgetAlertRepository {
   @override
   Stream<List<BudgetAlertEntity>> watchActiveAlerts() {
     return _localDatasource.watchActiveAlerts().map(
-          (models) => models.map((m) => BudgetAlertMapper.toEntity(m)).toList(),
+          (models) => models.map(BudgetAlertMapper.toEntity).toList(),
         );
   }
 
   @override
   Stream<List<BudgetAlertEntity>> watchAlertHistory() {
     return _localDatasource.watchAlertHistory().map(
-          (models) => models.map((m) => BudgetAlertMapper.toEntity(m)).toList(),
+          (models) => models.map(BudgetAlertMapper.toEntity).toList(),
         );
   }
 
   @override
   Future<List<BudgetAlertEntity>> getAlertsByBudgetId(String budgetId) async {
     final models = await _localDatasource.getAlertsByBudgetId(budgetId);
-    return models.map((m) => BudgetAlertMapper.toEntity(m)).toList();
+    return models.map(BudgetAlertMapper.toEntity).toList();
   }
 
   @override
@@ -62,12 +62,12 @@ class BudgetAlertRepositoryImpl implements BudgetAlertRepository {
   @override
   Future<List<BudgetAlertEntity>> getCriticalAlerts() async {
     final models = await _localDatasource.getAlertsBySeverity('critical');
-    return models.map((m) => BudgetAlertMapper.toEntity(m)).toList();
+    return models.map(BudgetAlertMapper.toEntity).toList();
   }
 
   @override
   Future<List<BudgetAlertEntity>> getWarningAlerts() async {
     final models = await _localDatasource.getAlertsBySeverity('medium'); // or 'high'
-    return models.map((m) => BudgetAlertMapper.toEntity(m)).toList();
+    return models.map(BudgetAlertMapper.toEntity).toList();
   }
 }

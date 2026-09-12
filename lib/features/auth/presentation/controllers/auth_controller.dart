@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/auth_provider.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
 export '../../providers/auth_provider.dart' show AuthStatus, AuthState, authProvider;
 
 class AuthController {
@@ -12,4 +12,4 @@ class AuthController {
   Future<void> logout() => _ref.read(authProvider.notifier).signOut();
 }
 
-final authControllerProvider = Provider<AuthController>((ref) => AuthController(ref));
+final authControllerProvider = Provider<AuthController>(AuthController.new);

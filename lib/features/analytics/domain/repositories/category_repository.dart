@@ -1,4 +1,4 @@
-import '../entities/category_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/category_data.dart';
 
 /// Abstract repository for category analytics
 abstract class CategoryRepository {

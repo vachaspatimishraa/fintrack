@@ -1,5 +1,5 @@
-import '../entities/transaction_entity.dart';
-import '../entities/transaction_query_filter.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_query_filter.dart';
 
 abstract class TransactionRepository {
   Stream<List<TransactionEntity>> watchTransactions();

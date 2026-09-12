@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/about_provider.dart';
-import '../../../../core/utils/translations.dart';
-import '../controllers/developer_controller.dart';
-import '../../providers/settings_provider.dart';
+import 'package:fintrack/features/settings/providers/about_provider.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/settings/presentation/controllers/developer_controller.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
 
 class AboutScreen extends ConsumerStatefulWidget {
   const AboutScreen({super.key});

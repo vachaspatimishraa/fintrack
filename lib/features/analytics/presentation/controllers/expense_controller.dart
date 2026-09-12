@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/expense_data.dart';
-import '../../domain/repositories/expense_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/expense_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/expense_repository.dart';
 
 /// Controller for managing expense analytics business logic
 class ExpenseController {

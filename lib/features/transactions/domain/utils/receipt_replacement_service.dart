@@ -1,7 +1,7 @@
 import 'dart:io';
-import '../../../../core/services/receipt_service.dart';
-import '../entities/transaction_entity.dart';
-import '../repositories/transaction_repository.dart';
+import 'package:fintrack/core/services/receipt_service.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
 
 class ReceiptReplacementService {
   final ReceiptService _receiptService;

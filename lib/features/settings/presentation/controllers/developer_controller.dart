@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/repositories/developer_repository.dart';
-import '../../providers/developer_provider.dart';
+import 'package:fintrack/features/settings/domain/repositories/developer_repository.dart';
+import 'package:fintrack/features/settings/providers/developer_provider.dart';
 
 class DeveloperController {
   final Ref _ref;
@@ -26,4 +26,4 @@ class DeveloperController {
   }
 }
 
-final developerControllerProvider = Provider<DeveloperController>((ref) => DeveloperController(ref));
+final developerControllerProvider = Provider<DeveloperController>(DeveloperController.new);

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/budget_entity.dart';
-import '../controllers/budget_controller.dart';
-import '../../providers/budget_provider.dart';
-import '../widgets/delete_budget_dialog.dart';
-import 'add_edit_budget_screen.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/presentation/controllers/budget_controller.dart';
+import 'package:fintrack/features/budget/providers/budget_provider.dart';
+import 'package:fintrack/features/budget/presentation/widgets/delete_budget_dialog.dart';
+import 'package:fintrack/features/budget/presentation/screens/add_edit_budget_screen.dart';
 
 class BudgetDetailsScreen extends ConsumerWidget {
   final String budgetUuid;

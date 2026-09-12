@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'skeleton_loaders.dart';
+import 'package:fintrack/features/analytics/presentation/widgets/skeleton_loaders.dart';
 
 class SkeletonMonthlyReport extends StatelessWidget {
   const SkeletonMonthlyReport({super.key});

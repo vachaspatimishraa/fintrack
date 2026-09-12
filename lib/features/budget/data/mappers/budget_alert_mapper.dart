@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/budget_model.dart';
-import '../../domain/entities/budget_alert_entity.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
 
 class BudgetAlertMapper {
   static BudgetAlertEntity toEntity(BudgetAlertModel model) {

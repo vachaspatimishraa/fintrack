@@ -1,4 +1,4 @@
-import '../entities/category_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/category_data.dart';
 
 /// Utility for category growth calculations
 class CategoryGrowthCalculator {

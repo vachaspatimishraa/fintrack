@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../accounts/providers/account_provider.dart';
-import '../../../home/providers/home_provider.dart';
-import '../../providers/transaction_provider.dart';
+import 'package:fintrack/features/accounts/providers/account_provider.dart';
+import 'package:fintrack/features/home/providers/home_provider.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
 
 class BulkTransactionController {
   final Ref _ref;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/budget_recommendation_entity.dart';
-import '../controllers/recommendation_controller.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_recommendation_entity.dart';
+import 'package:fintrack/features/budget/presentation/controllers/recommendation_controller.dart';
 
 class RecommendationDetailScreen extends ConsumerWidget {
   final BudgetRecommendationEntity recommendation;

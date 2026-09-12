@@ -1,12 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../domain/entities/settings_entity.dart';
-import '../../../domain/repositories/settings_remote_datasource.dart';
+import 'package:fintrack/features/settings/domain/entities/settings_entity.dart';
+import 'package:fintrack/features/settings/domain/repositories/settings_remote_datasource.dart';
 
 /// Supabase-backed implementation of [SettingsRemoteDatasource].
 class SettingsRemoteDatasourceImpl implements SettingsRemoteDatasource {
-  final SupabaseClient _supabase;
+  final SupabaseClient supabase;
 
-  SettingsRemoteDatasourceImpl(this._supabase);
+  SettingsRemoteDatasourceImpl(this.supabase);
 
   @override
   Future<void> upload(SettingsEntity settings) async {
@@ -22,7 +22,7 @@ class SettingsRemoteDatasourceImpl implements SettingsRemoteDatasource {
 
   @override
   Future<void> synchronize() async {
-    final remote = await download();
+    await download();
     // Conflict resolution logic: updatedAt wins
   }
 }

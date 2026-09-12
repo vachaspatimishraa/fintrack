@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
 
 class SmartRecommendationCard extends StatelessWidget {
   final List<AISpendingPattern> patterns;

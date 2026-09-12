@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../splash/providers/initialization_provider.dart';
-import '../../sync/providers/sync_provider.dart';
-import '../data/repositories/goal_repository_impl.dart';
-import '../data/datasources/local/goals_local_datasource_impl.dart';
-import '../data/datasources/remote/goals_remote_datasource_impl.dart';
-import '../domain/entities/goal_entity.dart';
-import '../domain/entities/goal_progress_model.dart';
-import '../domain/entities/goal_forecast_model.dart';
-import '../domain/entities/goal_analytics_model.dart';
-import '../domain/entities/goal_template_model.dart';
-import '../domain/entities/goal_sync_status.dart';
-import '../domain/repositories/goal_repository.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/sync/providers/sync_provider.dart';
+import 'package:fintrack/features/goals/data/repositories/goal_repository_impl.dart';
+import 'package:fintrack/features/goals/data/datasources/local/goals_local_datasource_impl.dart';
+import 'package:fintrack/features/goals/data/datasources/remote/goals_remote_datasource_impl.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_progress_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_forecast_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_analytics_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_template_model.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_sync_status.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final goalLocalDatasourceProvider = Provider((ref) {

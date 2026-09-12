@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
-import '../../../../core/database/isar/collections/sync_queue_item.dart';
-import '../../data/repositories/sync_coordinator.dart';
-import 'repository_logger.dart';
+import 'package:fintrack/core/database/isar/collections/sync_queue_item.dart';
+import 'package:fintrack/features/transactions/data/repositories/sync_coordinator.dart';
+import 'package:fintrack/features/transactions/domain/utils/repository_logger.dart';
 
 class CrashRecoveryService {
   final Isar _isar;

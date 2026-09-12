@@ -1,5 +1,5 @@
-import '../../../../core/database/isar/collections/budget_recommendation_model.dart';
-import '../../domain/entities/budget_recommendation_entity.dart';
+import 'package:fintrack/core/database/isar/collections/budget_recommendation_model.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_recommendation_entity.dart';
 
 class BudgetRecommendationMapper {
   static BudgetRecommendationEntity toEntity(BudgetRecommendationModel model) {

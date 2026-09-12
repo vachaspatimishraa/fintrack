@@ -1,4 +1,4 @@
-import '../entities/goal_entity.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_entity.dart';
 
 class SyncOptimizer {
   /// Filters goals that actually need synchronization.
@@ -8,7 +8,7 @@ class SyncOptimizer {
 
   /// Batches goals into groups for optimized network transfer.
   static List<List<GoalEntity>> batchGoals(List<GoalEntity> goals, {int batchSize = 50}) {
-    List<List<GoalEntity>> batches = [];
+    final List<List<GoalEntity>> batches = [];
     for (var i = 0; i < goals.length; i += batchSize) {
       batches.add(goals.sublist(i, (i + batchSize).clamp(0, goals.length)));
     }

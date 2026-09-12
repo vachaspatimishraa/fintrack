@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../entities/report_history_model.dart';
+import 'package:fintrack/features/reports/domain/entities/report_history_model.dart';
 
 class ReportRequest {
   final String reportName;

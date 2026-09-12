@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/settings_provider.dart';
-import '../../../../core/utils/formatter.dart';
-import '../../../../core/utils/translations.dart';
-import 'currency_selection_screen.dart';
-import 'language_selection_screen.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/core/utils/translations.dart';
+import 'package:fintrack/features/settings/presentation/screens/currency_selection_screen.dart';
+import 'package:fintrack/features/settings/presentation/screens/language_selection_screen.dart';
 
 class LocalizationScreen extends ConsumerWidget {
   const LocalizationScreen({super.key});

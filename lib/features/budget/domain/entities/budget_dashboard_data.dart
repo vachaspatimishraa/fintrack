@@ -1,7 +1,7 @@
-import 'budget_entity.dart';
-import 'budget_statistics.dart';
-import 'budget_alert_entity.dart';
-import 'budget_insight.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_statistics.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_insight.dart';
 
 class BudgetDashboardData {
   final BudgetEntity? overallBudget;

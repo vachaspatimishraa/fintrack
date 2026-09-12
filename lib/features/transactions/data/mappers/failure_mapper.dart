@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../domain/entities/failure_model.dart';
+import 'package:fintrack/features/transactions/domain/entities/failure_model.dart';
 
 class FailureMapper {
   static Failure fromException(Object exception) {

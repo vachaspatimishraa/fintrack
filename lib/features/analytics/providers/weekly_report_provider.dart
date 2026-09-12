@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../transactions/providers/transaction_provider.dart';
-import '../data/repositories/weekly_report_repository_impl.dart';
-import '../domain/entities/weekly_report_data.dart';
-import '../domain/repositories/weekly_report_repository.dart';
-import '../presentation/controllers/weekly_report_controller.dart';
+import 'package:fintrack/features/transactions/providers/transaction_provider.dart';
+import 'package:fintrack/features/analytics/data/repositories/weekly_report_repository_impl.dart';
+import 'package:fintrack/features/analytics/domain/entities/weekly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/weekly_report_repository.dart';
+import 'package:fintrack/features/analytics/presentation/controllers/weekly_report_controller.dart';
 
 final weeklyReportAnchorProvider = StateProvider<DateTime>((ref) => DateTime.now());
 

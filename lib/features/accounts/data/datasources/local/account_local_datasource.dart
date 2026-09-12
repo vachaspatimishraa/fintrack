@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import '../../../../../core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
 
 class AccountLocalDatasource {
   final Isar _isar;

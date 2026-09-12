@@ -1,5 +1,5 @@
-import '../entities/goal_forecast_model.dart';
-import '../repositories/goal_repository.dart';
+import 'package:fintrack/features/goals/domain/entities/goal_forecast_model.dart';
+import 'package:fintrack/features/goals/domain/repositories/goal_repository.dart';
 
 class GoalForecastService {
   final GoalRepository _repository;
@@ -11,7 +11,6 @@ class GoalForecastService {
     final goal = await _repository.loadGoal(goalId);
     if (goal == null) throw Exception('Goal not found');
 
-    final now = DateTime.now();
     final remainingAmount = goal.targetAmount - goal.currentAmount;
     
     return GoalForecastModel(

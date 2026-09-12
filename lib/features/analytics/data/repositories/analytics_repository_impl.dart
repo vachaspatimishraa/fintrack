@@ -1,23 +1,23 @@
 import 'dart:async';
-import '../../../budget/domain/repositories/budget_repository.dart';
-import '../../../transactions/domain/entities/transaction_entity.dart';
-import '../../../budget/domain/entities/budget_entity.dart';
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/analytics_state.dart';
-import '../../domain/entities/monthly_report_data.dart';
-import '../../domain/repositories/analytics_repository.dart';
-import '../../domain/utils/analytics_engine.dart';
-import '../../domain/utils/monthly_aggregator.dart';
+import 'package:fintrack/features/budget/domain/repositories/budget_repository.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_entity.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/analytics_state.dart';
+import 'package:fintrack/features/analytics/domain/entities/monthly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/analytics_engine.dart';
+import 'package:fintrack/features/analytics/domain/utils/monthly_aggregator.dart';
 
-import '../../domain/entities/yearly_report_data.dart';
-import '../../domain/utils/yearly_aggregator.dart';
-import '../../domain/entities/custom_report_data.dart';
-import '../../domain/utils/custom_report_engine.dart';
-import '../../domain/entities/financial_health_data.dart';
-import '../../domain/utils/financial_health_engine.dart';
-import '../../domain/entities/ai_insight_data.dart';
-import '../../domain/utils/ai_insight_engine.dart';
-import '../datasources/repository_cache.dart';
+import 'package:fintrack/features/analytics/domain/entities/yearly_report_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/yearly_aggregator.dart';
+import 'package:fintrack/features/analytics/domain/entities/custom_report_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/custom_report_engine.dart';
+import 'package:fintrack/features/analytics/domain/entities/financial_health_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/financial_health_engine.dart';
+import 'package:fintrack/features/analytics/domain/entities/ai_insight_data.dart';
+import 'package:fintrack/features/analytics/domain/utils/ai_insight_engine.dart';
+import 'package:fintrack/features/analytics/data/datasources/repository_cache.dart';
 
 
 
@@ -78,9 +78,7 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
 
   @override
   Stream<AnalyticsState> watchAnalyticsState() {
-    return _transactionRepository.watchTransactions().map((list) {
-      return AnalyticsEngine.calculateState(list);
-    });
+    return _transactionRepository.watchTransactions().map(AnalyticsEngine.calculateState);
   }
 
   @override
@@ -343,7 +341,7 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
     final controller = StreamController<List<CustomReportConfig>>();
     controller.add(List.unmodifiable(_savedReports));
     final sub = _customReportsController.stream.listen(controller.add);
-    controller.onCancel = () => sub.cancel();
+    controller.onCancel = sub.cancel;
     return controller.stream;
   }
 
@@ -501,9 +499,7 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
       },
     );
 
-    controller.onCancel = () {
-      txSub.cancel();
-    };
+    controller.onCancel = txSub.cancel;
 
     return controller.stream;
   }

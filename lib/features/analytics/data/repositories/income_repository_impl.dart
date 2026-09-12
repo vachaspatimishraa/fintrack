@@ -1,7 +1,7 @@
-import '../../../transactions/domain/repositories/transaction_repository.dart';
-import '../../domain/entities/income_data.dart';
-import '../../domain/repositories/income_repository.dart';
-import '../../domain/utils/income_aggregator.dart';
+import 'package:fintrack/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:fintrack/features/analytics/domain/entities/income_data.dart';
+import 'package:fintrack/features/analytics/domain/repositories/income_repository.dart';
+import 'package:fintrack/features/analytics/domain/utils/income_aggregator.dart';
 
 class IncomeRepositoryImpl implements IncomeRepository {
   final TransactionRepository _transactionRepository;

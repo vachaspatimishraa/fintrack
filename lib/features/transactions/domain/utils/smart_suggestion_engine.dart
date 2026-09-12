@@ -1,4 +1,4 @@
-import 'merchant_recognition_service.dart';
+import 'package:fintrack/features/transactions/domain/utils/merchant_recognition_service.dart';
 
 class SmartSuggestionEngine {
   static String suggestCategory(String title) {

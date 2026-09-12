@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/formatter.dart';
-import '../../domain/entities/calendar_analytics_data.dart';
+import 'package:fintrack/core/utils/formatter.dart';
+import 'package:fintrack/features/analytics/domain/entities/calendar_analytics_data.dart';
 
 class DaySummaryCard extends StatelessWidget {
   final CalendarDayData? day;

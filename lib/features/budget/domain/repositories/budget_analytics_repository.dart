@@ -1,6 +1,6 @@
-import '../entities/budget_analytics.dart';
-import '../entities/budget_history_record.dart';
-import '../entities/budget_insight.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_analytics.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_history_record.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_insight.dart';
 
 abstract class BudgetAnalyticsRepository {
   Future<BudgetAnalytics> getBudgetAnalytics();

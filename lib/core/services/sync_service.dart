@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:isar/isar.dart';
-import '../database/isar/collections/account_model.dart';
-import '../database/isar/collections/transaction_model.dart';
-import '../database/isar/collections/budget_model.dart';
-import '../database/isar/collections/goal_model.dart';
-import '../database/isar/collections/sync_queue_item.dart';
-import '../network/connectivity_service.dart';
-import '../utils/sync_preferences.dart';
+import 'package:fintrack/core/database/isar/collections/account_model.dart';
+import 'package:fintrack/core/database/isar/collections/transaction_model.dart';
+import 'package:fintrack/core/database/isar/collections/budget_model.dart';
+import 'package:fintrack/core/database/isar/collections/goal_model.dart';
+import 'package:fintrack/core/database/isar/collections/sync_queue_item.dart';
+import 'package:fintrack/core/network/connectivity_service.dart';
+import 'package:fintrack/core/utils/sync_preferences.dart';
 
 class SyncService {
   final Isar _isar;
@@ -176,15 +176,15 @@ class SyncService {
 
       if (table == 'transactions' && item.action != 'delete') {
         // Print payload for validation
-        debugPrint("Validating transaction payload: $payload");
+        debugPrint('Validating transaction payload: $payload');
 
         // Verify required keys are present and non-null
-        if (payload["id"] == null) throw Exception("Transaction payload missing required field: id");
-        if (payload["user_id"] == null) throw Exception("Transaction payload missing required field: user_id");
-        if (payload["account_id"] == null) throw Exception("Transaction payload missing required field: account_id");
-        if (payload["amount"] == null) throw Exception("Transaction payload missing required field: amount");
-        if (payload["transaction_date"] == null) throw Exception("Transaction payload missing required field: transaction_date");
-        if (payload["transaction_time"] == null) throw Exception("Transaction payload missing required field: transaction_time");
+        if (payload['id'] == null) throw Exception('Transaction payload missing required field: id');
+        if (payload['user_id'] == null) throw Exception('Transaction payload missing required field: user_id');
+        if (payload['account_id'] == null) throw Exception('Transaction payload missing required field: account_id');
+        if (payload['amount'] == null) throw Exception('Transaction payload missing required field: amount');
+        if (payload['transaction_date'] == null) throw Exception('Transaction payload missing required field: transaction_date');
+        if (payload['transaction_time'] == null) throw Exception('Transaction payload missing required field: transaction_time');
 
         // Verify keys match Supabase exactly (No extra keys, no missing keys)
         final requiredKeys = {
@@ -213,22 +213,22 @@ class SyncService {
 
         for (final k in requiredKeys) {
           if (!payload.containsKey(k)) {
-            throw Exception("Transaction payload missing key: $k");
+            throw Exception('Transaction payload missing key: $k');
           }
         }
 
         final extraKeys = payload.keys.where((k) => !requiredKeys.contains(k)).toList();
         if (extraKeys.isNotEmpty) {
-          throw Exception("Transaction payload has additional keys not matching Supabase schema: $extraKeys");
+          throw Exception('Transaction payload has additional keys not matching Supabase schema: $extraKeys');
         }
       }
 
       // Print debug sync info before calling upsert/delete
-      debugPrint("========== SYNC ==========");
-      debugPrint("Entity: $table");
-      debugPrint("Action: ${item.action}");
-      debugPrint("Payload: $payload");
-      debugPrint("==========================");
+      debugPrint('========== SYNC ==========');
+      debugPrint('Entity: $table');
+      debugPrint('Action: ${item.action}');
+      debugPrint('Payload: $payload');
+      debugPrint('==========================');
 
       if (item.action == 'delete') {
         try {
@@ -244,7 +244,7 @@ class SyncService {
       }
 
       // Print success
-      debugPrint("Operation uploaded successfully");
+      debugPrint('Operation uploaded successfully');
 
       // Mark locally as synced
       await _markAsSyncedLocally(item.entityType, item.entityUuid, userId);
@@ -252,14 +252,14 @@ class SyncService {
       return true;
     } catch (e, stack) {
       final errorStr = e.toString();
-      debugPrint("========== SYNC ERROR ==========");
-      debugPrint("Error processing sync queue item ${item.id} (${item.entityType}): $e");
+      debugPrint('========== SYNC ERROR ==========');
+      debugPrint('Error processing sync queue item ${item.id} (${item.entityType}): $e');
       debugPrintStack(stackTrace: stack);
-      debugPrint("================================");
+      debugPrint('================================');
 
       // Verify RLS: if Supabase returns permission denied or RLS violation, stop retrying
-      if (errorStr.contains("permission denied") || errorStr.contains("new row violates row level security")) {
-        debugPrint("CRITICAL: RLS Permission Denied. Skipping retry to avoid infinite loop.");
+      if (errorStr.contains('permission denied') || errorStr.contains('new row violates row level security')) {
+        debugPrint('CRITICAL: RLS Permission Denied. Skipping retry to avoid infinite loop.');
         return true; // Mark as processed/resolved to remove from queue
       }
       

@@ -1,4 +1,4 @@
-import '../../domain/entities/transaction_entity.dart';
+import 'package:fintrack/features/transactions/domain/entities/transaction_entity.dart';
 
 class RecurringTransactionEngine {
   static DateTime calculateNextExecution(DateTime lastExecution, String frequency) {

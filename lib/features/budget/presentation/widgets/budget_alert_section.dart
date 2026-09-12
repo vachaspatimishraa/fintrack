@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/budget_alert_entity.dart';
-import 'budget_alert_card.dart';
+import 'package:fintrack/features/budget/domain/entities/budget_alert_entity.dart';
+import 'package:fintrack/features/budget/presentation/widgets/budget_alert_card.dart';
 
 class BudgetAlertSection extends StatelessWidget {
   final List<BudgetAlertEntity> alerts;

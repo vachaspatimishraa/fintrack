@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/routes.dart';
-import '../../../auth/providers/auth_provider.dart';
-import '../../providers/initialization_provider.dart';
-import '../../../settings/providers/settings_provider.dart';
-import '../../../settings/providers/security_provider.dart';
+import 'package:fintrack/core/constants/routes.dart';
+import 'package:fintrack/features/auth/providers/auth_provider.dart';
+import 'package:fintrack/features/splash/providers/initialization_provider.dart';
+import 'package:fintrack/features/settings/providers/settings_provider.dart';
+import 'package:fintrack/features/settings/providers/security_provider.dart';
 import 'package:fintrack/features/onboarding/providers/onboarding_provider.dart';
 import 'package:fintrack/features/accounts/providers/account_provider.dart';
 import 'package:fintrack/features/sync/providers/sync_provider.dart';
@@ -126,4 +126,4 @@ class SplashController {
   }
 }
 
-final splashControllerProvider = Provider<SplashController>((ref) => SplashController(ref));
+final splashControllerProvider = Provider<SplashController>(SplashController.new);
