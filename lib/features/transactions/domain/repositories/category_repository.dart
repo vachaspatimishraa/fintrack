@@ -6,6 +6,7 @@ abstract class CategoryRepository {
   Future<CategoryModel?> getCategoryByUuid(String uuid);
   Future<void> saveCategory(CategoryModel category);
   Future<void> deleteCategory(String uuid);
+  Future<void> reorderCategories(List<CategoryModel> categories);
   Future<List<CategoryModel>> getRecentCategories(int limit);
   Future<void> seedDefaultCategories();
 }

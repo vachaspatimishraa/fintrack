@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_categories.dart';
+import '../../../../core/utils/category_emoji_helper.dart';
 import '../../../../core/utils/formatter.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../controllers/selection_controller.dart';
@@ -64,9 +65,9 @@ class TransactionTile extends ConsumerWidget {
                     )
                   : CircleAvatar(
                       backgroundColor: primaryColor.withValues(alpha: 0.1),
-                      child: Icon(
-                        AppCategories.getIcon(transaction.category),
-                        color: primaryColor,
+                      child: Text(
+                        CategoryEmojiHelper.getEmoji(null, transaction.category),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
               const SizedBox(width: 12),

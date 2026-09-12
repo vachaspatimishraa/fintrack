@@ -28,6 +28,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
         .filter()
         .userIdEqualTo(userId)
         .isDeletedEqualTo(false)
+        .sortByOrder()
         .watch(fireImmediately: true);
   }
 
@@ -38,15 +39,20 @@ class CategoryRepositoryImpl implements CategoryRepository {
         .filter()
         .userIdEqualTo(userId)
         .isDeletedEqualTo(false)
+        .sortByOrder()
         .findAll();
 
     if (list.isEmpty) {
-      await seedDefaultCategories();
-      list = await _isar.categoryModels
-          .filter()
-          .userIdEqualTo(userId)
-          .isDeletedEqualTo(false)
-          .findAll();
+      final exists = await _isar.categoryModels.filter().userIdEqualTo(userId).findFirst();
+      if (exists == null) {
+        await seedDefaultCategories();
+        list = await _isar.categoryModels
+            .filter()
+            .userIdEqualTo(userId)
+            .isDeletedEqualTo(false)
+            .sortByOrder()
+            .findAll();
+      }
     }
     return list;
   }
@@ -69,6 +75,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
       ..type = category.type
       ..icon = category.icon
       ..color = category.color
+      ..order = category.order
       ..isDefault = category.isDefault
       ..isDeleted = category.isDeleted
       ..isSynced = false
@@ -86,6 +93,18 @@ class CategoryRepositoryImpl implements CategoryRepository {
       action: isNew ? 'create' : 'update',
       payload: updated.toJson(),
     );
+  }
+
+  @override
+  Future<void> reorderCategories(List<CategoryModel> categories) async {
+    await _isar.writeTxn(() async {
+      for (int i = 0; i < categories.length; i++) {
+        final cat = categories[i];
+        cat.order = i;
+        cat.updatedAt = DateTime.now();
+        await _isar.categoryModels.put(cat);
+      }
+    });
   }
 
   @override
@@ -124,6 +143,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
         .filter()
         .userIdEqualTo(userId)
         .isDeletedEqualTo(false)
+        .sortByOrder()
         .findAll();
 
     final Map<String, CategoryModel> catMap = {for (var c in categories) c.name: c};
@@ -157,34 +177,37 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
     // Seeding default income categories
     final defaultIncome = [
-      {'name': 'Salary', 'icon': 'payments', 'color': '#4CAF50'},
-      {'name': 'Bonus', 'icon': 'redeem', 'color': '#8BC34A'},
-      {'name': 'Interest', 'icon': 'trending_up', 'color': '#009688'},
-      {'name': 'Cashback', 'icon': 'local_offer', 'color': '#00BCD4'},
-      {'name': 'Freelance', 'icon': 'work_outline', 'color': '#3F51B5'},
-      {'name': 'Business', 'icon': 'store', 'color': '#2196F3'},
-      {'name': 'Investment', 'icon': 'show_chart', 'color': '#9C27B0'},
-      {'name': 'Gift', 'icon': 'card_giftcard', 'color': '#E91E63'},
-      {'name': 'Other Income', 'icon': 'monetization_on', 'color': '#9E9E9E'},
+      {'name': 'Salary', 'icon': '💰', 'color': '#4CAF50'},
+      {'name': 'Bonus', 'icon': '🎉', 'color': '#8BC34A'},
+      {'name': 'Investment', 'icon': '📈', 'color': '#9C27B0'},
+      {'name': 'Business', 'icon': '🏢', 'color': '#2196F3'},
+      {'name': 'Freelance', 'icon': '💻', 'color': '#3F51B5'},
+      {'name': 'Cashback', 'icon': '💸', 'color': '#00BCD4'},
+      {'name': 'Gift', 'icon': '🎁', 'color': '#E91E63'},
+      {'name': 'Other Income', 'icon': '💵', 'color': '#9E9E9E'},
     ];
 
-    // Seeding default expense categories
+    // Seeding default expense categories matching user interface screenshot
     final defaultExpense = [
-      {'name': 'Food', 'icon': 'restaurant', 'color': '#F44336'},
-      {'name': 'Travel', 'icon': 'flight', 'color': '#FF9800'},
-      {'name': 'Fuel', 'icon': 'local_gas_station', 'color': '#FFC107'},
-      {'name': 'Shopping', 'icon': 'shopping_bag', 'color': '#E91E63'},
-      {'name': 'Groceries', 'icon': 'shopping_cart', 'color': '#CDDC39'},
-      {'name': 'Bills', 'icon': 'receipt', 'color': '#FF5722'},
-      {'name': 'Medical', 'icon': 'medical_services', 'color': '#E53935'},
-      {'name': 'Subscription', 'icon': 'subscriptions', 'color': '#9C27B0'},
-      {'name': 'Rent', 'icon': 'home', 'color': '#795548'},
-      {'name': 'Education', 'icon': 'school', 'color': '#3F51B5'},
-      {'name': 'Entertainment', 'icon': 'sports_esports', 'color': '#00BCD4'},
-      {'name': 'Other', 'icon': 'category', 'color': '#9E9E9E'},
+      {'name': 'Transport', 'icon': '🚕', 'color': '#FFC107'},
+      {'name': 'Apparel', 'icon': '🧥', 'color': '#2196F3'},
+      {'name': 'Education', 'icon': '📙', 'color': '#FF9800'},
+      {'name': 'Snacks', 'icon': '🍟', 'color': '#F44336'},
+      {'name': 'Food', 'icon': '🌯', 'color': '#4CAF50'},
+      {'name': 'Petrol', 'icon': '⛽', 'color': '#E91E63'},
+      {'name': 'Dhobi', 'icon': '👚', 'color': '#E91E63'},
+      {'name': 'Bike', 'icon': '🚲', 'color': '#4CAF50'},
+      {'name': 'Movie', 'icon': '🎥', 'color': '#9C27B0'},
+      {'name': 'Groceries', 'icon': '🛒', 'color': '#CDDC39'},
+      {'name': 'Bills', 'icon': '🧾', 'color': '#FF5722'},
+      {'name': 'Medical', 'icon': '💊', 'color': '#E53935'},
+      {'name': 'Rent', 'icon': '🏠', 'color': '#795548'},
+      {'name': 'Drink', 'icon': '🥤', 'color': '#00BCD4'},
+      {'name': 'Other', 'icon': '📦', 'color': '#9E9E9E'},
     ];
 
-    for (final c in defaultIncome) {
+    for (int i = 0; i < defaultIncome.length; i++) {
+      final c = defaultIncome[i];
       defaults.add(
         CategoryModel()
           ..uuid = const Uuid().v4()
@@ -193,6 +216,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
           ..type = 'income'
           ..icon = c['icon']!
           ..color = c['color']!
+          ..order = i
           ..isDefault = true
           ..isDeleted = false
           ..isSynced = false
@@ -202,7 +226,8 @@ class CategoryRepositoryImpl implements CategoryRepository {
       );
     }
 
-    for (final c in defaultExpense) {
+    for (int i = 0; i < defaultExpense.length; i++) {
+      final c = defaultExpense[i];
       defaults.add(
         CategoryModel()
           ..uuid = const Uuid().v4()
@@ -211,6 +236,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
           ..type = 'expense'
           ..icon = c['icon']!
           ..color = c['color']!
+          ..order = i
           ..isDefault = true
           ..isDeleted = false
           ..isSynced = false

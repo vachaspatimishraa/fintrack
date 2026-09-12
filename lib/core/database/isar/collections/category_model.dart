@@ -19,6 +19,8 @@ class CategoryModel {
   bool isDeleted = false;
   bool isSynced = false;
 
+  int order = 0;
+
   DateTime createdAt = DateTime.now();
   DateTime updatedAt = DateTime.now();
   int syncVersion = 1;
@@ -31,6 +33,7 @@ class CategoryModel {
       'type': type,
       'icon': icon,
       'color': color,
+      'order': order,
       'is_default': isDefault,
       'is_deleted': isDeleted,
       'is_synced': isSynced,
@@ -48,6 +51,7 @@ class CategoryModel {
       ..type = json['type'] as String? ?? 'expense'
       ..icon = json['icon'] as String? ?? 'category'
       ..color = json['color'] as String? ?? '#9E9E9E'
+      ..order = json['order'] as int? ?? 0
       ..isDefault = json['is_default'] as bool? ?? false
       ..isDeleted = json['is_deleted'] as bool? ?? false
       ..isSynced = json['is_synced'] as bool? ?? true

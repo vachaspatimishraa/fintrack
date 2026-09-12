@@ -17,6 +17,8 @@ import '../widgets/receipt_picker_bottom_sheet.dart';
 import '../../domain/utils/draft_manager.dart';
 import '../../../settings/domain/entities/currency_entity.dart';
 import '../../../settings/providers/settings_provider.dart';
+import '../../../../core/utils/category_emoji_helper.dart';
+import '../../providers/transaction_provider.dart';
 
 class AddEditTransactionScreen extends ConsumerStatefulWidget {
   final TransactionEntity? transaction;
@@ -340,6 +342,8 @@ class _AddEditTransactionScreenState
         .firstWhere((c) => c.code == currencyCode)
         .symbol;
 
+    final categoryEmoji = CategoryEmojiHelper.getEmoji(null, _category);
+
     return PopScope(
       canPop: !_isSaving,
       child: Scaffold(
@@ -492,10 +496,9 @@ class _AddEditTransactionScreenState
                       title: Text(context.translate('category')),
                       subtitle: Row(
                         children: [
-                          Icon(
-                            AppCategories.getIcon(_category),
-                            color: primaryThemeColor,
-                            size: 20,
+                          Text(
+                            categoryEmoji,
+                            style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(width: 8),
                           Text(

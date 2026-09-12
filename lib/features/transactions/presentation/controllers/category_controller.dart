@@ -15,6 +15,10 @@ class CategoryController {
     return _ref.read(categoryRepositoryProvider).deleteCategory(uuid);
   }
 
+  Future<void> reorderCategories(List<CategoryModel> categories) {
+    return _ref.read(categoryRepositoryProvider).reorderCategories(categories);
+  }
+
   Future<List<CategoryModel>> getRecentCategories(int limit) {
     return _ref.read(categoryRepositoryProvider).getRecentCategories(limit);
   }

@@ -7,6 +7,7 @@ import '../../../accounts/providers/account_provider.dart';
 import '../../../../core/database/isar/collections/account_model.dart';
 import '../../../../core/constants/app_categories.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/utils/category_emoji_helper.dart';
 import '../../../../core/utils/formatter.dart';
 import '../../../../core/utils/translations.dart';
 import '../../domain/entities/transaction_entity.dart';
@@ -265,10 +266,9 @@ class TransactionDetailsScreen extends ConsumerWidget {
                         CircleAvatar(
                           radius: 36,
                           backgroundColor: primaryColor.withValues(alpha: 0.2),
-                          child: Icon(
-                            AppCategories.getIcon(tx.category),
-                            color: primaryColor,
-                            size: 36,
+                          child: Text(
+                            CategoryEmojiHelper.getEmoji(null, tx.category),
+                            style: const TextStyle(fontSize: 34),
                           ),
                         ),
                         const SizedBox(height: 16),
